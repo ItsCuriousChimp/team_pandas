@@ -1,7 +1,6 @@
-const heartBeatRepo = require("../Repositories/heartBeatRepository");
+// @ts-ignore
+import heartBeat from '../Repositories/heartBeatRepository.ts';
 
-const getBeat = () => {
-    return heartBeatRepo.heartBeat();
-}
+const getBeat = () => heartBeat();
 
-export { getBeat }
+export default getBeat;

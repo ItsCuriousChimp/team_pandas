@@ -1,7 +1,6 @@
-import { currentHeartBeat } from "../../../common/Models/heartBeatModel";
+// @ts-ignore
+import currentHeartBeat from '../../../common/Models/heartBeatModel.ts';
 
-const heartBeat = () => {
-    return currentHeartBeat;
-}
+const heartBeat = () => currentHeartBeat;
 
-export { heartBeat }
+export default heartBeat;

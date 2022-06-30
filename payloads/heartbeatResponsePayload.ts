@@ -1,5 +1,3 @@
-const currentHeartBeatStamp= ()=>{
-        return Date.now();
-}
+const currentHeartBeatStamp = () => Date.now();
 
-export { currentHeartBeatStamp }
+export default currentHeartBeatStamp;
