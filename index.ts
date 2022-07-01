@@ -2,7 +2,7 @@ import express, {Express, Response, Request} from 'express';
 // @ts-ignore
 import getHeartbeat from './components/heartBeat/Controllers/heartBeatController.ts';
 
-const PORT = 8080;
+const PORT = 8000;
 
 const app: Express = express();
 
@@ -15,4 +15,4 @@ app.get('/heartbeat', getHeartbeat);
 app.listen(process.env.NODE_ENV || PORT, () => {
 	// eslint-disable-next-line no-console
 	console.log(`Server running at PORT ${PORT}`);
-}); 
+});
