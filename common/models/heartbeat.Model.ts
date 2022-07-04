@@ -1,6 +1,6 @@
 export class HeartbeatModel {
-  public isAlive: boolean;
-  constructor(isAlive: boolean) {
-    this.isAlive = isAlive;
+  beatTimestamp: Date;
+  constructor(heartbeatTimestamp: Date) {
+    this.beatTimestamp = heartbeatTimestamp;
   }
 }

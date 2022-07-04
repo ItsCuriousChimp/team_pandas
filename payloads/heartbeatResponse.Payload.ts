@@ -1,5 +1,6 @@
-export class HeartbeatStamp {
-  public getBeat(): Date {
-    return new Date();
+export class HeartbeatResponsePayload {
+  heartbeatTimestamp: Date;
+  constructor(heartbeatTimestamp: Date) {
+    this.heartbeatTimestamp = heartbeatTimestamp;
   }
 }

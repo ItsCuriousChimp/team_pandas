@@ -1,7 +1,8 @@
 import { HeartbeatModel } from "../../../common/models/heartbeat.Model";
 
 export class HeartbeatRepository {
-  public checkIfAlive(): HeartbeatModel {
-    return new HeartbeatModel(true);
+  public getBeat(): HeartbeatModel {
+    const date = new Date();
+    return new HeartbeatModel(date);
   }
 }
