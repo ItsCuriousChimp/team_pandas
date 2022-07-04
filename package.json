@@ -42,7 +42,7 @@
     "typescript": "^4.7.4"
   },
   "lint-staged": {
-    "/**/*.{js,ts,jsx,tsx}": [
+    "*.{js,ts,jsx,tsx}": [
       "eslint --fix",
       "prettier --write",
       "git add"
