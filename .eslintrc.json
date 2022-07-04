@@ -3,23 +3,30 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["plugin:react/recommended", "prettier", "airbnb-typescript/base"],
+  "extends": [
+    "plugin:react/recommended",
+    "prettier",
+    "airbnb",
+    "airbnb-typescript/base"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
+    "project": "tsconfig.json",
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "indent": [2, "tab"],
     "linebreak-style": ["error", "windows"],
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
     "no-undef": ["warn"],
     "no-mixed-spaces-and-tabs": "warn",
-    "no-tabs": 0
+    "no-tabs": 0,
+    "indent": "off",
+    "@typescript-eslint/indent": ["error"]
   }
 }
