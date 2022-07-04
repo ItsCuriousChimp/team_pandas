@@ -14,5 +14,4 @@ class HeartbeatController {
   };
 }
 const HeartbeatControllerInstance = new HeartbeatController();
-// const viewTimeStamp = HeartbeatControllerInstance.getTimeStamp;
 export default HeartbeatControllerInstance;
