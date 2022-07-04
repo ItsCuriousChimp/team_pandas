@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { HeartbeatServices } from "../Services/heartbeat.Service";
-import { HeartbeatResponsePayload } from "../../../payloads/heartbeatResponse.Payload";
+import { HeartbeatResponsePayload } from "../../../payloads/heartbeat-Response.Payload";
 
 class HeartbeatController {
   getTimeStamp = (req: Request, res: Response) => {
     const heartbeatServicesInstance = new HeartbeatServices();
-    const currentTimestamp = heartbeatServicesInstance.getRepobeat();
+    const currentTimestamp = heartbeatServicesInstance.getBeat().beatTimestamp;
     const HeartbeatResponsePayloadInstance = new HeartbeatResponsePayload(
       currentTimestamp
     );
