@@ -1,15 +1,18 @@
 /* eslint class-methods-use-this: ["error", { "enforceForClassFields": false }] */
 import {Request, Response} from 'express';
 import HeartbeatServices from '../Services/heartBeat.services';
-import currentHeartBeatStamp from '../../../payloads/heartbeatResponsePayload';
+import HeartbeatResponsePayload from '../../../payloads/heartbeat-response.payload';
 
 class HeartbeatController {
   getTimeStamp = (req: Request, res: Response) => {
     const heartbeatServicesInstance = new HeartbeatServices();
-    heartbeatServicesInstance.getHeartbeatRepo().heartBeat =
-      currentHeartBeatStamp();
+    const currentTimeStamp =
+      heartbeatServicesInstance.getHeartbeatRepo().heartBeat;
+    const heartbeatResponsePayloadInstance = new HeartbeatResponsePayload(
+      currentTimeStamp,
+    );
 
-    return res.send(heartbeatServicesInstance.getHeartbeatRepo());
+    return res.send(heartbeatResponsePayloadInstance);
   };
 }
 const HBC = new HeartbeatController();

@@ -2,7 +2,7 @@
 import HeartbeatRepository from '../Repositories/heartBeat.repository';
 
 export default class HeartbeatServices {
-  public getHeartbeatRepo = () => {
+  public getHeartbeatRepo = (): any => {
     const heartBeatRepositoryInstance = new HeartbeatRepository();
     return heartBeatRepositoryInstance.getHeartbeatModel();
   };
