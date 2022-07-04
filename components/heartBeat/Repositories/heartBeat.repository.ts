@@ -1,12 +1,8 @@
-// @ts-ignore
-import HeartbeatModel from '../../../common/Models/heartBeat.model.ts';
+import HeartbeatModel from '../../../common/Models/heartBeat.model';
 
 export default class HeartbeatRepository{
-	private heartBeatValue: number | undefined;
-
-	public getHeartbeatModel=(beat:number):number | undefined=>{
-		this.heartBeatValue = new HeartbeatModel(beat);
-		return this.heartBeatValue;
+	public getHeartbeatModel=(beat:number)=>{
+		const heartBeatValue = new HeartbeatModel(beat);
+		return heartBeatValue;
 	};
-
 }
