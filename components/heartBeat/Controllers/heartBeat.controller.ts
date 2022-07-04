@@ -7,7 +7,7 @@ class HeartbeatController {
   getTimeStamp = (req: Request, res: Response) => {
     const heartbeatServicesInstance = new HeartbeatServices();
     const currentTimeStamp =
-      heartbeatServicesInstance.getHeartbeatRepo().heartBeat;
+      heartbeatServicesInstance.getHeartbeatRepo().lastBeatGeneratedAt;
     const heartbeatResponsePayloadInstance = new HeartbeatResponsePayload(
       currentTimeStamp,
     );

@@ -1,7 +1,7 @@
 export default class HeartbeatModel {
-  heartBeat: Date;
+  lastBeatGeneratedAt: Date;
 
   constructor(heartBeat: Date) {
-    this.heartBeat = heartBeat;
+    this.lastBeatGeneratedAt = heartBeat;
   }
 }
