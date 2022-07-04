@@ -1,6 +1,6 @@
 export class HeartbeatModel {
-  beatTimestamp: Date;
-  constructor(beatTimestamp: Date) {
-    this.beatTimestamp = beatTimestamp;
+  lastBeatGeneratedAt: Date;
+  constructor(lastBeatGeneratedAt: Date) {
+    this.lastBeatGeneratedAt = lastBeatGeneratedAt;
   }
 }

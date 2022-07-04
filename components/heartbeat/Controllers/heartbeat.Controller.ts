@@ -5,13 +5,14 @@ import { HeartbeatResponsePayload } from "../../../payloads/heartbeat-Response.P
 class HeartbeatController {
   getTimeStamp = (req: Request, res: Response) => {
     const heartbeatServicesInstance = new HeartbeatServices();
-    const currentTimestamp = heartbeatServicesInstance.getBeat().beatTimestamp;
+    const currentTimestamp =
+      heartbeatServicesInstance.getBeat().lastBeatGeneratedAt;
     const HeartbeatResponsePayloadInstance = new HeartbeatResponsePayload(
       currentTimestamp
     );
-    return res.send(HeartbeatResponsePayloadInstance.heartbeatTimestamp);
+    return res.send(HeartbeatResponsePayloadInstance);
   };
 }
 const HeartbeatControllerInstance = new HeartbeatController();
-const viewTimeStamp = HeartbeatControllerInstance.getTimeStamp;
-export default viewTimeStamp;
+// const viewTimeStamp = HeartbeatControllerInstance.getTimeStamp;
+export default HeartbeatControllerInstance;
