@@ -10,31 +10,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// user model
+// City model
 
 model city {
   id      String    @id @default(uuid())
   name    String    @db.VarChar(64)
-  creator user[]
+  user    user[]
   theatre theatre[]
 }
+
+// user model
 
 model user {
   id            String    @id @default(uuid())
   name          String    @db.VarChar(128)
   email         String    @db.VarChar(64)
   phoneNumber   String    @db.VarChar(32)
-  loggedInAtUTC DateTime  @default(now())
+  loggedInAtUTC DateTime? @default(now())
   city          city      @relation(fields: [cityId], references: [id])
   cityId        String
   booking       booking[]
+  account       account[]
 }
+
+// account model
 
 model account {
   id       String @id @default(uuid())
-  username String @db.VarChar(128)
-  password String @db.VarChar(32)
+  username String @unique @db.VarChar(128)
+  password String @db.VarChar(256)
+  user     user   @relation(fields: [userId], references: [id])
+  userId   String
 }
+
+//theatre model
 
 model theatre {
   id              String   @id @default(uuid())
@@ -45,6 +54,8 @@ model theatre {
   screen          screen[]
 }
 
+//screen model
+
 model screen {
   id           String  @id @default(uuid())
   screenNumber Int
@@ -54,6 +65,8 @@ model screen {
   show         show[]
 }
 
+//seat model
+
 model seat {
   id         String       @id @default(uuid())
   seatNumber Int
@@ -61,6 +74,8 @@ model seat {
   screenId   String
   bookedSeat bookedSeat[]
 }
+
+//movie model
 
 model movie {
   id            String @id @default(uuid())
@@ -70,15 +85,22 @@ model movie {
   show          show[]
 }
 
+//show model
+
 model show {
-  id         String       @id @default(uuid())
-  screen     screen       @relation(fields: [screenId], references: [id])
-  screenId   String
-  movie      movie        @relation(fields: [movieId], references: [id])
-  movieId    String
-  bookedSeat bookedSeat[]
-  booking    booking[]
+  id                 String       @id @default(uuid())
+  screen             screen       @relation(fields: [screenId], references: [id])
+  screenId           String
+  movie              movie        @relation(fields: [movieId], references: [id])
+  movieId            String
+  bookedSeat         bookedSeat[]
+  booking            booking[]
+  showStartTimeInUtc DateTime
+  showEndTimeInUtc   DateTime
+  availableUntilUtc  DateTime?
 }
+
+//booking model
 
 model booking {
   id                  String       @id @default(uuid())
@@ -90,6 +112,8 @@ model booking {
   showDate            DateTime
   bookedSeat          bookedSeat[]
 }
+
+//bookedseat model
 
 model bookedSeat {
   id        String  @id @default(uuid())
