@@ -1,0 +1,32 @@
+{
+  "name": "team_pandas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItsCuriousChimp/team_pandas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ItsCuriousChimp/team_pandas/issues"
+  },
+  "homepage": "https://github.com/ItsCuriousChimp/team_pandas#readme",
+  "dependencies": {
+    "@prisma/client": "^4.0.0",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^18.0.3",
+    "prisma": "^4.0.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.7.4"
+  }
+}
