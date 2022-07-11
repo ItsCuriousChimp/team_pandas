@@ -4,20 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "dev": "ts-node-dev index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
+=======
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+>>>>>>> dev
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ItsCuriousChimp/team_pandas.git"
   },
+<<<<<<< HEAD
   "keywords": [],
+=======
+>>>>>>> dev
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ItsCuriousChimp/team_pandas/issues"
   },
   "homepage": "https://github.com/ItsCuriousChimp/team_pandas#readme",
+<<<<<<< HEAD
   "dependencies": {
     "@prisma/client": "^4.0.0",
     "express": "^4.18.1"
@@ -28,5 +37,25 @@
     "prisma": "^4.0.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.7.4"
+=======
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "eslint": "^8.18.0",
+    "eslint-plugin-react": "^7.30.1",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "2.7.1"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --cache --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+>>>>>>> dev
   }
 }
