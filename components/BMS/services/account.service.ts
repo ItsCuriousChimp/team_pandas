@@ -8,7 +8,7 @@ export class AccountService {
     this.accountRepositoryInstance = new AccountRepository();
   }
 
-  public async getAccountToken(query: loginDto): Promise<string> {
+  public async getAccountToken(query: loginDto): Promise<string | null> {
     const accountToken = await this.accountRepositoryInstance.getToken(query);
     return accountToken;
   }

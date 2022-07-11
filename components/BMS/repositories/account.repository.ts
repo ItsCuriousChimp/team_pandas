@@ -32,9 +32,9 @@ export class AccountRepository {
   }
 
   //function to get token
-  async getToken(query: loginDto): Promise<string> {
+  async getToken(query: loginDto): Promise<string | null> {
     if (await this.isValidAccount(query)) {
       return this.createToken(query);
-    } else return "";
+    } else return null;
   }
 }

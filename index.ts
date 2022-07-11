@@ -10,7 +10,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.get("/heartbeat", HeartbeatControllerInstance.getTimeStamp);
-app.get("/login", [AccountControllerInstance.getAccount]);
+app.get("/login", [AccountControllerInstance.getToken]);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console
