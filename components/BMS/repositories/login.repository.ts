@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import * as jwt from "jsonwebtoken";
-import { loginDto } from "../customTypes/account.type";
+import { loginDto } from "../customTypes/login.type";
 import * as bcrypt from "bcryptjs";
 
 export class AccountRepository {

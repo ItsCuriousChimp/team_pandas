@@ -1,5 +1,5 @@
-import { loginDto } from "../customTypes/account.type";
-import { AccountRepository } from "../repositories/account.repository";
+import { loginDto } from "../customTypes/login.type";
+import { AccountRepository } from "../repositories/login.repository";
 
 export class AccountService {
   accountRepositoryInstance: AccountRepository;
