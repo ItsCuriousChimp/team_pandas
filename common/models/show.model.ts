@@ -3,5 +3,6 @@ export class Show {
   showstartTimeInUtc: Date;
   showEndTimeInUtc: Date;
   availableUntilInUtc: Date;
-  screen: Screen;
+  screenId: string;
+  movieId: string;
 }
