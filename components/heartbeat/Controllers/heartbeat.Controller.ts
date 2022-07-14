@@ -10,6 +10,7 @@ class HeartbeatController {
     const HeartbeatResponsePayloadInstance = new HeartbeatResponsePayload(
       currentTimestamp
     );
+
     return res.send(HeartbeatResponsePayloadInstance);
   };
 }
