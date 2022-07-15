@@ -12,12 +12,12 @@ export class MoviesInCityRepository {
   public async getAllMoviesInCity(cityId: string): Promise<Movie[]> {
     try {
       const movies: Movie[] = await this.prisma.$queryRawUnsafe(
-        `select distinct mv.* from theatre as th
-				inner join screen as sc 
+        `select distinct mv.* from "Theatre" as th
+				inner join "Screen" as sc 
 				on sc."theatreId" = th.id
-				inner join show as sh on
+				inner join "Show" as sh on
 				sh."screenId" = sc.id
-				inner join movie as mv on
+				inner join "Movie" as mv on
 				mv.id = sh."movieId" where th."cityId" = '${cityId}'`
       );
 
