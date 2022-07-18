@@ -1,4 +1,4 @@
-import { HeartbeatRepository } from "../Repositories/heartbeat.Repository";
+import { HeartbeatRepository } from "../repositories/heartbeat.repository";
 
 export class HeartbeatServices {
   public getBeat(): any {

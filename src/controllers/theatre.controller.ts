@@ -11,5 +11,5 @@ class TheatreWithMovieController {
   };
 }
 
-const TheatreWithMovieControllerInstance = new TheatreWithMovieController();
-export default TheatreWithMovieControllerInstance;
+const theatreWithMovieController = new TheatreWithMovieController();
+export default theatreWithMovieController;

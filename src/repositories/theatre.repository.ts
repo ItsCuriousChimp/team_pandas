@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Theatre } from "../../../common/models/theatre.model";
+import { Theatre } from "../models/theatre.model";
 
 class TheatreWithMovieRespository {
   prisma: PrismaClient;
@@ -22,5 +22,5 @@ class TheatreWithMovieRespository {
   };
 }
 
-const TheatreWithMovieRespositoryInstance = new TheatreWithMovieRespository();
-export default TheatreWithMovieRespositoryInstance;
+const theatreWithMovieRespository = new TheatreWithMovieRespository();
+export default theatreWithMovieRespository;
