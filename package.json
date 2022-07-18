@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/ItsCuriousChimp/team_pandas#readme",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^8.5.8",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
     "eslint": "^8.18.0",
@@ -36,6 +38,8 @@
   },
   "dependencies": {
     "@prisma/client": "^4.0.0",
-    "express": "^4.18.1"
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1"
   }
 }
