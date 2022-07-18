@@ -1,4 +1,4 @@
-import { Movie } from "../../../common/models/movie.model";
+import { Movie } from "../models/movie.model";
 import { moviesInCityByLanguageRepository } from "../Repositories/moviesCityLanguage.repository";
 
 class MoviesInCityByLanguageService{

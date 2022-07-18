@@ -1,6 +1,6 @@
-import { Movie } from "../../../common/models/movie.model";
+import { Movie } from '../models/movie.model';
 import { PrismaClient } from '@prisma/client';
-import logger from "../../../common/logger";
+import logger from "../../common/logger";
 
 class MovieDetailsRepository{
     prisma:PrismaClient;
