@@ -1,6 +1,6 @@
 export class Booking {
   id: string;
-  numberOfSetsBooked: number;
+  numberOfSeatsBooked: number;
   showDate: Date;
   userId: string;
   showId: string;
