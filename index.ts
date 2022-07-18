@@ -1,6 +1,6 @@
 import express, { Express, Response, Request } from "express";
-import HeartbeatControllerInstance from "./components/heartbeat/Controllers/heartbeat.Controller";
-import moviesInCityControllerInstance from "./components/BMS/controllers/movies.controller";
+import HeartbeatControllerInstance from "./src/controllers/heartbeat.controller";
+import MovieRouter from "./src/routes/movies.route";
 
 const PORT = 3000;
 const app: Express = express();
@@ -10,7 +10,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.get("/heartbeat", HeartbeatControllerInstance.getTimeStamp);
-app.get("/getMoviesInCity", moviesInCityControllerInstance.getAllMoviesInCity);
+app.use("/getMoviesInCity", MovieRouter);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console

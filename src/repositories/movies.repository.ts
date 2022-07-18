@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { Movie } from "../../../common/models/movie.model";
-import logger from "../../../common/logger";
+import { Movie } from "../models/movie.model";
+import logger from "../common/logger/logger";
 
 export class MoviesInCityRepository {
   prisma: PrismaClient;
