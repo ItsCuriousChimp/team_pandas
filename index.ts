@@ -1,6 +1,6 @@
 import express, { Express, Response, Request } from "express";
 import HeartbeatControllerInstance from "./components/heartbeat/controllers/heartbeat.controller";
-import theatreControllerInstance from "./components/bms/controllers/theatre.controller";
+import theatreControllerInstance from "./src/controllers/theatre.controller";
 
 const PORT = 3000;
 const app: Express = express();

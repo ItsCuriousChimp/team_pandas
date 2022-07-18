@@ -1,4 +1,4 @@
-import { Show } from "../../../common/models/show.model";
+import { Show } from "../models/show.model";
 
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();

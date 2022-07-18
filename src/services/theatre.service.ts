@@ -1,7 +1,7 @@
 import { TheatreRepository } from "../repositories/theatre.repository";
 import { ShowRepository } from "../repositories/show.repository";
-import { Show } from "../../../common/models/show.model";
-import { Seat } from "../../../common/models/seat.model";
+import { Show } from "../models/show.model";
+import { Seat } from "../models/seat.model";
 export class TheatreService {
   async getShowsOfMovie(
     theatreIdUrl: string,

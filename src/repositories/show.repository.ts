@@ -1,4 +1,4 @@
-import { Seat } from "../../../common/models/seat.model";
+import { Seat } from "../models/seat.model";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 

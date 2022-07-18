@@ -1,6 +1,5 @@
 import { TheatreService } from "../services/theatre.service";
-import { ShowResponsePayload } from "./payloads/show-Response.payload";
-//import { SeatResponsePayload } from "./payloads/seat-Response.payload";
+//import { SeatResponsePayload } from "..data/payloads/seat-Response.payload";
 
 import { Request, Response } from "express";
 
@@ -13,7 +12,6 @@ class TheatreController {
       theatreIdUrl,
       movieIdUrl
     );
-    //return as payload array
     res.send(showModels);
   };
   getAvailableSeatsOfShow = async (req: Request, res: Response) => {
@@ -26,10 +24,8 @@ class TheatreController {
       movieIdUrl,
       showIdUrl
     );
-    //return as payload array
     res.send(seatModels);
   };
 }
 const TheatreControllerInstance = new TheatreController();
-// const viewTimeStamp = HeartbeatControllerInstance.getTimeStamp;
 export default TheatreControllerInstance;
