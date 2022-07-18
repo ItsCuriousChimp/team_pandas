@@ -1,4 +1,4 @@
-import { HeartbeatModel } from "../../../common/models/heartbeat.Model";
+import { HeartbeatModel } from "../../../common/models/heartbeat.model";
 
 export class HeartbeatRepository {
   public getBeat(): HeartbeatModel {
