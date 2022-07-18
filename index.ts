@@ -1,7 +1,6 @@
-import express, { Express, Response, Request } from "express";
-import HeartbeatControllerInstance from "./components/heartbeat/controllers/heartbeat.controller";
-import theatreControllerInstance from "./src/controllers/theatre.controller";
-
+import express, { Express, Response, Request, Router } from "express";
+import { heartbeatController } from "./src/controllers/heartbeat.controller";
+import theatreRoutes from "./src/routes/theatre.route";
 const PORT = 3000;
 const app: Express = express();
 
@@ -9,13 +8,9 @@ app.get("/", (req: Request, res: Response) => {
   res.send("HELLO WORLD! get your heartbeat from /heartbeat");
 });
 
-app.get("/heartbeat", HeartbeatControllerInstance.getTimeStamp);
-
-app.get("/theatres/:theatresId/show", theatreControllerInstance.getMovieShows);
-app.get(
-  "/theatres/:theatresId/show/seat",
-  theatreControllerInstance.getAvailableSeatsOfShow
-);
+app.get("/heartbeat", heartbeatController.getTimeStamp);
+//theatre routes
+app.use("/theatres", theatreRoutes);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console

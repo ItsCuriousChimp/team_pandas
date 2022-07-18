@@ -7,8 +7,8 @@ export class TheatreService {
     theatreIdUrl: string,
     movieIdUrl: string
   ): Promise<Show[]> {
-    const TheatreRepositoryInstance = new TheatreRepository();
-    const showModels: Show[] = await TheatreRepositoryInstance.getShowsOfMovie(
+    const theatreRepository = new TheatreRepository();
+    const showModels: Show[] = await theatreRepository.getShowsOfMovie(
       theatreIdUrl,
       movieIdUrl
     );
