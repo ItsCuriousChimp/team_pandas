@@ -1,20 +1,23 @@
 import { Show } from "../models/show.model";
-
+import { DateTimeHelper } from "../common/helpers/dateTime.helper";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-
 export class TheatreRepository {
   async getShowsOfMovie(
     theatreIdUrl: string,
     movieIdUrl: string
   ): Promise<Show[]> {
+    const DateTime = new DateTimeHelper();
     const availableShows = await prisma.show.findMany({
       where: {
         movieId: movieIdUrl,
         screen: {
           theatreId: theatreIdUrl,
         },
-        showEndTimeInUtc: {},
+        showStartTimeInUtc: {
+          gte: DateTime.getCurrentDate(),
+          lte: DateTime.getDaysAfter(14),
+        },
       },
       include: {
         _count: {
