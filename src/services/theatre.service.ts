@@ -12,8 +12,6 @@ export class TheatreService {
       theatreIdUrl,
       movieIdUrl
     );
-
-    //for loop or mapping and subtracting
     for (let i = 0; i < showModels.length; i += 1) {
       const totalNumberOfSeats = showModels[i].totalSeatsCount as number;
       const totalNumberOfBookedSeats = showModels[i].bookedSeatsCount as number;

@@ -14,9 +14,7 @@ export class TheatreRepository {
         screen: {
           theatreId: theatreIdUrl,
         },
-        // availableUntilUtc:{
-        //   equals:undefined,
-        // },
+        showEndTimeInUtc: {},
       },
       include: {
         _count: {

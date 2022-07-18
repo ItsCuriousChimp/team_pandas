@@ -29,20 +29,3 @@ export class ShowRepository {
     return availableSeats;
   }
 }
-// AND b."showId" = '${showIdUrl}' AND s."screenId"='${screenIdUrl}'
-// WHERE b.id IS NULL
-
-// `
-// SELECT s.*
-// FROM "Seat" s
-// left join "BookedSeat" b
-//   ON b."seatId" = s.id AND b."showId" = '${showIdUrl}' AND s."screenId"='${screenIdUrl}'
-//  WHERE b.id IS NULL
-// `
-
-// `SELECT s.*
-// FROM "Seat" s
-// left join "BookedSeat" b
-//   ON b."seatId" = s.id AND b."showId" = '${showIdUrl}'
-//  WHERE b.id IS NULL AND s."screenId"='${screenIdUrl}'
-// `
