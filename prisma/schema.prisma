@@ -1,7 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
+Merge branch 'dev' into feature/TP-7-view-all-movie-in-citygenerator client {
   provider = "prisma-client-js"
 }
 
@@ -13,8 +10,8 @@ datasource db {
 model City {
   id      String    @id @default(uuid())
   name    String    @db.VarChar(64)
-  user    User[]
   theatre Theatre[]
+  user    User[]
 }
 
 model User {
@@ -23,8 +20,9 @@ model User {
   email         String    @db.VarChar(64)
   phoneNumber   String    @db.VarChar(32)
   loggedInAtUTC DateTime? @default(now())
-  city          City?     @relation(fields: [cityId], references: [id])
-  cityId        String?
+  cityId        String
+  city          City      @relation(fields: [cityId], references: [id])
+  account       Account[]
   booking       Booking[]
 }
 
@@ -32,22 +30,24 @@ model Account {
   id           String @id @default(uuid())
   username     String @unique @db.VarChar(128)
   passwordHash String @db.VarChar(256)
+  userId       String
+  user         User   @relation(fields: [userId], references: [id])
 }
 
 model Theatre {
   id              String   @id @default(uuid())
   name            String   @db.VarChar(64)
   numberOfScreens Int
-  city            City     @relation(fields: [cityId], references: [id])
   cityId          String
+  city            City     @relation(fields: [cityId], references: [id])
   screen          Screen[]
 }
 
 model Screen {
   id           String  @id @default(uuid())
   screenNumber Int
-  theatre      Theatre @relation(fields: [theatreId], references: [id])
   theatreId    String
+  theatre      Theatre @relation(fields: [theatreId], references: [id])
   seat         Seat[]
   show         Show[]
 }
@@ -55,8 +55,8 @@ model Screen {
 model Seat {
   id         String       @id @default(uuid())
   seatNumber Int
-  screen     Screen       @relation(fields: [screenId], references: [id])
   screenId   String
+  screen     Screen       @relation(fields: [screenId], references: [id])
   bookedSeat BookedSeat[]
 }
 
@@ -70,34 +70,34 @@ model Movie {
 
 model Show {
   id                 String       @id @default(uuid())
-  screen             Screen       @relation(fields: [screenId], references: [id])
   screenId           String
-  movie              Movie        @relation(fields: [movieId], references: [id])
   movieId            String
+  availableUntilUtc  DateTime?
+  showEndTimeInUtc   DateTime
+  showStartTimeInUtc DateTime
+  movie              Movie        @relation(fields: [movieId], references: [id])
+  screen             Screen       @relation(fields: [screenId], references: [id])
   bookedSeat         BookedSeat[]
   booking            Booking[]
-  showStartTimeInUtc DateTime
-  showEndTimeInUtc   DateTime
-  availableUntilUtc  DateTime?
 }
 
 model Booking {
   id                  String       @id @default(uuid())
-  user                User         @relation(fields: [userId], references: [id])
   userId              String
-  show                Show         @relation(fields: [showId], references: [id])
   showId              String
   numberOfSeatsBooked Int
   showDate            DateTime
+  show                Show         @relation(fields: [showId], references: [id])
+  user                User         @relation(fields: [userId], references: [id])
   bookedSeat          BookedSeat[]
 }
 
 model BookedSeat {
   id        String  @id @default(uuid())
-  seat      Seat    @relation(fields: [seatId], references: [id])
   seatId    String
-  show      Show    @relation(fields: [showId], references: [id])
   showId    String
-  booking   Booking @relation(fields: [bookingId], references: [id])
   bookingId String
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  seat      Seat    @relation(fields: [seatId], references: [id])
+  show      Show    @relation(fields: [showId], references: [id])
 }
