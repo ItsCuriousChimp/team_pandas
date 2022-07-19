@@ -1,4 +1,4 @@
-import moviesInCityServices from "../services/movies.service";
+import { moviesInCityServices } from "../services/movies.service";
 import { Request, Response } from "express";
 
 class MoviesInCityController {
@@ -10,5 +10,4 @@ class MoviesInCityController {
   }
 }
 
-const moviesInCityController = new MoviesInCityController();
-export default moviesInCityController;
+export const moviesInCityController = new MoviesInCityController();

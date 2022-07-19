@@ -12,5 +12,4 @@ export class MoviesInCityServices {
   }
 }
 
-const moviesInCityServices = new MoviesInCityServices();
-export default moviesInCityServices;
+export const moviesInCityServices = new MoviesInCityServices();
