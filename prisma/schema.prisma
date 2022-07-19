@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-=======
->>>>>>> dev
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,7 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-<<<<<<< HEAD
 model Theatre {
   id              String   @id @default(uuid())
   name            String   @db.VarChar(64)
@@ -87,20 +83,12 @@ model Booking {
   numberOfSeatsBooked Int
   showDate            DateTime     @db.Date
   BookedSeat          BookedSeat[]
-=======
-model City {
-  id      String    @id @default(uuid())
-  name    String    @db.VarChar(64)
-  theatre Theatre[]
-  user    User[]
->>>>>>> dev
 }
 
 model User {
   id            String    @id @default(uuid())
   name          String    @db.VarChar(128)
   email         String    @db.VarChar(64)
-<<<<<<< HEAD
   city          City      @relation(fields: [cityId], references: [id])
   cityId        String
   phoneNumber   String    @db.VarChar(16)
@@ -116,88 +104,3 @@ model Account {
   username String @db.VarChar(128)
   password String @db.VarChar(32)
 }
-=======
-  phoneNumber   String    @db.VarChar(32)
-  loggedInAtUTC DateTime? @default(now())
-  cityId        String
-  city          City      @relation(fields: [cityId], references: [id])
-  account       Account[]
-  booking       Booking[]
-}
-
-model Account {
-  id           String @id @default(uuid())
-  username     String @unique @db.VarChar(128)
-  passwordHash String @db.VarChar(256)
-  userId       String
-  user         User   @relation(fields: [userId], references: [id])
-}
-
-model Theatre {
-  id              String   @id @default(uuid())
-  name            String   @db.VarChar(64)
-  numberOfScreens Int
-  cityId          String
-  city            City     @relation(fields: [cityId], references: [id])
-  screen          Screen[]
-}
-
-model Screen {
-  id           String  @id @default(uuid())
-  screenNumber Int
-  theatreId    String
-  theatre      Theatre @relation(fields: [theatreId], references: [id])
-  seat         Seat[]
-  show         Show[]
-}
-
-model Seat {
-  id         String       @id @default(uuid())
-  seatNumber Int
-  screenId   String
-  screen     Screen       @relation(fields: [screenId], references: [id])
-  bookedSeat BookedSeat[]
-}
-
-model Movie {
-  id            String @id @default(uuid())
-  name          String @db.VarChar(128)
-  durationInMin Int
-  language      String @db.VarChar(32)
-  show          Show[]
-}
-
-model Show {
-  id                 String       @id @default(uuid())
-  screenId           String
-  movieId            String
-  availableUntilUtc  DateTime?
-  showEndTimeInUtc   DateTime
-  showStartTimeInUtc DateTime
-  movie              Movie        @relation(fields: [movieId], references: [id])
-  screen             Screen       @relation(fields: [screenId], references: [id])
-  bookedSeat         BookedSeat[]
-  booking            Booking[]
-}
-
-model Booking {
-  id                  String       @id @default(uuid())
-  userId              String
-  showId              String
-  numberOfSeatsBooked Int
-  showDate            DateTime
-  show                Show         @relation(fields: [showId], references: [id])
-  user                User         @relation(fields: [userId], references: [id])
-  bookedSeat          BookedSeat[]
-}
-
-model BookedSeat {
-  id        String  @id @default(uuid())
-  seatId    String
-  showId    String
-  bookingId String
-  booking   Booking @relation(fields: [bookingId], references: [id])
-  seat      Seat    @relation(fields: [seatId], references: [id])
-  show      Show    @relation(fields: [showId], references: [id])
-}
->>>>>>> dev
