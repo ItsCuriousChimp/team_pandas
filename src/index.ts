@@ -1,5 +1,5 @@
 import express, { Express, Response, Request } from "express";
-import HeartbeatControllerInstance from "./components/heartbeat/Controllers/heartbeat.Controller";
+import { heartbeatController } from "./controllers/heartbeat.controller";
 const PORT = 3000;
 const app: Express = express();
 
@@ -7,7 +7,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("HELLO WORLD! get your heartbeat from /heartbeat");
 });
 
-app.get("/heartbeat", HeartbeatControllerInstance.getTimeStamp);
+app.get("/heartbeat", heartbeatController.getTimeStamp);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console
