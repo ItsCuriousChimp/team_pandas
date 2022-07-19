@@ -1,13 +1,10 @@
-import { TheatreService } from "../services/theatre.service";
-//import { SeatResponsePayload } from "..data/payloads/seat-Response.payload";
-
+import { theatreService } from "../services/theatre.service";
 import { Request, Response } from "express";
 
 class TheatreController {
   getMovieShows = async (req: Request, res: Response) => {
     const theatreIdUrl: string = req.params.theatreId;
     const movieIdUrl: string = req.query.movieId as string;
-    const theatreService = new TheatreService();
     const showModels = await theatreService.getShowsOfMovie(
       theatreIdUrl,
       movieIdUrl
@@ -18,7 +15,6 @@ class TheatreController {
     const theatreIdUrl: string = req.params.theatreId;
     const movieIdUrl: string = req.query.movieId as string;
     const showIdUrl: string = req.query.showId as string;
-    const theatreService = new TheatreService();
     const seatModels = await theatreService.getAvailableSeatsOfShow(
       theatreIdUrl,
       movieIdUrl,

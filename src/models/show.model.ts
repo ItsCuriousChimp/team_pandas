@@ -7,6 +7,5 @@ export class Show {
   availableUntilUtc: Date | null;
   bookedSeatCount?: number;
   totalSeatCount?: number;
-  availableSeatCount?: number;
   availablityStatus?: string;
 }

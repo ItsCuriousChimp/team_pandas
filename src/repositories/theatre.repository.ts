@@ -1,14 +1,18 @@
 import { Show } from "../models/show.model";
 import { DateTimeHelper } from "../common/helpers/dateTime.helper";
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-export class TheatreRepository {
+class TheatreRepository {
+  prisma: PrismaClient;
+  constructor() {
+    this.prisma = new PrismaClient();
+  }
+
   async getShowsOfMovie(
     theatreIdUrl: string,
     movieIdUrl: string
   ): Promise<Show[]> {
     const DateTime = new DateTimeHelper();
-    const availableShows = await prisma.show.findMany({
+    const availableShows = await this.prisma.show.findMany({
       where: {
         movieId: movieIdUrl,
         screen: {
@@ -55,11 +59,12 @@ export class TheatreRepository {
       ShowModel.showStartTimeInUtc = showStartTimeInUtc;
       ShowModel.showEndTimeInUtc = showEndTimeInUtc;
       ShowModel.availableUntilUtc = availableUntilUtc;
-      ShowModel.bookedSeatsCount = availableShows[i]._count.bookedSeat;
-      ShowModel.totalSeatsCount = availableShows[i].screen._count.seat;
+      ShowModel.bookedSeatCount = availableShows[i]._count.bookedSeat;
+      ShowModel.totalSeatCount = availableShows[i].screen._count.seat;
 
       showModels.push(ShowModel);
     }
     return showModels;
   }
 }
+export const theatreRepository = new TheatreRepository();
