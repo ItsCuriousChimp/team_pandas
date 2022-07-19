@@ -1,5 +1,5 @@
 import { Theatre } from "../models/theatre.model";
-import theatreWithMovieRespository from "../repositories/theatre.repository";
+import { theatreWithMovieRespository } from "../repositories/theatre.repository";
 
 class TheatreWithMovieService {
   getTheatreAndShowTimeWithMovie = async (
@@ -13,7 +13,5 @@ class TheatreWithMovieService {
   };
 }
 
-const theatreWithMovieService: TheatreWithMovieService =
+export const theatreWithMovieService: TheatreWithMovieService =
   new TheatreWithMovieService();
-
-export default theatreWithMovieService;

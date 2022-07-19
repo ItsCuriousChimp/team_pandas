@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Theatre } from "../models/theatre.model";
+import logger from "../common/logger/logger";
 
 class TheatreWithMovieRespository {
   prisma: PrismaClient;
@@ -11,16 +12,20 @@ class TheatreWithMovieRespository {
     movieId: string,
     cityId: string
   ): Promise<Theatre[]> => {
-    const theatresWithShowTime: Theatre[] = await this.prisma
-      .$queryRawUnsafe(`select distinct th.name,sh."showStartTimeInUtc" from "Show" as sh
+    try {
+      const theatresWithShowTime: Theatre[] = await this.prisma
+        .$queryRawUnsafe(`select distinct th.name,sh."showStartTimeInUtc" from "Show" as sh
 			inner join "Screen" as sc 
 			on sh."screenId" = sc.id 
 			inner join "Theatre" as th
 			on sc."theatreId" = th.id
 			where sh."movieId" = '${movieId}' and th."cityId" = '${cityId}'`);
-    return theatresWithShowTime;
+      return theatresWithShowTime;
+    } catch (error) {
+      logger.info("Oops!!! looks like an error", error);
+      throw error;
+    }
   };
 }
 
-const theatreWithMovieRespository = new TheatreWithMovieRespository();
-export default theatreWithMovieRespository;
+export const theatreWithMovieRespository = new TheatreWithMovieRespository();
