@@ -1,15 +1,10 @@
 import { Movie } from "../models/movie.model";
-import { MoviesInCityRepository } from "../repositories/movies.repository";
+import { moviesInCityRepository } from "../repositories/movies.repository";
 
-export class MoviesInCityServices {
-  moviesInCityRepository: MoviesInCityRepository;
-
-  constructor() {
-    this.moviesInCityRepository = new MoviesInCityRepository();
-  }
+export class MoviesInCityService {
   async getAllMoviesInCity(id: string): Promise<Movie[]> {
-    return await this.moviesInCityRepository.getAllMoviesInCity(id);
+    return await moviesInCityRepository.getAllMoviesInCity(id);
   }
 }
 
-export const moviesInCityServices = new MoviesInCityServices();
+export const moviesInCityService = new MoviesInCityService();

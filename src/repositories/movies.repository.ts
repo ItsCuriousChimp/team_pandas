@@ -2,14 +2,14 @@ import { PrismaClient } from "@prisma/client";
 import { Movie } from "../models/movie.model";
 import logger from "../common/logger/logger";
 
-export class MoviesInCityRepository {
+class MoviesInCityRepository {
   prisma: PrismaClient;
 
   constructor() {
     this.prisma = new PrismaClient();
   }
 
-  public async getAllMoviesInCity(cityId: string): Promise<Movie[]> {
+  getAllMoviesInCity = async (cityId: string): Promise<Movie[]> => {
     try {
       const movies: Movie[] = await this.prisma.$queryRawUnsafe(
         `select distinct mv.* from "Theatre" as th
@@ -23,8 +23,10 @@ export class MoviesInCityRepository {
 
       return movies;
     } catch (err) {
-      logger.error("Message", err);
+      logger.error("Oops!!! looks like you have an error", err);
       throw err;
     }
-  }
+  };
 }
+
+export const moviesInCityRepository = new MoviesInCityRepository();
