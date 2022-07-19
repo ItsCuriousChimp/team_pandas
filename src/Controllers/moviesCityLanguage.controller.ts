@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { moviesIncityByLanguageservice } from "../Services/moviesCityLanguage.service";
+import { moviesIncityByLanguageservice } from "../services/moviesCityLanguage.service";
 
 class MoviesInCityByLanguageController{
     getAllMoviesInCityByLanguage = (req: Request,res: Response) => {

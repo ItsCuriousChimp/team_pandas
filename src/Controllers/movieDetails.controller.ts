@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { movieDetailsservice } from "../Services/movieDetails.service";
+import { movieDetailsservice } from "../services/movieDetails.service";
 
 class MovieDetailsController{
     getMovieDetails = (req: Request,res: Response) => {

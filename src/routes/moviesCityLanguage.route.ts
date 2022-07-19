@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { moviesInCityByLanguageController } from "../Controllers/moviesCityLanguage.controller";
+import { moviesInCityByLanguageController } from "../controllers/moviesCityLanguage.controller";
 
 const moviesCityLanguageRouter = Router();
 

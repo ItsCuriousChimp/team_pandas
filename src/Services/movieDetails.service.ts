@@ -1,5 +1,5 @@
 import { Movie } from "../models/movie.model";
-import { movieDetailsRepository } from "../Repositories/movieDetails.repository";
+import { movieDetailsRepository } from "../repositories/movieDetails.repository";
 
 
 class MovieDetailsService{
