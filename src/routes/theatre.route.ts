@@ -7,4 +7,4 @@ router
   .route("/")
   .get([theatreWithMovieController.getTheatreAndShowTimeWithMovie]);
 
-export default router;
+export { router as TheatreRouter };
