@@ -1,4 +1,4 @@
-import bookingService from "../services/bookings.service";
+import { bookingService } from "../services/bookings.service";
 import { Request, Response } from "express";
 
 class BookingController {
@@ -10,5 +10,4 @@ class BookingController {
   };
 }
 
-const bookingController = new BookingController();
-export default bookingController;
+export const bookingController = new BookingController();

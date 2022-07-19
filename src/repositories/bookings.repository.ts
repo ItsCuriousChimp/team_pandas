@@ -18,11 +18,10 @@ class BookingRepository {
       });
       return bookingDetails;
     } catch (err) {
-      logger.error("Message", err);
+      logger.error("Oops!!! looks like you got an error", err);
       throw err;
     }
   };
 }
 
-const bookingRepository = new BookingRepository();
-export default bookingRepository;
+export const bookingRepository = new BookingRepository();
