@@ -1,6 +1,6 @@
-import { HeartbeatRepository } from "../Repositories/heartbeat.Repository";
+import { HeartbeatRepository } from "../repositories/heartbeat.Repository";
 
-export class HeartbeatServices {
+export class HeartbeatService {
   public getBeat(): any {
     const heartbeatRepositoryInstance = new HeartbeatRepository();
     return heartbeatRepositoryInstance.getBeat();
