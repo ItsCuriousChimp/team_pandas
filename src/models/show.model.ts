@@ -5,9 +5,9 @@ export class Show {
   showStartTimeInUtc: Date;
   showEndTimeInUtc: Date;
   availableUntilUtc: Date | null;
-  bookedSeatsCount?: number;
-  totalSeatsCount?: number;
-  availableSeatsCount?: number;
+  bookedSeatCount?: number;
+  totalSeatCount?: number;
+  availableSeatCount?: number;
   availablityStatus?: string;
 
   // adding other variables according to the ER diagram and manipulating count accordingly
