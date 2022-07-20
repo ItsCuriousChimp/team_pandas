@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Movie } from "../models/movie.model";
 import logger from "../common/logger/logger";
 
-class MoviesInCityRepository {
+class MovieRepository {
   prisma: PrismaClient;
 
   constructor() {
@@ -20,7 +20,7 @@ class MoviesInCityRepository {
 				inner join "Movie" as mv on
 				mv.id = sh."movieId" where th."cityId" = '${cityId}'`
       );
-
+      logger.log("Movies found successfully", movies);
       return movies;
     } catch (err) {
       logger.error("Oops!!! looks like you have an error", err);
@@ -29,4 +29,4 @@ class MoviesInCityRepository {
   };
 }
 
-export const moviesInCityRepository = new MoviesInCityRepository();
+export const movieRepository = new MovieRepository();

@@ -1,6 +1,6 @@
 import express, { Express, Response, Request } from "express";
 import { heartbeatController } from "./controllers/heartbeat.controller";
-import MovieRouter from "./routes/movies.route";
+import { MovieRouter } from "./routes/movie.route";
 
 const PORT = 3000;
 const app: Express = express();
@@ -10,7 +10,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.get("/heartbeat", heartbeatController.getTimeStamp);
-app.use("/getMoviesInCity", MovieRouter);
+app.use("/movie", MovieRouter);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console
