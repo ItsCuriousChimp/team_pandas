@@ -1,5 +1,5 @@
-import { Movie } from "../../../common/models/movie.model";
-import { moviesInCityByLanguageRepository } from "../Repositories/moviesCityLanguage.repository";
+import { Movie } from "../models/movie.model";
+import { moviesInCityByLanguageRepository } from "../repositories/moviesCityLanguage.repository";
 
 class MoviesInCityByLanguageService{
     getAllMoviesInCityByLanguage = async (language:string,city:string):Promise<Movie[]> => {
