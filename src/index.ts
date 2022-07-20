@@ -5,6 +5,7 @@ import LoginRouter from "./routes/login.route";
 const PORT = 3000;
 const app: Express = express();
 
+app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.send("HELLO WORLD! get your heartbeat from /heartbeat");
 });

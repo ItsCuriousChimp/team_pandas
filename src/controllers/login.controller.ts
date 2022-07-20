@@ -3,13 +3,7 @@ import { accountService } from "../services/login.service";
 
 class AccountController {
   public async getToken(req: Request, res: Response) {
-    const username = req.query.username as string;
-    const password = req.query.password as string;
-
-    const token: string | null = await accountService.getAccountToken({
-      username,
-      password,
-    });
+    const token: string | null = await accountService.getAccountToken(req.body);
     res.send({ token: token });
   }
 }
