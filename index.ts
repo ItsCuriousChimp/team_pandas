@@ -1,5 +1,5 @@
 import express, { Express, Response, Request } from "express";
-import HeartbeatControllerInstance from "./src/controllers/heartbeat.Controller";
+import HeartbeatControllerInstance from "./src/controllers/heartbeat.controller";
 import LoginRouter from "./src/routes/login.route";
 
 const PORT = 3000;
