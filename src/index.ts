@@ -1,6 +1,6 @@
 import express, { Express, Response, Request, Router } from "express";
-import { heartbeatController } from "./src/controllers/heartbeat.controller";
-import theatreRoutes from "./src/routes/theatre.route";
+import { heartbeatController } from "./controllers/heartbeat.controller";
+import theatreRoutes from "./routes/theatre.route";
 const PORT = 3000;
 const app: Express = express();
 
