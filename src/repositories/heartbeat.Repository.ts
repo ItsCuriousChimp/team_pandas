@@ -1,8 +1,10 @@
-import { HeartbeatModel } from "../../../common/models/heartbeat.Model";
+import { HeartbeatModel } from "../models/heartbeat.model";
 
-export class HeartbeatRepository {
+class HeartbeatRepository {
   public getBeat(): HeartbeatModel {
     const date = new Date();
     return new HeartbeatModel(date);
   }
 }
+
+export const heartbeatRepository = new HeartbeatRepository();

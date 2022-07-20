@@ -1,18 +1,15 @@
 import { Request, Response } from "express";
-import { HeartbeatServices } from "../Services/heartbeat.Service";
-import { HeartbeatResponsePayload } from "../../../payloads/heartbeat-Response.Payload";
+import { heartbeatService } from "../services/heartbeat.service";
+import { HeartbeatResponsePayload } from "../data/payloads/heartbeat-response.payload";
 
 class HeartbeatController {
   getTimeStamp = (req: Request, res: Response) => {
-    const heartbeatServicesInstance = new HeartbeatServices();
-    const currentTimestamp =
-      heartbeatServicesInstance.getBeat().lastBeatGeneratedAt;
-    const HeartbeatResponsePayloadInstance = new HeartbeatResponsePayload(
+    const currentTimestamp = heartbeatService.getBeat().lastBeatGeneratedAt;
+    const heartbeatResponsePayload = new HeartbeatResponsePayload(
       currentTimestamp
     );
-    return res.send(HeartbeatResponsePayloadInstance);
+    return res.send(heartbeatResponsePayload);
   };
 }
-const HeartbeatControllerInstance = new HeartbeatController();
-// const viewTimeStamp = HeartbeatControllerInstance.getTimeStamp;
-export default HeartbeatControllerInstance;
+
+export const heartbeatController = new HeartbeatController();
