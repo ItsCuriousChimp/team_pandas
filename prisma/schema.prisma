@@ -1,4 +1,4 @@
-Merge branch 'dev' into feature/TP-7-view-all-movie-in-citygenerator client {
+generator client {
   provider = "prisma-client-js"
 }
 
