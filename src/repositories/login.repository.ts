@@ -3,22 +3,19 @@ import * as jwt from "jsonwebtoken";
 import { loginDto } from "../common/customTypes/login.type";
 import * as bcrypt from "bcryptjs";
 
-export class AccountRepository {
+class AccountRepository {
   prisma: PrismaClient;
 
-  //constructor to initialize prisma client
   constructor() {
     this.prisma = new PrismaClient();
   }
 
-  //function to create token
   createToken = (params: object): string => {
     const privateKey = process.env.PRIVATE_KEY as string;
     const token = jwt.sign(params, privateKey, { expiresIn: "30d" });
     return token;
   };
 
-  //function to validate user account
   isValidAccount = async (query: loginDto): Promise<boolean> => {
     const account = await this.prisma.account.findMany({
       where: {
@@ -51,7 +48,6 @@ export class AccountRepository {
     });
   };
 
-  //function to get token
   getToken = async (query: loginDto): Promise<string | null> => {
     if (await this.isValidAccount(query)) {
       const userId: string = await this.getUserId(query);
@@ -61,3 +57,5 @@ export class AccountRepository {
     } else return null;
   };
 }
+
+export const accountRepository = new AccountRepository();

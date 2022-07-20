@@ -1,15 +1,11 @@
 import { loginDto } from "../common/customTypes/login.type";
-import { AccountRepository } from "../repositories/login.repository";
+import { accountRepository } from "../repositories/login.repository";
 
-export class AccountService {
-  accountRepository: AccountRepository;
-
-  constructor() {
-    this.accountRepository = new AccountRepository();
-  }
-
+class AccountService {
   public async getAccountToken(query: loginDto): Promise<string | null> {
-    const accountToken = await this.accountRepository.getToken(query);
+    const accountToken = await accountRepository.getToken(query);
     return accountToken;
   }
 }
+
+export const accountService = new AccountService();
