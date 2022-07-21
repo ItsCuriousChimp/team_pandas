@@ -1,11 +1,11 @@
 import { Response, Request } from "express";
-import { accountService } from "../services/login.service";
+import { loginService } from "../services/login.service";
 
-class AccountController {
+class LoginController {
   public async getToken(req: Request, res: Response) {
-    const token: object = await accountService.getAccountToken(req.body);
+    const token: object = await loginService.getAccountToken(req.body);
     res.send(token);
   }
 }
 
-export const accountController = new AccountController();
+export const loginController = new LoginController();
