@@ -21,10 +21,16 @@ class TheatreRespository {
 			on sc."theatreId" = th.id
 			where sh."movieId" = '${movieId}' and th."cityId" = '${cityId}'`);
 
-      logger.log("Successfully searched for theatres", theatresWithShowTime);
+      logger.log({
+        message: `Successfully searched for theatres`,
+        level: "info",
+      });
       return theatresWithShowTime;
     } catch (error) {
-      logger.error(`Error found in theatreRepository - ${error}`);
+      logger.error({
+        level: "error",
+        message: `Error found in theatreRepository - ${error}`,
+      });
       throw error;
     }
   };
