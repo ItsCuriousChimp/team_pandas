@@ -1,17 +1,16 @@
 import { Theatre } from "../models/theatre.model";
-import { theatreWithMovieRespository } from "../repositories/theatre.repository";
+import { theatreRespository } from "../repositories/theatre.repository";
 
-class TheatreWithMovieService {
+class TheatreService {
   getTheatreAndShowTimeWithMovie = async (
     movieId: string,
     cityId: string
   ): Promise<Theatre[]> => {
-    return await theatreWithMovieRespository.getTheatreAndShowTimeWithMovie(
+    return await theatreRespository.getTheatreAndShowTimeWithMovie(
       movieId,
       cityId
     );
   };
 }
 
-export const theatreWithMovieService: TheatreWithMovieService =
-  new TheatreWithMovieService();
+export const theatreService: TheatreService = new TheatreService();

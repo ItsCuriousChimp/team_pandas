@@ -1,10 +1,15 @@
 import { Router } from "express";
-import { theatreWithMovieController } from "../controllers/theatre.controller";
+import { theatreInputValidation } from "../common/validators/theatre.validator";
+import { theatreController } from "../controllers/theatre.controller";
+import { validate } from "express-validation";
 
 const router = Router();
 
 router
   .route("/")
-  .get([theatreWithMovieController.getTheatreAndShowTimeWithMovie]);
+  .get([
+    validate(theatreInputValidation),
+    theatreController.getTheatreAndShowTimeWithMovie,
+  ]);
 
-export { router as TheatreRouter };
+export { router as theatreRouter };

@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Theatre } from "../models/theatre.model";
 import logger from "../common/logger/logger";
 
-class TheatreWithMovieRespository {
+class TheatreRespository {
   prisma: PrismaClient;
 
   constructor() {
@@ -20,12 +20,14 @@ class TheatreWithMovieRespository {
 			inner join "Theatre" as th
 			on sc."theatreId" = th.id
 			where sh."movieId" = '${movieId}' and th."cityId" = '${cityId}'`);
+
+      logger.log("Successfully searched for theatres", theatresWithShowTime);
       return theatresWithShowTime;
     } catch (error) {
-      logger.info("Oops!!! looks like an error", error);
+      logger.error(`Error found in theatreRepository - ${error}`);
       throw error;
     }
   };
 }
 
-export const theatreWithMovieRespository = new TheatreWithMovieRespository();
+export const theatreRespository = new TheatreRespository();
