@@ -19,9 +19,9 @@ class MoviesInCityByLanguageRepository{
 				                      MV.id = SH.movieId WHERE (TH.cityId = ${cityId} AND MV.language = ${language})`
             )
             return movies;
-        }catch(err){
-            logger.error("Messsage",err);
-            throw err;
+        }catch(error){
+            logger.error(`Error found in movieCityLanguageRepository - ${error}`)
+            throw error;
         }
     }
 }
