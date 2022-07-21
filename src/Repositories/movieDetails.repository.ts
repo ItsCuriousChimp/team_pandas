@@ -16,9 +16,9 @@ class MovieDetailsRepository{
 				                      WHERE MV.Id = ${movieId}`
             )
             return movieDetails;
-        }catch(err){
-            logger.error("Messsage",err);
-            throw err;
+        }catch(error){
+            logger.error(`Error found in movieDetailsRepository - ${error}`);
+            throw error;
         }
     }
 }
