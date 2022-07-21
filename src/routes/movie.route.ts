@@ -5,4 +5,4 @@ const router = Router();
 
 router.route("/").get([movieController.getAllMoviesInCity]);
 
-export { router as MovieRouter };
+export { router as movieRouter };

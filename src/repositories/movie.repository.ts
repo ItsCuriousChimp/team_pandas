@@ -20,10 +20,16 @@ class MovieRepository {
 				inner join "Movie" as mv on
 				mv.id = sh."movieId" where th."cityId" = '${cityId}'`
       );
-      logger.log("Movies found successfully", movies);
+      logger.log({
+        level: "info",
+        message: "Successfully searched for theatre and show time",
+      });
       return movies;
     } catch (err) {
-      logger.error("Oops!!! looks like you have an error", err);
+      logger.error({
+        level: "error",
+        message: `Error in movie repository /n ${err}`,
+      });
       throw err;
     }
   };
