@@ -1,6 +1,6 @@
 import express, { Express, Response, Request } from "express";
 import { heartbeatController } from "./controllers/heartbeat.controller";
-import { BookingRouter } from "./routes/booking.router";
+import { bookingRouter } from "./routes/booking.router";
 
 const PORT = 3000;
 const app: Express = express();
@@ -10,7 +10,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.get("/heartbeat", heartbeatController.getTimeStamp);
-app.use("/getBookingDetails", BookingRouter);
+app.use("/booking", bookingRouter);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console

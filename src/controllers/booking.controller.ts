@@ -1,4 +1,4 @@
-import { bookingService } from "../services/bookings.service";
+import { bookingService } from "../services/booking.service";
 import { Request, Response } from "express";
 
 class BookingController {

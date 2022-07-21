@@ -1,8 +1,8 @@
 import { Booking } from "../models/booking.model";
-import { bookingRepository } from "../repositories/bookings.repository";
+import { bookingRepository } from "../repositories/booking.repository";
 
 class BookingService {
-  getBookingDetails = async (userId: string): Promise<Booking[]> => {
+  getBookingDetails = async (userId: string): Promise<Booking[] | object> => {
     const bookingDetails = await bookingRepository.getBookingDetails(userId);
     return bookingDetails;
   };

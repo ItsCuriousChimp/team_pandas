@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { bookingController } from "../controllers/bookings.controller";
+import { bookingController } from "../controllers/booking.controller";
+import { validate } from "express-validation";
+import { userIdValidation } from "../common/validators/booking.validator";
 
 const router = Router();
 
-router.route("/").get([bookingController.getBookingDetails]);
+router
+  .route("/")
+  .get([validate(userIdValidation), bookingController.getBookingDetails]);
 
-export { router as BookingRouter };
+export { router as bookingRouter };
