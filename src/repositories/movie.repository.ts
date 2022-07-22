@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Movie } from "../models/movie.model";
 import logger from "../common/logger/logger";
+import { City } from "../models/city.model";
 
 class MovieRepository {
   prisma: PrismaClient;
@@ -8,6 +9,22 @@ class MovieRepository {
   constructor() {
     this.prisma = new PrismaClient();
   }
+
+  isCityValid = async (cityId: string): Promise<boolean> => {
+    try {
+      const isValid: City | null = await this.prisma.city.findUnique({
+        where: { id: cityId },
+      });
+      if (isValid) return true;
+      return false;
+    } catch (err) {
+      logger.warn({
+        level: "warning",
+        message: "cannot validate city",
+      });
+      throw err;
+    }
+  };
 
   getAllMoviesInCity = async (cityId: string): Promise<Movie[]> => {
     try {
