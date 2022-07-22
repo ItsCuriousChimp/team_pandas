@@ -2,7 +2,7 @@ import { loginDto } from "../common/customTypes/login.type";
 import { loginRepository } from "../repositories/login.repository";
 import { createClient } from "redis";
 import logger from "../common/logger/logger";
-import { token } from "../common/helpers/Token";
+import { token } from "../common/helpers/token";
 
 class LoginService {
   private userId: string;
@@ -11,8 +11,9 @@ class LoginService {
       if (await loginRepository.isValidAccount(query)) {
         this.userId = await loginRepository.getUserId(query);
         await loginRepository.updateLastLogin(this.userId);
-
-        return { token: token.createToken(query) };
+        const loginToken = token.createToken(query);
+        this.storeLoginToken(loginToken);
+        return { token: loginToken };
       }
       throw new Error("Invalid credentials");
     } catch (err) {
@@ -24,14 +25,11 @@ class LoginService {
     }
   };
 
-  getAccountToken = async (query: loginDto): Promise<{ token: string }> => {
-    const loginToken = await this.getToken(query);
+  storeLoginToken = async (token: string): Promise<void> => {
     const client = createClient();
     client.on("error", (err) => console.log("Redis Client Error", err));
     await client.connect();
-    await client.set(this.userId, loginToken.token);
-
-    return loginToken;
+    await client.set(this.userId, token);
   };
 }
 
