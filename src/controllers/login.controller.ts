@@ -7,7 +7,8 @@ class LoginController {
     try {
       const token: object = await loginService.getToken(req.body);
       res.send(token);
-    } catch (err: unknown) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
       logger.error({
         level: "error",
         message: "Cannot send token",

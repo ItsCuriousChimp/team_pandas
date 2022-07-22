@@ -22,7 +22,6 @@ app.get("/heartbeat", heartbeatController.getTimeStamp);
 app.use("/login", LoginRouter);
 // Error handler middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.log(err.message);
   next(err);
 });
 
