@@ -8,8 +8,24 @@ class BookingRepository {
   constructor() {
     this.prisma = new PrismaClient();
   }
+  ivUserValid = async (userId: string): Promise<boolean> => {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+      return user ? true : false;
+    } catch (err) {
+      logger.warn({
+        level: "warning",
+        message: "cannot find user",
+      });
+      throw err;
+    }
+  };
 
-  getBookingDetails = async (userId: string): Promise<Booking[] | object> => {
+  getBookingDetails = async (userId: string): Promise<Booking[]> => {
     try {
       const bookingDetails = await this.prisma.booking.findMany({
         where: {
@@ -20,8 +36,7 @@ class BookingRepository {
         level: "info",
         message: "Successfully searched for all booking details",
       });
-      if (bookingDetails.length > 0) return bookingDetails;
-      else return { message: "User not found" };
+      return bookingDetails;
     } catch (err) {
       logger.error({
         level: "error",
