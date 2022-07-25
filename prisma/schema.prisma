@@ -18,20 +18,20 @@ model User {
   id            String    @id @default(uuid())
   name          String    @db.VarChar(128)
   email         String    @db.VarChar(64)
-  phoneNumber   String    @db.VarChar(32)
+  phoneNumber   String?   @db.VarChar(32)
   loggedInAtUTC DateTime? @default(now())
-  cityId        String
-  city          City      @relation(fields: [cityId], references: [id])
+  cityId        String?
+  city          City?     @relation(fields: [cityId], references: [id])
   account       Account[]
   booking       Booking[]
 }
 
 model Account {
-  id           String @id @default(uuid())
-  username     String @unique @db.VarChar(128)
-  passwordHash String @db.VarChar(256)
-  userId       String
-  user         User   @relation(fields: [userId], references: [id])
+  id           String  @id @default(uuid())
+  username     String  @unique @db.VarChar(128)
+  passwordHash String  @db.VarChar(256)
+  userId       String?
+  user         User?   @relation(fields: [userId], references: [id])
 }
 
 model Theatre {
