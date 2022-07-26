@@ -8,13 +8,13 @@ class BookingController {
       const bookingResponse = await bookingService.getBookingDetails(
         req.query.userId as string
       );
-      res.send(bookingResponse);
+      res.status(200).send(bookingResponse);
     } catch (err) {
       logger.error({
         level: "error",
         message: `Cannot send bookings of the user`,
       });
-      res.json(err);
+      res.status(404).json(err);
     }
   };
 }

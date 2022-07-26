@@ -17,8 +17,8 @@ class BookingRepository {
       });
       return user ? true : false;
     } catch (err) {
-      logger.warn({
-        level: "warning",
+      logger.error({
+        level: "error",
         message: "cannot find user",
       });
       throw err;
@@ -32,8 +32,8 @@ class BookingRepository {
           userId: userId,
         },
       });
-      logger.info({
-        level: "info",
+      logger.error({
+        level: "error",
         message: "Successfully searched for all booking details",
       });
       return bookingDetails;
