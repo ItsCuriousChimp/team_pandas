@@ -8,14 +8,14 @@ class MovieController {
       const movieResponse = await movieService.getAllMoviesInCity(
         req.query.cityId as string
       );
-      res.json(movieResponse);
+      res.status(202).json(movieResponse);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       logger.error({
         level: "error",
         message: `Cannot send movies playing in a city`,
       });
-      res.json(err);
+      res.status(404).json(err);
     }
   };
 }
