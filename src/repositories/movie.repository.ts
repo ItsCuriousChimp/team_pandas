@@ -18,8 +18,8 @@ class MovieRepository {
       if (isValid) return true;
       return false;
     } catch (err) {
-      logger.warn({
-        level: "warning",
+      logger.error({
+        level: "error",
         message: "cannot validate city",
       });
       throw err;
@@ -37,8 +37,8 @@ class MovieRepository {
 				inner join "Movie" as mv on
 				mv.id = sh."movieId" where th."cityId" = '${cityId}'`
       );
-      logger.log({
-        level: "info",
+      logger.error({
+        level: "error",
         message: "Successfully searched for theatre and show time",
       });
       return movies;
