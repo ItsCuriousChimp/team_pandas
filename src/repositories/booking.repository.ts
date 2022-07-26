@@ -8,7 +8,7 @@ class BookingRepository {
   constructor() {
     this.prisma = new PrismaClient();
   }
-  ivUserValid = async (userId: string): Promise<boolean> => {
+  isUserValid = async (userId: string): Promise<boolean> => {
     try {
       const user = await this.prisma.user.findUnique({
         where: {

@@ -4,7 +4,7 @@ import { bookingRepository } from "../repositories/booking.repository";
 
 class BookingService {
   isUserValid = async (userId: string): Promise<boolean> => {
-    return await bookingRepository.ivUserValid(userId);
+    return await bookingRepository.isUserValid(userId);
   };
   getBookingDetails = async (
     userId: string
