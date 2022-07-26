@@ -9,13 +9,15 @@ class TheatreController {
           req.query.movieId as string,
           req.query.cityId as string
         );
-      res.send(theatreAndShowTimeWithMovieResponse);
+      res.status(202).send(theatreAndShowTimeWithMovieResponse);
     } catch (error) {
       logger.error({
         level: "error",
         message: "cannot check query",
       });
-      res.send({ message: "Cannot get data from theatre repository" });
+      res
+        .status(404)
+        .send({ message: "Cannot get data from theatre repository" });
     }
   };
 }
