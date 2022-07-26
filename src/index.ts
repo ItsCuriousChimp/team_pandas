@@ -2,7 +2,7 @@ import express, { Express, Response, Request, NextFunction } from "express";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 import { movieRouter } from "./routes/movie.route";
 import bodyParser from "body-parser";
-import * as error from "./middleware/city.middleware";
+import * as error from "./middleware/error.middleware";
 
 const PORT = 3000;
 const app: Express = express();
