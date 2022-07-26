@@ -24,7 +24,7 @@ class BookSeatController {
         level: "error",
         message: `Cannot book seat`,
       });
-      res.status(500).send(err);
+      res.status(404).send(err);
     }
   };
 }

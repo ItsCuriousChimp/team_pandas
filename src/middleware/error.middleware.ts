@@ -11,5 +11,5 @@ export const bookSeatError = (
     level: "error",
     message: `${err.name}`,
   });
-  return res.status(404).json(err);
+  return res.status(422).json(err);
 };

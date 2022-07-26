@@ -2,7 +2,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Booking } from "../models/booking.model";
 import logger from "../common/logger/logger";
-import { dataMapHelper } from "../common/helpers/dataMap.helper";
 
 class BookSeatRepository {
   prisma: PrismaClient;
@@ -20,8 +19,8 @@ class BookSeatRepository {
       });
       return user ? true : false;
     } catch (err) {
-      logger.warn({
-        level: "warning",
+      logger.error({
+        level: "error",
         message: "cannot find user",
       });
       throw err;
@@ -37,8 +36,8 @@ class BookSeatRepository {
       });
       return show ? true : false;
     } catch (err) {
-      logger.warn({
-        level: "warning",
+      logger.error({
+        level: "error",
         message: "cannot find show",
       });
       throw err;
@@ -54,8 +53,8 @@ class BookSeatRepository {
       });
       return booking ? true : false;
     } catch (err) {
-      logger.warn({
-        level: "warning",
+      logger.error({
+        level: "error",
         message: "cannot find user's bookings",
       });
       throw err;
@@ -72,8 +71,8 @@ class BookSeatRepository {
       console.log(seat);
       return seat.length === seatIds.length ? true : false;
     } catch (err) {
-      logger.warn({
-        level: "warning",
+      logger.error({
+        level: "error",
         message: "No such seat available",
       });
       throw err;
