@@ -17,8 +17,8 @@ class LoginService {
       }
       throw new Error("Invalid credentials");
     } catch (err) {
-      logger.info({
-        level: "1",
+      logger.error({
+        level: "error",
         message: `Error at getToken ${err}`,
       });
       throw err;

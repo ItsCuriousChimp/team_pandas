@@ -22,8 +22,8 @@ class LoginRepository {
       }
       return false;
     } catch (err) {
-      logger.info({
-        level: "2",
+      logger.error({
+        level: "error",
         message: `Error in validating user's account ${err}`,
       });
       throw err;
@@ -39,8 +39,8 @@ class LoginRepository {
       });
       return account[0].userId;
     } catch (err) {
-      logger.info({
-        level: "3",
+      logger.error({
+        level: "error",
         message: `Error in fetching user's ID ${err}`,
       });
       throw err;
@@ -58,8 +58,8 @@ class LoginRepository {
         },
       });
     } catch (err) {
-      logger.info({
-        level: "4",
+      logger.error({
+        level: "error",
         message: `Error at updating user's last login ${err}`,
       });
       throw err;

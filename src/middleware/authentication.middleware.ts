@@ -7,8 +7,8 @@ export const loginError = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
-  logger.info({
-    level: "info",
+  logger.error({
+    level: "error",
     message: `${err.name}`,
   });
   return res.json(err);
