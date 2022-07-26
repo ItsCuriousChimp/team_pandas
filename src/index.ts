@@ -2,7 +2,7 @@ import express, { Express, Response, Request, NextFunction } from "express";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 import LoginRouter from "./routes/login.route";
 import bodyParser from "body-parser";
-import * as error from "./middleware/error.middleware";
+import * as error from "./middleware/authentication.middleware";
 
 const PORT = 3000;
 const app: Express = express();
