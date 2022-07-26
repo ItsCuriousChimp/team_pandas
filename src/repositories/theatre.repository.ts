@@ -51,7 +51,7 @@ class TheatreRespository {
 			on sc."theatreId" = th.id
 			where sh."movieId" = '${movieId}' and th."cityId" = '${cityId}'`);
 
-      logger.log({
+      logger.info({
         message: `Successfully searched for theatres`,
         level: "info",
       });
