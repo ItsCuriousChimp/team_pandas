@@ -10,17 +10,17 @@ class MovieRepository {
     this.prisma = new PrismaClient();
   }
 
-  isCityValid = async (cityId: string): Promise<boolean> => {
+  getCity = async (cityId: string): Promise<City | null> => {
     try {
-      const isValid: City | null = await this.prisma.city.findUnique({
+      const city: City | null = await this.prisma.city.findUnique({
         where: { id: cityId },
       });
-      if (isValid) return true;
-      return false;
+      return city;
     } catch (err) {
       logger.error({
-        level: "error",
         message: "cannot validate city",
+        error: err,
+        __filename,
       });
       throw err;
     }
@@ -37,15 +37,15 @@ class MovieRepository {
 				inner join "Movie" as mv on
 				mv.id = sh."movieId" where th."cityId" = '${cityId}'`
       );
-      logger.error({
-        level: "error",
+      logger.info({
         message: "Successfully searched for theatre and show time",
       });
       return movies;
     } catch (err) {
       logger.error({
-        level: "error",
-        message: `Error in movie repository /n ${err}`,
+        message: `Error in movie repository`,
+        error: err,
+        __filename,
       });
       throw err;
     }
