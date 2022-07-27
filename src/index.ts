@@ -23,7 +23,6 @@ app.use("/booking", bookingRouter);
 
 // Error handler middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.log(err.message);
   next(err);
 });
 
