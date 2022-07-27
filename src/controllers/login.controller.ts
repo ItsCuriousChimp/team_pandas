@@ -1,21 +1,23 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import logger from "../common/logger/logger";
-import { loginService } from "../services/login.service";
+import { authService } from "../services/login.service";
 
-class LoginController {
-  public getToken = async (req: Request, res: Response) => {
+class AuthController {
+  public getToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const token: object = await loginService.getToken(req.body);
-      res.send(token);
+      const token: string = await authService.login(req.body);
+      res.status(201).json({ accessToken: token });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       logger.error({
-        level: "error",
         message: "Cannot send token",
+        status: err.statusCode,
+        error: err.message,
+        __filename,
       });
-      res.send(err);
+      next(err);
     }
   };
 }
 
-export const loginController = new LoginController();
+export const authController = new AuthController();

@@ -1,26 +1,29 @@
 import { PrismaClient } from "@prisma/client";
 import { loginDto } from "../common/customTypes/login.type";
-import * as bcrypt from "bcryptjs";
 import logger from "../common/logger/logger";
 
-class LoginRepository {
+class AuthRepository {
   prisma: PrismaClient;
 
   constructor() {
     this.prisma = new PrismaClient();
   }
 
-  isValidAccount = async (query: loginDto): Promise<boolean> => {
+  getUserAccount = async (
+    query: loginDto
+  ): Promise<{ username: string; passwordHash: string; userId: string }[]> => {
     try {
-      const account = await this.prisma.account.findMany({
+      const accounts = await this.prisma.account.findMany({
         where: {
           username: query.username,
         },
+        select: {
+          username: true,
+          passwordHash: true,
+          userId: true,
+        },
       });
-      if (account.length > 0) {
-        return bcrypt.compare(query.password, account[0].passwordHash);
-      }
-      return false;
+      return accounts;
     } catch (err) {
       logger.error({
         level: "error",
@@ -30,28 +33,11 @@ class LoginRepository {
     }
   };
 
-  getUserId = async (query: loginDto): Promise<string> => {
-    try {
-      const account = await this.prisma.account.findMany({
-        where: {
-          username: query.username,
-        },
-      });
-      return account[0].userId;
-    } catch (err) {
-      logger.error({
-        level: "error",
-        message: `Error in fetching user's ID ${err}`,
-      });
-      throw err;
-    }
-  };
-
-  updateLastLogin = async (id: string): Promise<void> => {
+  updateLastLogin = async (userId: string): Promise<void> => {
     try {
       await this.prisma.user.update({
         where: {
-          id: id,
+          id: userId,
         },
         data: {
           loggedInAtUTC: new Date(),
@@ -59,7 +45,6 @@ class LoginRepository {
       });
     } catch (err) {
       logger.error({
-        level: "error",
         message: `Error at updating user's last login ${err}`,
       });
       throw err;
@@ -67,4 +52,4 @@ class LoginRepository {
   };
 }
 
-export const loginRepository = new LoginRepository();
+export const authRepository = new AuthRepository();

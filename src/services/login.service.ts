@@ -1,36 +1,59 @@
 import { loginDto } from "../common/customTypes/login.type";
-import { loginRepository } from "../repositories/login.repository";
+import { authRepository } from "../repositories/login.repository";
 import { createClient } from "redis";
 import logger from "../common/logger/logger";
-import { token } from "../common/helpers/token";
+import { token } from "../common/helpers/auth.helper.ts";
+import * as bcrypt from "bcryptjs";
 
-class LoginService {
-  private userId: string;
-  getToken = async (query: loginDto): Promise<{ token: string }> => {
+class AuthService {
+  login = async (query: loginDto): Promise<string> => {
     try {
-      if (await loginRepository.isValidAccount(query)) {
-        this.userId = await loginRepository.getUserId(query);
-        await loginRepository.updateLastLogin(this.userId);
-        const loginToken = token.createToken(query);
-        this.storeLoginToken(loginToken);
-        return { token: loginToken };
+      const accounts = await authRepository.getUserAccount(query);
+      if (accounts.length) {
+        if (await bcrypt.compare(query.password, accounts[0].passwordHash)) {
+          const accessToken: string = await this.getToken(accounts[0]);
+          await this.storeLoginToken(accounts[0].userId, accessToken);
+          return accessToken;
+        }
+        throw new Error("Invalid Credentals");
       }
-      throw new Error("Invalid credentials");
-    } catch (err) {
+      throw new Error("Invalid Credentals");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
       logger.error({
-        level: "error",
-        message: `Error at getToken ${err}`,
+        error: err,
+        message: "Invalid credentials",
+        status: err.statusCode,
       });
       throw err;
     }
   };
 
-  storeLoginToken = async (token: string): Promise<void> => {
+  getToken = async (account: {
+    username: string;
+    passwordHash: string;
+    userId: string;
+  }): Promise<string> => {
+    try {
+      await authRepository.updateLastLogin(account.userId);
+      return token.createToken(account);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      logger.error({
+        status: err.status,
+        message: `Error at getToken ${err}`,
+        __filename,
+      });
+      throw err;
+    }
+  };
+
+  storeLoginToken = async (userId: string, token: string): Promise<void> => {
     const client = createClient();
     client.on("error", (err) => console.log("Redis Client Error", err));
     await client.connect();
-    await client.set(this.userId, token);
+    await client.set(userId, token);
   };
 }
 
-export const loginService = new LoginService();
+export const authService = new AuthService();

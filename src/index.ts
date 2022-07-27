@@ -2,7 +2,7 @@ import express, { Express, Response, Request, NextFunction } from "express";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 import LoginRouter from "./routes/login.route";
 import bodyParser from "body-parser";
-import * as error from "./middleware/authentication.middleware";
+import * as error from "./middleware/error.middleware";
 
 const PORT = 3000;
 const app: Express = express();
@@ -20,12 +20,13 @@ app.get("/", (req: Request, res: Response) => {
 app.get("/heartbeat", heartbeatController.getTimeStamp);
 
 app.use("/login", LoginRouter);
+
 // Error handler middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   next(err);
 });
 
-app.use(error.loginError);
+app.use(error.errorHandler);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console
