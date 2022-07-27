@@ -2,7 +2,7 @@ import { loginDto } from "../data/dtos/login.dto";
 import { accountRepository } from "../repositories/account.repository";
 import { createClient } from "redis";
 import logger from "../common/logger/logger";
-import { token } from "../common/helpers/auth.helper.ts";
+import { token } from "../common/helpers/auth.helper";
 import * as bcrypt from "bcryptjs";
 import { Account } from "../models/account.model";
 import { userRepository } from "../repositories/user.repository";

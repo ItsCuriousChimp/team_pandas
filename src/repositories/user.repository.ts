@@ -18,6 +18,9 @@ class UserRepository {
           loggedInAtUTC: new Date(),
         },
       });
+      logger.info({
+        message: "Successfully updated Last loggedin",
+      });
     } catch (err) {
       logger.error({
         error: err,
