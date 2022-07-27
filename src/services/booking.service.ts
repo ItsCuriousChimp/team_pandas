@@ -4,18 +4,18 @@ import { bookingRepository } from "../repositories/booking.repository";
 
 class BookingService {
   isUserValid = async (userId: string): Promise<boolean> => {
-    return await bookingRepository.isUserValid(userId);
+    return (await bookingRepository.getUser(userId)) ? true : false;
   };
-  getBookingDetails = async (
-    userId: string
-  ): Promise<Booking[] | { message: string }> => {
+
+  getBookingDetails = async (userId: string): Promise<Booking[]> => {
     try {
       if (await this.isUserValid(userId)) {
         const bookingDetails = await bookingRepository.getBookingDetails(
           userId
         );
         return bookingDetails;
-      } else return { message: "Cannot find bookings for the user" };
+      }
+      throw new Error("Invalid userId");
     } catch (err) {
       logger.error({
         level: "error",

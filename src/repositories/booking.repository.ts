@@ -1,6 +1,7 @@
 import { Booking } from "../models/booking.model";
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
+import { User } from "../models/user.model";
 
 class BookingRepository {
   prisma: PrismaClient;
@@ -8,18 +9,19 @@ class BookingRepository {
   constructor() {
     this.prisma = new PrismaClient();
   }
-  isUserValid = async (userId: string): Promise<boolean> => {
+  getUser = async (userId: string): Promise<User | null> => {
     try {
       const user = await this.prisma.user.findUnique({
         where: {
           id: userId,
         },
       });
-      return user ? true : false;
+      return user;
     } catch (err) {
       logger.error({
-        level: "error",
         message: "cannot find user",
+        error: err,
+        __filename,
       });
       throw err;
     }
@@ -32,15 +34,15 @@ class BookingRepository {
           userId: userId,
         },
       });
-      logger.error({
-        level: "error",
+      logger.info({
         message: "Successfully searched for all booking details",
       });
       return bookingDetails;
     } catch (err) {
       logger.error({
-        level: "error",
-        message: `Error at booking repository /n ${err}`,
+        message: `Error at booking repository  ${err}`,
+        error: err,
+        __filename,
       });
       throw err;
     }
