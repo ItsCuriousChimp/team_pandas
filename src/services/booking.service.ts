@@ -18,7 +18,8 @@ class BookingService {
       throw new Error("Invalid userId");
     } catch (err) {
       logger.error({
-        level: "error",
+        error: err,
+        __filename,
         message: "Cannot search bookings for the user",
       });
       throw err;
