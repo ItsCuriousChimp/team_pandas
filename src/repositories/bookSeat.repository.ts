@@ -105,13 +105,11 @@ class BookSeatRepository {
   };
 
   addSeat = async (
-    insertData: [
-      {
-        bookingId: string;
-        showId: string;
-        seatId: string;
-      }
-    ]
+    insertData: {
+      bookingId: string;
+      showId: string;
+      seatId: string;
+    }[]
   ): Promise<void> => {
     try {
       const bookedSeat: Prisma.BatchPayload =

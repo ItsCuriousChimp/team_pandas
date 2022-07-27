@@ -2,7 +2,7 @@ import express, { Express, Response, Request, NextFunction } from "express";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 import bodyParser from "body-parser";
 import * as error from "./middleware/error.middleware";
-import { bookSeatRouter } from "./routes/bookSeat.route";
+import { showRouter } from "./routes/bookSeat.route";
 
 const PORT = 3000;
 
@@ -20,7 +20,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.get("/heartbeat", heartbeatController.getTimeStamp);
 
-app.use("/bookSeat", bookSeatRouter);
+app.use("/show", showRouter);
 
 // Error handler middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

@@ -3,13 +3,11 @@ class DataMapHelper {
     bookingId: string,
     showId: string,
     seatIds: string[],
-    insertData: [
-      {
-        bookingId: string;
-        showId: string;
-        seatId: string;
-      }
-    ]
+    insertData: {
+      bookingId: string;
+      showId: string;
+      seatId: string;
+    }[]
   ) => {
     seatIds.map((seatId: string) => {
       return insertData.push({

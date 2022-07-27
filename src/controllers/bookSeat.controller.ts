@@ -6,25 +6,23 @@ class BookSeatController {
   bookSeat = async (req: Request, res: Response) => {
     const userId: string = req.body.userId as string;
     const showId: string = req.body.showId as string;
-    const numberOfSeatsBooked: number = +(req.body
-      .numberOfSeatsBooked as string);
     const showDate: Date = new Date(req.body.showDate as string);
-    const seatIds: string[] = JSON.parse(req.body.seatIds);
+    const seatIds: string[] = req.body.seatIds;
     try {
       const bookSeatServiceResponse = await bookSeatService.bookingHandler(
         userId,
         showId,
-        numberOfSeatsBooked,
+        seatIds.length,
         showDate,
         seatIds
       );
-      res.status(200).send(bookSeatServiceResponse);
+      res.status(201).send(bookSeatServiceResponse);
     } catch (err) {
       logger.error({
         level: "error",
         message: `Cannot book seat`,
       });
-      res.status(404).send(err);
+      res.status(500).send(err);
     }
   };
 }

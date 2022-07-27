@@ -43,13 +43,11 @@ class BookSeatService {
 
   addSeat = async (
     bookingId: string,
-    insertData: [
-      {
-        bookingId: string;
-        showId: string;
-        seatId: string;
-      }
-    ]
+    insertData: {
+      bookingId: string;
+      showId: string;
+      seatId: string;
+    }[]
   ): Promise<void | { message: string }> => {
     try {
       if (await this.isBookingValid(bookingId))
@@ -84,20 +82,12 @@ class BookSeatService {
           showDate
         );
 
-        const insertData: [
-          {
-            bookingId: string;
-            showId: string;
-            seatId: string;
-          }
-        ] = [
-          {
-            bookingId: "",
-            showId: "",
-            seatId: "",
-          },
-        ];
-        insertData.pop();
+        const insertData: {
+          bookingId: string;
+          showId: string;
+          seatId: string;
+        }[] = [];
+        // insertData.pop();
         dataMapHelper.dataMap(bookingId, showId, seatIds, insertData);
 
         await this.addSeat(bookingId, insertData);

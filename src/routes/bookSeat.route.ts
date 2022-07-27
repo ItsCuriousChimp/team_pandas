@@ -6,7 +6,7 @@ import { bookSeatController } from "../controllers/bookSeat.controller";
 const router: Router = Router();
 
 router
-  .route("/")
+  .route("/bookSeat")
   .post([validate(bookSeatValidation), bookSeatController.bookSeat]);
 
-export { router as bookSeatRouter };
+export { router as showRouter };
