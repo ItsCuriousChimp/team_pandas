@@ -3,12 +3,12 @@
 import * as jwt from "jsonwebtoken";
 import logger from "../logger/logger";
 import { AccessTokenPayload } from "../../models/access-token.model";
-// import {AccessTokenResponsePayload} from "../../payloads/accessToken-response.payload"
+import { AccessTokenResponsePayload } from "../../payloads/accessToken-response.payload";
 class TokenHelper {
-  public getAccessToken = (AccessTokenPayload: AccessTokenPayload): string => {
+  public getAccessToken = (accessTokenPayload: AccessTokenPayload): string => {
     try {
       const secretKey: string = process.env.SECRET_KEY as string;
-      const token = jwt.sign({ AccessTokenPayload }, secretKey, {
+      const token = jwt.sign({ id: accessTokenPayload.id }, secretKey, {
         expiresIn: "30d",
       });
       logger.info({

@@ -16,7 +16,7 @@ export class AuthService {
   async createUser(query: signupDto): Promise<string | null> {
     const accountRepository = new AccountRepository(query.username);
     const isAccountExists = accountRepository.getAccount();
-    if (isAccountExists != null) {
+    if ((await isAccountExists) != null) {
       return null;
     }
     const passwordHash: string = await hashHelper.generateHash(query.password);
@@ -29,7 +29,7 @@ export class AuthService {
       accountId,
       userId
     );
-    const accessTokenPayload = new AccessTokenPayload(account.userId);
+    const accessTokenPayload = new AccessTokenPayload(userId);
     const token = tokenHelper.getAccessToken(accessTokenPayload);
     const addToken = async (token: string) => {
       try {
@@ -42,17 +42,9 @@ export class AuthService {
         throw err;
       }
     };
+    addToken(token);
 
     return token;
-  }
-  async logoutUser(token: string): Promise<boolean> {
-    const payload = tokenHelper.verifyAccessToken(token);
-    const resultdeletion = await redisClient.DEL(payload.id);
-    if (resultdeletion == 1) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }
 export const authService = new AuthService();

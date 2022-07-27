@@ -3,7 +3,7 @@ import { heartbeatController } from "./controllers/heartbeat.controller";
 import authRouter from "./routes/auth.route";
 import bodyParser from "body-parser";
 // import {redisconfig as redisClient} from "./common/helpers/init_redis";
-import * as error from "./middleware/error.middleware2";
+import * as error from "./middleware/error.middleware";
 
 const PORT = 3000;
 const app: Express = express();
@@ -26,8 +26,6 @@ app.get("/", (req: Request, res: Response) => {
 app.get("/heartbeat", heartbeatController.getTimeStamp);
 
 app.use("/auth", authRouter);
-
-// app.use("/updateUser")
 
 app.use(error.errorHandler);
 

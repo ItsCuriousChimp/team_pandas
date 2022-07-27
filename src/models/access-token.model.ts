@@ -1,6 +1,6 @@
 export class AccessTokenPayload {
-  id: string | null;
-  constructor(id: string | null) {
+  id: string;
+  constructor(id: string) {
     this.id = id;
   }
 }

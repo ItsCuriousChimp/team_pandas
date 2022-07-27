@@ -1,38 +1,68 @@
-// import express, { NextFunction, Response, Request } from "express";
-// import logger from "../common/logger/logger";
-// import { AppError } from "../common/utils/error";
+import { NextFunction, Response, Request } from "express";
+import { ValidationError } from "express-validation";
+import logger from "../common/logger/logger";
+import { AppError } from "../common/utils/error";
 
-//   // Error handling Middleware functions
+// export const handler =async (err:AppError,req:Request,res:Response) => {
+//     const response={
+//         message:err.message,
+//         status:err.statusCode,
+//         stack:err.stack,
+//     };
+//     res.status(err.statusCode);
+//     res.json(response);
+// };
 
-//   // Error handling Middleware function for logging the error message
-//   const errorLogger = (
-//     err: Error,
-//     req: Request,
-//     res: Response,
-//     next: NextFunction) => {
-//       console.log( `error ${err.message}`)
-//       next(err) // calling next middleware
-// }
+export const errorHandler = (
+  err: Error,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next: NextFunction
+) => {
+  if (err instanceof ValidationError) {
+    logger.error({
+      message: `${err.name}`,
+      error: err.details,
+      statusCode: err.statusCode,
+      __filename,
+    });
+    res.status(500).json(err);
+  } else if (err instanceof AppError) {
+    const response = {
+      name: err.name,
+      message: err.message,
+      status: err.statusCode,
+      // stack:err.stack,
+    };
 
-// // Error handling Middleware function reads the error message
-// // and sends back a response in JSON format
-// const errorResponder = (
-//   err: AppError,
-//   req: Request,
-//   res: Response,
-//   next: NextFunction) => {
-//       res.header("Content-Type", 'application/json')
+    logger.error({
+      message: err.message,
+      error: err,
+      name: err.name,
+      statusCode: err.statusCode,
+      __filename,
+    });
+    res.status(err.statusCode);
+    res.json(response);
+  } else {
+    const response = {
+      name: err.name,
+      message: err.message,
+      //   stack:err.stack,
+    };
 
-//       const status = err.statusCode || 400
-//       res.status(status).send(err.message)
-// }
+    logger.error({
+      message: err.message,
+      error: err,
+      __filename,
+      stack: err.stack,
+    });
+    res.status(500);
+    res.json(response);
+  }
+};
 
-// // Fallback Middleware function for returning
-// // 404 error for undefined paths
-// const invalidPathHandler = (
-// req: Request,
-// res: Response,
-// next: NextFunction) => {
-//   res.status(404)
-//   res.send('invalid path')
-// }
+// export async function converter(err:any,req:Request,res:Response,next:NextFunction){
+//     let convertedError = err;
+// };

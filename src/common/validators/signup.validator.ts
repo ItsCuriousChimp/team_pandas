@@ -8,7 +8,7 @@ export const signupValidation = {
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,256}$/
       )
       .required(),
-    confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
+    // confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
     email: Joi.string().email().required(),
     name: Joi.string()
       .pattern(/^[a-zA-Z]+$/, { name: "alphabets" })

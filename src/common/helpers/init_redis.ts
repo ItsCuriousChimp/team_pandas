@@ -1,4 +1,3 @@
-// import { RedisClientType } from "@redis/client";
 import * as redis from "redis";
 
 // class Redis {
@@ -88,3 +87,20 @@ export const redisClient = (function () {
   // await client.connect();
   return client;
 })();
+
+// class RedisHelper {
+//   redisClient: redis.RedisClientType;
+//   constructor(){
+//     this.redisClient = redis.createClient();
+//   }
+
+//   getToken(){
+
+//   }
+
+//   setToken(){
+
+//   }
+// }
+
+// export const redisHelper = new RedisHelper();
