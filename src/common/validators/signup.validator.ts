@@ -4,14 +4,16 @@ export const signupValidation = {
   body: Joi.object({
     username: Joi.string().alphanum().min(3).max(128).required(),
     password: Joi.string()
-      .regex(/[a-zA-Z0-9]{3,256}/)
+      .regex(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,256}$/
+      )
       .required(),
     confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
     email: Joi.string().email().required(),
     name: Joi.string()
       .pattern(/^[a-zA-Z]+$/, { name: "alphabets" })
       .required(),
-    phonenumber: Joi.string().min(5).max(32).required(),
+    phonenumber: Joi.string().min(5).max(32),
   }),
 };
 

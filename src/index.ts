@@ -1,12 +1,17 @@
 import express, { Express, Response, Request, NextFunction } from "express";
 import { heartbeatController } from "./controllers/heartbeat.controller";
-import { signupController } from "./controllers/signup.controller";
-import signupRouter from "./routes/signup.route";
+import authRouter from "./routes/auth.route";
 import bodyParser from "body-parser";
-// import * as error from "./middleware/error.middleware"
+// import {redisconfig as redisClient} from "./common/helpers/init_redis";
+import * as error from "./middleware/error.middleware2";
 
 const PORT = 3000;
 const app: Express = express();
+
+// (async () => {
+//   await redisClient().connect();
+//   return redisClient;
+// })();
 
 app.use(bodyParser.json());
 
@@ -20,13 +25,11 @@ app.get("/", (req: Request, res: Response) => {
 
 app.get("/heartbeat", heartbeatController.getTimeStamp);
 
-app.use("/signup", signupRouter);
+app.use("/auth", authRouter);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  next(err);
-});
+// app.use("/updateUser")
 
-// app.use(error.loginError);
+app.use(error.errorHandler);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console
