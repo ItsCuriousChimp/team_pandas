@@ -1,8 +1,12 @@
 import { theatreService } from "../services/theatre.service";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import logger from "../common/logger/logger";
 class TheatreController {
-  getTheatreAndShowTimeWithMovie = async (req: Request, res: Response) => {
+  getTheatreAndShowTimeWithMovie = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const theatreAndShowTimeWithMovieResponse =
         await theatreService.getTheatreAndShowTimeWithMovie(
@@ -10,14 +14,12 @@ class TheatreController {
           req.query.cityId as string
         );
       res.status(202).send(theatreAndShowTimeWithMovieResponse);
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       logger.error({
-        level: "error",
         message: "cannot check query",
       });
-      res
-        .status(404)
-        .send({ message: "Cannot get data from theatre repository" });
+      next(error);
     }
   };
 }

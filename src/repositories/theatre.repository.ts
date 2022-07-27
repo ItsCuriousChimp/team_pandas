@@ -10,31 +10,29 @@ class TheatreRespository {
   constructor() {
     this.prisma = new PrismaClient();
   }
-  isMovieValid = async (movieId: string): Promise<boolean> => {
+  getMovie = async (movieId: string): Promise<Movie | null> => {
     try {
       const movie: Movie | null = await this.prisma.movie.findUnique({
         where: {
           id: movieId,
         },
       });
-      if (movie) return true;
-      return false;
+      return movie;
     } catch (err) {
-      logger.error({ level: "error", message: "Cannot search for movie" });
+      logger.error({ message: "Cannot search for movie" });
       throw err;
     }
   };
-  isCityValid = async (cityId: string): Promise<boolean> => {
+  getCity = async (cityId: string): Promise<City | null> => {
     try {
       const city: City | null = await this.prisma.city.findUnique({
         where: {
           id: cityId,
         },
       });
-      if (city) return true;
-      return false;
+      return city;
     } catch (err) {
-      logger.error({ level: "error", message: "Cannot search for city" });
+      logger.error({ message: "Cannot search for city" });
       throw err;
     }
   };
@@ -53,12 +51,10 @@ class TheatreRespository {
 
       logger.info({
         message: `Successfully searched for theatres`,
-        level: "info",
       });
       return theatresWithShowTime;
     } catch (error) {
       logger.error({
-        level: "error",
         message: `Error found in theatreRepository - ${error}`,
       });
       throw error;
