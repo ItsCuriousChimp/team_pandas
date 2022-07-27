@@ -23,7 +23,6 @@ app.use("/movie", movieRouter);
 
 // Error handler middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.log(err.message);
   next(err);
 });
 

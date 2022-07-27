@@ -16,6 +16,8 @@ class MovieController {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       logger.error({
+        error: err,
+        __filename,
         message: `Cannot send movies playing in a city`,
       });
       next(err);
