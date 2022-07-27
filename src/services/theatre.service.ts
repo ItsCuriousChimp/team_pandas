@@ -14,6 +14,8 @@ class TheatreService {
       return isCityValid && isMovieValid ? true : false;
     } catch (err) {
       logger.error({
+        error: err,
+        __filename,
         message: "cannot check query",
       });
       throw err;
@@ -33,6 +35,8 @@ class TheatreService {
       throw new Error("Invalid id");
     } catch (err) {
       logger.error({
+        error: err,
+        __filename,
         message: "Cannot find theatres",
       });
       throw err;

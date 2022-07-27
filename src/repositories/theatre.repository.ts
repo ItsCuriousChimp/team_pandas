@@ -19,7 +19,11 @@ class TheatreRespository {
       });
       return movie;
     } catch (err) {
-      logger.error({ message: "Cannot search for movie" });
+      logger.error({
+        error: err,
+        __filename,
+        message: "Cannot search for movie",
+      });
       throw err;
     }
   };
@@ -32,7 +36,11 @@ class TheatreRespository {
       });
       return city;
     } catch (err) {
-      logger.error({ message: "Cannot search for city" });
+      logger.error({
+        error: err,
+        __filename,
+        message: "Cannot search for city",
+      });
       throw err;
     }
   };
@@ -55,7 +63,9 @@ class TheatreRespository {
       return theatresWithShowTime;
     } catch (error) {
       logger.error({
-        message: `Error found in theatreRepository - ${error}`,
+        error: error,
+        __filename,
+        message: `Error found in theatreRepository`,
       });
       throw error;
     }
