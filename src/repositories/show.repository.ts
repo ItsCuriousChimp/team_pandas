@@ -2,77 +2,83 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Booking } from "../models/booking.model";
 import logger from "../common/logger/logger";
+import { User } from "../models/user.model";
+import { Show } from "../models/show.model";
+import { Seat } from "../models/seat.model";
 
-class BookSeatRepository {
+class ShowRepository {
   prisma: PrismaClient;
 
   constructor() {
     this.prisma = new PrismaClient();
   }
 
-  isUserValid = async (userId: string): Promise<boolean> => {
+  getUser = async (userId: string): Promise<User | null> => {
     try {
-      const user = await this.prisma.user.findUnique({
+      const user: User | null = await this.prisma.user.findUnique({
         where: {
           id: userId,
         },
       });
-      return user ? true : false;
+      return user;
     } catch (err) {
       logger.error({
-        level: "error",
         message: "cannot find user",
+        error: err,
+        __filename,
       });
       throw err;
     }
   };
 
-  isShowValid = async (showId: string): Promise<boolean> => {
+  getShow = async (showId: string): Promise<Show | null> => {
     try {
-      const show = await this.prisma.show.findUnique({
+      const show: Show | null = await this.prisma.show.findUnique({
         where: {
           id: showId,
         },
       });
-      return show ? true : false;
+      return show;
     } catch (err) {
       logger.error({
-        level: "error",
         message: "cannot find show",
+        error: err,
+        __filename,
       });
       throw err;
     }
   };
 
-  isBookingValid = async (bookingId: string): Promise<boolean> => {
+  getBooking = async (bookingId: string): Promise<Booking | null> => {
     try {
-      const booking = await this.prisma.booking.findUnique({
+      const booking: Booking | null = await this.prisma.booking.findUnique({
         where: {
           id: bookingId,
         },
       });
-      return booking ? true : false;
+      return booking;
     } catch (err) {
       logger.error({
-        level: "error",
+        error: err,
+        __filename,
         message: "cannot find user's bookings",
       });
       throw err;
     }
   };
 
-  isSeatValid = async (seatIds: string[]): Promise<boolean> => {
+  getSeats = async (seatIds: string[]): Promise<Seat[]> => {
     try {
-      const seat = await this.prisma.seat.findMany({
+      const seats: Seat[] = await this.prisma.seat.findMany({
         where: {
           id: { in: seatIds },
         },
       });
-      console.log(seat);
-      return seat.length === seatIds.length ? true : false;
+      return seats;
     } catch (err) {
       logger.error({
-        level: "error",
+        error: err,
+        __filename,
         message: "No such seat available",
       });
       throw err;
@@ -97,8 +103,9 @@ class BookSeatRepository {
       return booking.id;
     } catch (err) {
       logger.error({
-        level: "error",
-        message: `Booking failed!!! ${err}`,
+        error: err,
+        __filename,
+        message: `Booking failed!!!`,
       });
       throw err;
     }
@@ -118,12 +125,13 @@ class BookSeatRepository {
         });
     } catch (err) {
       logger.error({
-        level: "error",
-        message: `Cannot update the booked seat!!! ${err}`,
+        error: err,
+        __filename,
+        message: `Cannot update the booked seat!!!`,
       });
       throw err;
     }
   };
 }
 
-export const bookSeatRepository = new BookSeatRepository();
+export const showRepository = new ShowRepository();

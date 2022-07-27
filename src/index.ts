@@ -24,11 +24,10 @@ app.use("/show", showRouter);
 
 // Error handler middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.log(err.message);
   next(err);
 });
 
-app.use(error.bookSeatError);
+app.use(error.errorHandler);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console

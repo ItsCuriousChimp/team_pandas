@@ -1,9 +1,9 @@
 import { bookSeatService } from "../services/bookSeat.service";
 import logger from "../common/logger/logger";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
-class BookSeatController {
-  bookSeat = async (req: Request, res: Response) => {
+class ShowController {
+  bookSeat = async (req: Request, res: Response, next: NextFunction) => {
     const userId: string = req.body.userId as string;
     const showId: string = req.body.showId as string;
     const showDate: Date = new Date(req.body.showDate as string);
@@ -22,9 +22,9 @@ class BookSeatController {
         level: "error",
         message: `Cannot book seat`,
       });
-      res.status(500).send(err);
+      next(err);
     }
   };
 }
 
-export const bookSeatController = new BookSeatController();
+export const showController = new ShowController();

@@ -1,22 +1,25 @@
-import { bookSeatRepository } from "../repositories/bookSeat.repository";
+import { showRepository } from "../repositories/show.repository";
 import logger from "../common/logger/logger";
 import { dataMapHelper } from "../common/helpers/dataMap.helper";
+import { Seat } from "../models/seat.model";
+import { dataDTO } from "../common/customTypes/insertData.type";
 
 class BookSeatService {
   isUserValid = async (userId: string): Promise<boolean> => {
-    return await bookSeatRepository.isUserValid(userId);
+    return (await showRepository.getUser(userId)) ? true : false;
   };
 
   isBookingValid = async (bookingId: string): Promise<boolean> => {
-    return await bookSeatRepository.isBookingValid(bookingId);
+    return (await showRepository.getBooking(bookingId)) ? true : false;
   };
 
   isSeatValid = async (seatIds: string[]): Promise<boolean> => {
-    return await bookSeatRepository.isSeatValid(seatIds);
+    const seats: Seat[] = await showRepository.getSeats(seatIds);
+    return seats.length === seatIds.length ? true : false;
   };
 
   isShowValid = async (showId: string): Promise<boolean> => {
-    return await bookSeatRepository.isShowValid(showId);
+    return (await showRepository.getShow(showId)) ? true : false;
   };
 
   addBooking = async (
@@ -26,7 +29,7 @@ class BookSeatService {
     showDate: Date
   ): Promise<string> => {
     try {
-      return await bookSeatRepository.addBooking(
+      return await showRepository.addBooking(
         userId,
         showId,
         numberOfSeatsBooked,
@@ -34,28 +37,23 @@ class BookSeatService {
       );
     } catch (err) {
       logger.error({
-        level: "error",
+        error: err,
+        __filename,
         message: `Booking failed`,
       });
       throw err;
     }
   };
 
-  addSeat = async (
-    bookingId: string,
-    insertData: {
-      bookingId: string;
-      showId: string;
-      seatId: string;
-    }[]
-  ): Promise<void | { message: string }> => {
+  addSeat = async (bookingId: string, insertData: dataDTO[]): Promise<void> => {
     try {
       if (await this.isBookingValid(bookingId))
-        await bookSeatRepository.addSeat(insertData);
-      else return { message: "Cannot update seat(s)." };
+        await showRepository.addSeat(insertData);
+      else throw new Error("Invalid Booking Id");
     } catch (err) {
       logger.error({
-        level: "error",
+        error: err,
+        __filename,
         message: `Seat cannot be booked`,
       });
       throw err;
@@ -68,7 +66,7 @@ class BookSeatService {
     numberOfSeatsBooked: number,
     showDate: Date,
     seatIds: string[]
-  ) => {
+  ): Promise<{ message: string }> => {
     try {
       if (
         (await this.isShowValid(showId)) &&
@@ -82,12 +80,7 @@ class BookSeatService {
           showDate
         );
 
-        const insertData: {
-          bookingId: string;
-          showId: string;
-          seatId: string;
-        }[] = [];
-        // insertData.pop();
+        const insertData: dataDTO[] = [];
         dataMapHelper.dataMap(bookingId, showId, seatIds, insertData);
 
         await this.addSeat(bookingId, insertData);
@@ -98,7 +91,8 @@ class BookSeatService {
       }
     } catch (err) {
       logger.error({
-        level: "error",
+        error: err,
+        __filename,
         message: `Booking handler failed to book tickets ${err}`,
       });
       throw err;

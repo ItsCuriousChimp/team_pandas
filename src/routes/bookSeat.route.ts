@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { validate } from "express-validation";
 import { bookSeatValidation } from "../common/validators/bookSeat.validator";
-import { bookSeatController } from "../controllers/bookSeat.controller";
+import { showController } from "../controllers/show.controller";
 
 const router: Router = Router();
 
 router
   .route("/bookSeat")
-  .post([validate(bookSeatValidation), bookSeatController.bookSeat]);
+  .post([validate(bookSeatValidation), showController.bookSeat]);
 
 export { router as showRouter };
