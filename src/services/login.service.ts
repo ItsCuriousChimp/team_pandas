@@ -24,6 +24,7 @@ class AuthService {
         error: err,
         message: "Invalid credentials",
         status: err.statusCode,
+        __filename,
       });
       throw err;
     }

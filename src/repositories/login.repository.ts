@@ -26,8 +26,9 @@ class AuthRepository {
       return accounts;
     } catch (err) {
       logger.error({
-        level: "error",
-        message: `Error in validating user's account ${err}`,
+        error: err,
+        __filename,
+        message: `Error in validating user's account`,
       });
       throw err;
     }
@@ -45,7 +46,9 @@ class AuthRepository {
       });
     } catch (err) {
       logger.error({
-        message: `Error at updating user's last login ${err}`,
+        error: err,
+        __filename,
+        message: `Error at updating user's last login`,
       });
       throw err;
     }
