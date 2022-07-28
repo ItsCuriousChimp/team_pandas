@@ -2,16 +2,10 @@ import express, { Express, Response, Request, NextFunction } from "express";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 import authRouter from "./routes/auth.route";
 import bodyParser from "body-parser";
-// import {redisconfig as redisClient} from "./common/helpers/init_redis";
 import * as error from "./middleware/error.middleware";
 
 const PORT = 3000;
 const app: Express = express();
-
-// (async () => {
-//   await redisClient().connect();
-//   return redisClient;
-// })();
 
 app.use(bodyParser.json());
 

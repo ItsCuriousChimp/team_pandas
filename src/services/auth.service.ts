@@ -5,13 +5,13 @@ import { Account } from "../models/account.model";
 import { hashHelper } from "../common/helpers/hash.helper";
 import { tokenHelper } from "../common/helpers/token.helper";
 import { AccessTokenPayload } from "../models/access-token.model";
-import { redisClient } from "../common/helpers/init_redis";
+import { redisHelper } from "../common/helpers/redis.helper";
 import logger from "../common/logger/logger";
 
-(async () => {
-  await redisClient.connect();
-  return redisClient;
-})();
+// (async () => {
+//   await redisHelper.getConnection().connect();
+//   return redisHelper.getConnection();
+// })();
 
 export class AuthService {
   storeToken = async (token: string, userId: string): Promise<void> => {
@@ -22,9 +22,9 @@ export class AuthService {
         __filename,
         "storeToken"
       );
-      await redisClient.SET(userId, token); // set the JWT as the key and its value as valid
+      await redisHelper.setToken(userId, token); // set the JWT as the key and its value as valid
       const payload = tokenHelper.verifyAccessToken(token); // verifies and decode the jwt to get the expiration date
-      await redisClient.EXPIREAT(userId, +payload.exp); // sets the token expiration date to be removed from the cache
+      await redisHelper.setExpireAt(userId, +payload.exp); // sets the token expiration date to be removed from the cache
       logger.info(
         "token storing successful",
         { token, userId },
