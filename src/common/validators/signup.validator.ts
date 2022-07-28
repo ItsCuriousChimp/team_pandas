@@ -1,13 +1,10 @@
 import Joi from "joi";
+import { passwordRegex } from "../constants/constants";
 
 export const signupValidation = {
   body: Joi.object({
     username: Joi.string().alphanum().min(3).max(128).required(),
-    password: Joi.string()
-      .regex(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,256}$/
-      )
-      .required(),
+    password: Joi.string().regex(passwordRegex).required(),
     // confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
     email: Joi.string().email().required(),
     name: Joi.string()
