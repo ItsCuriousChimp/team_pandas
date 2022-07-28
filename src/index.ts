@@ -18,7 +18,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.get("/heartbeat", heartbeatController.getTimeStamp);
 //theatre routes
-app.use("/theatres", theatreRoutes);
+app.use("/theatre", theatreRoutes);
 
 app.use(error.errorHandler);
 

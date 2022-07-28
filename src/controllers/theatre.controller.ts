@@ -8,13 +8,12 @@ class TheatreController {
       logger.info(
         "get availability status of shows in a theatre playing a movie",
         {
-          params: { ...req.params },
           queries: { ...req.query },
           __filename,
           functionName: "getShowsWithStatus",
         }
       );
-      const theatreId: string = req.params.theatreId;
+      const theatreId: string = req.query.theatreId as string;
       const movieId: string = req.query.movieId as string;
       const showModels = await theatreService.getShowsWithStatus(
         theatreId,
@@ -53,5 +52,4 @@ class TheatreController {
     }
   };
 }
-const theatreController = new TheatreController();
-export default theatreController;
+export const theatreController = new TheatreController();

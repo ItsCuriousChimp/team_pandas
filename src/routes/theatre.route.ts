@@ -1,4 +1,4 @@
-import TheatreControllerInstance from "../controllers/theatre.controller";
+import { theatreController } from "../controllers/theatre.controller";
 import { Router } from "express";
 import { authorize } from "../middleware/auth.middleware";
 import { validate } from "express-validation";
@@ -9,20 +9,20 @@ const router = Router();
 // view availability status of each show for a particular theatre and movie
 
 router
-  .route("/:theatreId/show")
+  .route("/show")
   .get([
     authorize,
     validate(showValidation),
-    TheatreControllerInstance.getMovieShows,
+    theatreController.getShowsWithStatus,
   ]);
 
 // view availabile seats of a particular showTime
 router
-  .route("/:theatreId/show/seat")
+  .route("/show/seat")
   .get([
     authorize,
     validate(seatValidation),
-    TheatreControllerInstance.getAvailableSeatsOfShow,
+    theatreController.getAvailableSeatsOfShow,
   ]);
 
 export default router;
