@@ -3,10 +3,36 @@ import { DateTimeHelper } from "../common/helpers/dateTime.helper";
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
 
-class TheatreRepository {
+class ShowRepository {
   prisma: PrismaClient;
   constructor() {
     this.prisma = new PrismaClient();
+  }
+
+  async getShow(showId: string): Promise<Show | null> {
+    try {
+      logger.info("get show", {
+        showId,
+        __filename,
+        functionName: "getShow",
+      });
+
+      const show = await this.prisma.show.findUnique({
+        where: {
+          id: showId,
+        },
+      });
+
+      logger.info("fetching show successful", {
+        __filename,
+        functionName: "getShow",
+      });
+
+      return show;
+    } catch (err) {
+      console.log("unable to fetch show");
+      throw err;
+    }
   }
 
   async getShowsOfTheatreAndMovie(
@@ -86,4 +112,4 @@ class TheatreRepository {
     }
   }
 }
-export const theatreRepository = new TheatreRepository();
+export const showRepository = new ShowRepository();

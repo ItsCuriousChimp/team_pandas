@@ -2,7 +2,7 @@ import { Seat } from "../models/seat.model";
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
 
-class ShowRepository {
+class SeatRepository {
   prisma: PrismaClient;
   constructor() {
     this.prisma = new PrismaClient();
@@ -53,4 +53,4 @@ class ShowRepository {
     }
   }
 }
-export const showRepository = new ShowRepository();
+export const seatRepository = new SeatRepository();
