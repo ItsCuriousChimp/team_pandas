@@ -7,7 +7,7 @@ class SeatRepository {
   constructor() {
     this.prisma = new PrismaClient();
   }
-  async getAvailableSeatsOfShow(showId: string): Promise<Seat[]> {
+  getAvailableSeatsOfShow = async (showId: string): Promise<Seat[]> => {
     try {
       logger.info("get screen id of show", {
         showId,
@@ -51,6 +51,6 @@ class SeatRepository {
       console.log("unable to fetch seats from DB");
       throw err;
     }
-  }
+  };
 }
 export const seatRepository = new SeatRepository();

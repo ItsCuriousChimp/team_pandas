@@ -7,7 +7,7 @@ class MovieRepository {
   constructor() {
     this.prisma = new PrismaClient();
   }
-  async getMovie(movieId: string): Promise<Movie | null> {
+  getMovie = async (movieId: string): Promise<Movie | null> => {
     try {
       logger.info("get Movie", {
         movieId,
@@ -31,6 +31,6 @@ class MovieRepository {
       console.log("unable to fetch movie");
       throw err;
     }
-  }
+  };
 }
 export const movieRepository = new MovieRepository();

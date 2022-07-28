@@ -7,7 +7,7 @@ class TheatreRepository {
   constructor() {
     this.prisma = new PrismaClient();
   }
-  async getTheatre(theatreId: string): Promise<Theatre | null> {
+  getTheatre = async (theatreId: string): Promise<Theatre | null> => {
     try {
       logger.info("get theatre", {
         theatreId,
@@ -31,6 +31,6 @@ class TheatreRepository {
       console.log("unable to fetch theatre");
       throw err;
     }
-  }
+  };
 }
 export const theatreRepository = new TheatreRepository();

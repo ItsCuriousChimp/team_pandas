@@ -9,7 +9,7 @@ class ShowRepository {
     this.prisma = new PrismaClient();
   }
 
-  async getShow(showId: string): Promise<Show | null> {
+  getShow = async (showId: string): Promise<Show | null> => {
     try {
       logger.info("get show", {
         showId,
@@ -33,12 +33,12 @@ class ShowRepository {
       console.log("unable to fetch show");
       throw err;
     }
-  }
+  };
 
-  async getShowsOfTheatreAndMovie(
+  getShowsOfTheatreAndMovie = async (
     theatreId: string,
     movieId: string
-  ): Promise<Show[]> {
+  ): Promise<Show[]> => {
     try {
       logger.info("fetching shows with movie id and theatre id from DB", {
         theatreId,
@@ -110,6 +110,6 @@ class ShowRepository {
       console.log("unable to fetch shows from DB");
       throw err;
     }
-  }
+  };
 }
 export const showRepository = new ShowRepository();

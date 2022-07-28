@@ -64,10 +64,10 @@ class TheatreService {
     }
   };
 
-  async getShowsWithStatus(
+  getShowsWithStatus = async (
     theatreId: string,
     movieId: string
-  ): Promise<Show[]> {
+  ): Promise<Show[]> => {
     try {
       logger.info("get shows with status", {
         theatreId,
@@ -107,9 +107,9 @@ class TheatreService {
       console.log("unable to get shows");
       throw err;
     }
-  }
+  };
 
-  async getAvailableSeatsOfShow(showId: string): Promise<Seat[]> {
+  getAvailableSeatsOfShow = async (showId: string): Promise<Seat[]> => {
     try {
       logger.info("get available seats of show", {
         showId,
@@ -131,6 +131,6 @@ class TheatreService {
       console.log("unable to get available seats");
       throw err;
     }
-  }
+  };
 }
 export const theatreService = new TheatreService();
