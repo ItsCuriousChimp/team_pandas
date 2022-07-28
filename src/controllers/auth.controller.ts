@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { authService } from "../services/auth.service";
-import { signupDto } from "../common/customTypes/signup.type";
 import logger from "../common/logger/logger";
 
 class AuthController {
   public async registerUser(req: Request, res: Response, next: NextFunction) {
     try {
       logger.info("register user", { ...req.body }, __filename, "registerUser");
-      const signupDto = { ...req.body };
-      const token: string | null = await authService.registerUser(signupDto);
+      const token: string | null = await authService.registerUser({
+        ...req.body,
+      });
       logger.info(
         "user sucessfully registered",
         { status: 200 },

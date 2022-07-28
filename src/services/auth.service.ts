@@ -52,7 +52,6 @@ export class AuthService {
       const accountId: string = await accountRepository.createAccount(
         passwordHash
       );
-      //need to filter out query so that only required fields are sent
       const userId: string = await userRepository.createUser(query);
       const account: Account = await accountRepository.updateAccountWithUserId(
         accountId,

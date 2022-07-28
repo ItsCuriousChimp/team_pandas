@@ -21,6 +21,7 @@ class UserRepository {
         data: {
           name: query.name,
           email: query.email,
+          phoneNumber: query.phonenumber,
           loggedInAtUTC: new Date(),
         },
       });
