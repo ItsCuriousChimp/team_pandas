@@ -3,7 +3,11 @@ import { heartbeatController } from "./controllers/heartbeat.controller";
 import authRouter from "./routes/auth.route";
 import bodyParser from "body-parser";
 import * as error from "./middleware/error.middleware";
-import { authorize } from "./middleware/auth.middleware";
+import path from "path";
+import * as dotenv from "dotenv";
+dotenv.config({
+  path: path.join(process.cwd(), ".env"),
+});
 
 const PORT = 3000;
 const app: Express = express();

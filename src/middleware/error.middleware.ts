@@ -19,6 +19,7 @@ export const errorHandler = (
       __filename,
     });
     res.status(500).json(err);
+    res.end();
   } else if (err instanceof AppError) {
     const response = {
       name: err.name,
@@ -36,6 +37,7 @@ export const errorHandler = (
     });
     res.status(err.statusCode);
     res.json(response);
+    res.end();
   } else {
     const response = {
       name: err.name,
@@ -51,5 +53,6 @@ export const errorHandler = (
     });
     res.status(500);
     res.json(response);
+    res.end();
   }
 };
