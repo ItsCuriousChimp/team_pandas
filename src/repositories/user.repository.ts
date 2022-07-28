@@ -11,12 +11,11 @@ class UserRepository {
 
   async createUser(query: signupDto): Promise<string> {
     try {
-      logger.info(
-        "create user in user table",
-        { query },
+      logger.info("create user in user table", {
+        query,
         __filename,
-        "createUser"
-      );
+        functionName: "createUser",
+      });
       const user = await this.prisma.user.create({
         data: {
           name: query.name,
@@ -25,12 +24,11 @@ class UserRepository {
           loggedInAtUTC: new Date(),
         },
       });
-      logger.info(
-        "creation of user in user table successful",
-        { query },
+      logger.info("creation of user in user table successful", {
+        id: user.id,
         __filename,
-        "createUser"
-      );
+        functionName: "createUser",
+      });
       return user.id;
     } catch (err) {
       console.log("error in creating user");

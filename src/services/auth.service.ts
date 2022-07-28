@@ -11,21 +11,19 @@ import logger from "../common/logger/logger";
 export class AuthService {
   storeToken = async (token: string, userId: string): Promise<void> => {
     try {
-      logger.info(
-        "store token in redis",
-        { token, userId },
+      logger.info("store token in redis", {
+        userId,
         __filename,
-        "storeToken"
-      );
+        functionName: "storeToken",
+      });
       await redisHelper.setToken(userId, token); // set the JWT as the key and its value as valid
       const payload = tokenHelper.verifyAccessToken(token); // verifies and decode the jwt to get the expiration date
       await redisHelper.setExpireAt(userId, +payload.exp); // sets the token expiration date to be removed from the cache
-      logger.info(
-        "token storing successful",
-        { token, userId },
+      logger.info("token storing successful", {
+        userId,
         __filename,
-        "storeToken"
-      );
+        functionName: "storeToken",
+      });
     } catch (err) {
       throw new Error("could not set token in redis");
     }
@@ -33,7 +31,11 @@ export class AuthService {
 
   registerUser = async (query: signupDto): Promise<string | null> => {
     try {
-      logger.info("register user", { query }, __filename, "registerUser");
+      logger.info("register user", {
+        query,
+        __filename,
+        functionName: "registerUser",
+      });
       const accountRepository = new AccountRepository(query.username);
       const isAccountinDB = accountRepository.getAccount();
       if ((await isAccountinDB) != null) {
@@ -58,12 +60,11 @@ export class AuthService {
       const token = tokenHelper.getAccessToken(accessTokenPayload);
 
       await this.storeToken(token, userId);
-      logger.info(
-        "register user successful",
-        { userId },
+      logger.info("register user successful", {
+        userId,
         __filename,
-        "registerUser"
-      );
+        functionName: "registerUser",
+      });
       return token;
     } catch (err) {
       console.log("error in registering user");
