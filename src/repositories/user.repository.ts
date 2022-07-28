@@ -1,6 +1,7 @@
 import { User } from "../models/user.model";
 import { PrismaClient } from "@prisma/client";
 import { signupDto } from "../common/customTypes/signup.type";
+import logger from "../common/logger/logger";
 
 class UserRepository {
   prisma: PrismaClient;
@@ -9,14 +10,31 @@ class UserRepository {
   }
 
   async createUser(query: signupDto): Promise<string> {
-    const user = await this.prisma.user.create({
-      data: {
-        name: query.name,
-        email: query.email,
-        loggedInAtUTC: new Date(),
-      },
-    });
-    return user.id;
+    try {
+      logger.info(
+        "create user in user table",
+        { query },
+        __filename,
+        "createUser"
+      );
+      const user = await this.prisma.user.create({
+        data: {
+          name: query.name,
+          email: query.email,
+          loggedInAtUTC: new Date(),
+        },
+      });
+      logger.info(
+        "creation of user in user table successful",
+        { query },
+        __filename,
+        "createUser"
+      );
+      return user.id;
+    } catch (err) {
+      console.log("error in creating user");
+      throw err;
+    }
   }
 }
 export const userRepository = new UserRepository();

@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import logger from "../common/logger/logger";
 import { Account } from "../models/account.model";
 
 export class AccountRepository {
@@ -9,38 +10,91 @@ export class AccountRepository {
     this.prisma = new PrismaClient();
   }
   async getAccount(): Promise<string | null> {
-    const accountIdJson = await this.prisma.account.findFirst({
-      where: {
-        username: this.username,
-      },
-      select: {
-        id: true,
-      },
-    });
-    return accountIdJson?.id as string;
+    try {
+      logger.info(
+        "get account",
+        { username: this.username },
+        __filename,
+        "getAccount"
+      );
+      const accountIdJson = await this.prisma.account.findFirst({
+        where: {
+          username: this.username,
+        },
+        select: {
+          id: true,
+        },
+      });
+      const accountId: string = accountIdJson?.id as string;
+      logger.info(
+        "get account from DB successful",
+        { accountId },
+        __filename,
+        "getAccount"
+      );
+      return accountId;
+    } catch (err) {
+      console.log("error in fetching account");
+      throw err;
+    }
   }
-  async CreateAccount(password: string): Promise<string> {
-    const account = await this.prisma.account.create({
-      data: {
-        username: this.username,
-        passwordHash: password,
-      },
-    });
-    return account?.id as string;
+  async createAccount(password: string): Promise<string> {
+    try {
+      logger.info(
+        "create account",
+        { username: this.username },
+        __filename,
+        "CreateAccount"
+      );
+      const account = await this.prisma.account.create({
+        data: {
+          username: this.username,
+          passwordHash: password,
+        },
+      });
+      const accountId: string = account?.id as string;
+      logger.info(
+        "account creation successful",
+        { accountId },
+        __filename,
+        "CreateAccount"
+      );
+      return accountId;
+    } catch (err) {
+      console.log("error in creating account");
+      throw err;
+    }
   }
 
   async updateAccountWithUserId(
     accountId: string,
-    userIdinput: string
+    userId: string
   ): Promise<Account> {
-    const updateAccount: Account = await this.prisma.account.update({
-      where: {
-        id: accountId,
-      },
-      data: {
-        userId: userIdinput,
-      },
-    });
-    return updateAccount;
+    try {
+      logger.info(
+        "update account table with user Id",
+        { accountId, userId },
+        __filename,
+        "updateAccountWithUserId"
+      );
+      const updateAccount: Account = await this.prisma.account.update({
+        where: {
+          id: accountId,
+        },
+        data: {
+          userId,
+        },
+      });
+      logger.info(
+        "updation successful",
+        { accountId },
+        __filename,
+        "updateAccountWithUserId"
+      );
+      return updateAccount;
+    } catch (err) {
+      console.log("error in updating account with userId");
+      throw err;
+    }
   }
 }

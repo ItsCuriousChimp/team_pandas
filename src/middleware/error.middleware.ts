@@ -3,16 +3,6 @@ import { ValidationError } from "express-validation";
 import logger from "../common/logger/logger";
 import { AppError } from "../common/utils/error";
 
-// export const handler =async (err:AppError,req:Request,res:Response) => {
-//     const response={
-//         message:err.message,
-//         status:err.statusCode,
-//         stack:err.stack,
-//     };
-//     res.status(err.statusCode);
-//     res.json(response);
-// };
-
 export const errorHandler = (
   err: Error,
   req: Request,
@@ -22,7 +12,8 @@ export const errorHandler = (
 ) => {
   if (err instanceof ValidationError) {
     logger.error({
-      message: `${err.name}`,
+      name: err.name,
+      message: err.message,
       error: err.details,
       statusCode: err.statusCode,
       __filename,
@@ -62,7 +53,3 @@ export const errorHandler = (
     res.json(response);
   }
 };
-
-// export async function converter(err:any,req:Request,res:Response,next:NextFunction){
-//     let convertedError = err;
-// };
