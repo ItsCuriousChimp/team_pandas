@@ -1,5 +1,5 @@
-import { theatreRepository } from "../repositories/theatre.repository";
-import { showRepository } from "../repositories/show.repository";
+import { theatreRepository } from "../repositories/show.repository";
+import { showRepository } from "../repositories/seat.repository";
 import { Show } from "../models/show.model";
 import { Seat } from "../models/seat.model";
 import logger from "../common/logger/logger";
