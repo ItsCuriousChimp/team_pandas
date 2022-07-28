@@ -9,7 +9,7 @@ export class AccountRepository {
     this.username = username;
     this.prisma = new PrismaClient();
   }
-  async getAccount(): Promise<string | null> {
+  getAccount = async (): Promise<string | null> => {
     try {
       logger.info("get account", {
         username: this.username,
@@ -35,8 +35,8 @@ export class AccountRepository {
       console.log("error in fetching account");
       throw err;
     }
-  }
-  async createAccount(password: string): Promise<string> {
+  };
+  createAccount = async (password: string): Promise<string> => {
     try {
       logger.info("create account", {
         username: this.username,
@@ -60,12 +60,12 @@ export class AccountRepository {
       console.log("error in creating account");
       throw err;
     }
-  }
+  };
 
-  async updateAccountWithUserId(
+  updateAccountWithUserId = async (
     accountId: string,
     userId: string
-  ): Promise<Account> {
+  ): Promise<Account> => {
     try {
       logger.info("update account table with user Id", {
         accountId,
@@ -91,5 +91,5 @@ export class AccountRepository {
       console.log("error in updating account with userId");
       throw err;
     }
-  }
+  };
 }

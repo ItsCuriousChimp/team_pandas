@@ -3,7 +3,7 @@ import { authService } from "../services/auth.service";
 import logger from "../common/logger/logger";
 
 class AuthController {
-  public async registerUser(req: Request, res: Response, next: NextFunction) {
+  registerUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       logger.info("register user", {
         ...req.body,
@@ -22,6 +22,6 @@ class AuthController {
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
 export const authController = new AuthController();
