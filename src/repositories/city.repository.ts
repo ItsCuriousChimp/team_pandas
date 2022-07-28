@@ -7,7 +7,7 @@ export class CityRepository {
   constructor() {
     this.prisma = new PrismaClient();
   }
-  async getAllCities(): Promise<City[]> {
+  getAllCities = async (): Promise<City[]> => {
     try {
       logger.info("get all cities", {
         __filename,
@@ -23,6 +23,6 @@ export class CityRepository {
       console.log("could not fetch cities from DB");
       throw err;
     }
-  }
+  };
 }
 export const cityRepository = new CityRepository();

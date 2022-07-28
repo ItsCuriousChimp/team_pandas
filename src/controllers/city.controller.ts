@@ -1,9 +1,9 @@
 import { cityService } from "../services/city.service";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import logger from "../common/logger/logger";
 
 class CityController {
-  getAllCities = async (req: Request, res: Response) => {
+  getAllCities = async (req: Request, res: Response, next: NextFunction) => {
     try {
       logger.info("get all cities", {
         __filename,
@@ -17,7 +17,7 @@ class CityController {
       res.send(cities);
     } catch (err) {
       console.log("could not fetch cities");
-      throw err;
+      next(err);
     }
   };
 }

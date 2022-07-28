@@ -3,7 +3,7 @@ import { cityRepository } from "../repositories/city.repository";
 import { City } from "../models/city.model";
 import logger from "../common/logger/logger";
 export class CityService {
-  async getAllCities(): Promise<City[]> {
+  getAllCities = async (): Promise<City[]> => {
     try {
       logger.info("get all cities", {
         __filename,
@@ -19,6 +19,6 @@ export class CityService {
       console.log("could not fetch cities");
       throw err;
     }
-  }
+  };
 }
 export const cityService = new CityService();
