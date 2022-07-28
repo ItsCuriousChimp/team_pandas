@@ -13,7 +13,3 @@ export const signupValidation = {
     phonenumber: Joi.string().min(5).max(32),
   }),
 };
-
-// using middle ware for joi error handling left
-//https://www.digitalocean.com/community/tutorials/how-to-use-joi-for-node-api-schema-validation
-//https://www.bacancytechnology.com/blog/joi-validation-in-nodejs-and-express

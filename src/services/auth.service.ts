@@ -8,11 +8,6 @@ import { AccessTokenPayload } from "../models/access-token.model";
 import { redisHelper } from "../common/helpers/redis.helper";
 import logger from "../common/logger/logger";
 
-// (async () => {
-//   await redisHelper.getConnection().connect();
-//   return redisHelper.getConnection();
-// })();
-
 export class AuthService {
   storeToken = async (token: string, userId: string): Promise<void> => {
     try {
