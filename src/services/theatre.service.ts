@@ -29,14 +29,14 @@ class TheatreService {
   };
   isTheatreValid = async (id: string): Promise<boolean> => {
     try {
-      logger.info("is movie Id valid", {
+      logger.info("is theatre Id valid", {
         theatreeId: id,
         __filename,
-        functionName: "isMovieValid",
+        functionName: "isTheatreValid",
       });
       const getTheatre: Theatre | null = await theatreRepository.getTheatre(id);
       if ((await getTheatre) == null) {
-        throw new Error("Movie id incorrect");
+        throw new Error("Theatre id incorrect");
       } else {
         return true;
       }
@@ -47,10 +47,10 @@ class TheatreService {
   };
   isShowValid = async (id: string): Promise<boolean> => {
     try {
-      logger.info("is movie Id valid", {
+      logger.info("is show Id valid", {
         showId: id,
         __filename,
-        functionName: "isMovieValid",
+        functionName: "isShowValid",
       });
       const getShow: Show | null = await showRepository.getShow(id);
       if ((await getShow) == null) {

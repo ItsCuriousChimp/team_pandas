@@ -1,9 +1,13 @@
 import { theatreService } from "../services/theatre.service";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import logger from "../common/logger/logger";
 
 class TheatreController {
-  getShowsWithStatus = async (req: Request, res: Response) => {
+  getShowsWithStatus = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       logger.info(
         "get availability status of shows in a theatre playing a movie",
@@ -27,10 +31,14 @@ class TheatreController {
       res.send(showModels);
     } catch (err) {
       console.log("unable to get shows");
-      throw err;
+      next(err);
     }
   };
-  getAvailableSeatsOfShow = async (req: Request, res: Response) => {
+  getAvailableSeatsOfShow = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       logger.info("get available seats of a show", {
         queries: { ...req.query },
@@ -48,7 +56,7 @@ class TheatreController {
       res.send(seatModels);
     } catch (err) {
       console.log("unable to get available seats");
-      throw err;
+      next(err);
     }
   };
 }
