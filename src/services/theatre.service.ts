@@ -2,40 +2,68 @@ import { theatreRepository } from "../repositories/theatre.repository";
 import { showRepository } from "../repositories/show.repository";
 import { Show } from "../models/show.model";
 import { Seat } from "../models/seat.model";
+import logger from "../common/logger/logger";
+
 class TheatreService {
-  async getShowsOfMovie(
-    theatreIdUrl: string,
-    movieIdUrl: string
+  async getShowsWithStatus(
+    theatreId: string,
+    movieId: string
   ): Promise<Show[]> {
-    const showModels: Show[] = await theatreRepository.getShowsOfMovie(
-      theatreIdUrl,
-      movieIdUrl
-    );
-    for (let i = 0; i < showModels.length; i += 1) {
-      const totalNumberOfSeats = showModels[i].totalSeatCount as number;
-      const totalNumberOfBookedSeats = showModels[i].bookedSeatCount as number;
-      const emptySeats: number = totalNumberOfSeats - totalNumberOfBookedSeats;
-      if (emptySeats === 0) {
-        showModels[i].availablityStatus = "Not Available";
-      } else if (emptySeats <= 10) {
-        showModels[i].availablityStatus = "Filling Fast";
-      } else {
-        showModels[i].availablityStatus = "Available";
+    try {
+      logger.info("get shows with status", {
+        theatreId,
+        movieId,
+        __filename,
+        functionName: "getShowsWithStatus",
+      });
+
+      const showModels: Show[] =
+        await theatreRepository.getShowsOfTheatreAndMovie(theatreId, movieId);
+      for (let i = 0; i < showModels.length; i += 1) {
+        const totalNumberOfSeats = showModels[i].totalSeatCount as number;
+        const totalNumberOfBookedSeats = showModels[i]
+          .bookedSeatCount as number;
+        const emptySeats: number =
+          totalNumberOfSeats - totalNumberOfBookedSeats;
+        if (emptySeats === 0) {
+          showModels[i].availablityStatus = "Not Available";
+        } else if (emptySeats <= 10) {
+          showModels[i].availablityStatus = "Filling Fast";
+        } else {
+          showModels[i].availablityStatus = "Available";
+        }
       }
+      logger.info("setting availability status successful", {
+        __filename,
+        functionName: "getShowsWithStatus",
+      });
+      return showModels;
+    } catch (err) {
+      console.log("unable to get shows");
+      throw err;
     }
-    return showModels;
   }
-  async getAvailableSeatsOfShow(
-    theatreIdUrl: string,
-    movieIdUrl: string,
-    showIdUrl: string
-  ): Promise<Seat[]> {
-    const seatModels: Seat[] = await showRepository.getAvailableSeatsOfShow(
-      theatreIdUrl,
-      movieIdUrl,
-      showIdUrl
-    );
-    return seatModels;
+
+  async getAvailableSeatsOfShow(showId: string): Promise<Seat[]> {
+    try {
+      logger.info("get available seats of show", {
+        showId,
+        __filename,
+        functionName: "getAvailableSeatsOfShow",
+      });
+
+      const seatModels: Seat[] = await showRepository.getAvailableSeatsOfShow(
+        showId
+      );
+      logger.info("fetching available seats successful", {
+        __filename,
+        functionName: "getAvailableSeatsOfShow",
+      });
+      return seatModels;
+    } catch (err) {
+      console.log("unable to get available seats");
+      throw err;
+    }
   }
 }
 export const theatreService = new TheatreService();
