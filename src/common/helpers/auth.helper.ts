@@ -1,21 +1,20 @@
 import * as jwt from "jsonwebtoken";
-import { AccessTokenPayload } from "../../data/payloads/access-token.payload";
 import logger from "../logger/logger";
 
-class TokenHelper {
-  public getAccessToken = (accessTokenPayload: AccessTokenPayload): string => {
+class AuthHelper {
+  public getAccessToken = (userId: string): string => {
     try {
       logger.info("get access token", {
-        accessTokenPayload,
+        userId,
         __filename,
         functionName: "getAccessToken",
       });
       const secretKey: string = process.env.SECRET_KEY as string;
-      const token = jwt.sign({ id: accessTokenPayload.id }, secretKey, {
+      const token = jwt.sign({ id: userId }, secretKey, {
         expiresIn: "30d",
       });
       logger.info("access token created succesfully", {
-        accessTokenPayload,
+        userId,
         __filename,
         functionName: "getAccessToken",
       });
@@ -36,15 +35,16 @@ class TokenHelper {
 
       logger.info(
         "access token verified successfully",
-        { id: payload.id },
+        { userId: payload.id },
         __filename,
         "verifyAccessToken"
       );
       return payload;
     } catch (error) {
+      // throw new Error(error);
       console.log("incorrect access token");
       throw error;
     }
   };
 }
-export const tokenHelper = new TokenHelper();
+export const authHelper = new AuthHelper();
