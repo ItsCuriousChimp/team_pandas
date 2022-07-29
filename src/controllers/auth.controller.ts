@@ -9,7 +9,7 @@ class AuthController {
       logger.info({
         message: "Successfully logged in",
       });
-      res.status(201).json({ accessToken: token });
+      res.status(200).json({ accessToken: token });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       next(err);

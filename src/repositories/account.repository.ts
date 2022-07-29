@@ -2,8 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import { loginDto } from "../data/dtos/login.dto";
 import logger from "../common/logger/logger";
 import { Account } from "../models/account.model";
-import DatabaseError from "../common/utils/customErrors/databaseError";
-import prismaClient from "./prisma";
+import prismaClient from "./dbClient";
+import CustomError from "../common/utils/customErrors/customError";
 
 class AccountRepository {
   prisma: PrismaClient;
@@ -12,21 +12,27 @@ class AccountRepository {
     this.prisma = prismaClient;
   }
 
-  getUserAccount = async (query: loginDto): Promise<Account | null> => {
+  getUserAccount = async (params: loginDto): Promise<Account | null> => {
     try {
       return await this.prisma.account.findUnique({
         where: {
-          username: query.username,
+          username: params.username,
         },
       });
-    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
       logger.error({
-        data: query,
+        data: params,
         error: err,
         __filename,
         message: `Exception while fetching user account details`,
       });
-      throw new DatabaseError("Cannot fetch user", err, query);
+      throw new CustomError({
+        data: params,
+        ...err,
+        message: "Cannot get user",
+        statusCode: 500,
+      });
     }
   };
 }

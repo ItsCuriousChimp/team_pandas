@@ -1,12 +1,12 @@
 import { loginDto } from "../data/dtos/login.dto";
 import { accountRepository } from "../repositories/account.repository";
 import logger from "../common/logger/logger";
-import { token } from "../common/helpers/auth.helper";
+import { authHelper } from "../common/helpers/auth.helper";
 import * as bcrypt from "bcryptjs";
 import { Account } from "../models/account.model";
 import { userRepository } from "../repositories/user.repository";
 import AuthenticationError from "../common/utils/customErrors/autheticationError";
-import { redisHelper } from "../common/helpers/redis.helper";
+import { redisHelper } from "../storage/redis.helper";
 
 class AuthService {
   login = async (query: loginDto): Promise<string> => {
@@ -40,7 +40,7 @@ class AuthService {
   getToken = async (account: Account): Promise<string> => {
     try {
       await userRepository.updateLastLogin(account.userId);
-      return token.createToken(account);
+      return authHelper.createAccessToken(account.userId);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       logger.error({

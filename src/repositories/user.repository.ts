@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
 import DatabaseError from "../common/utils/customErrors/databaseError";
-import prismaClient from "./prisma";
+import prismaClient from "./dbClient";
 
 class UserRepository {
   prisma: PrismaClient;

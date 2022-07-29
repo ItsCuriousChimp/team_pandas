@@ -1,6 +1,6 @@
 import * as redis from "redis";
-import logger from "../logger/logger";
-import RedisError from "../utils/customErrors/redisError";
+import logger from "../common/logger/logger";
+import RedisError from "../common/utils/customErrors/redisError";
 class RedisHelper {
   connected: boolean;
   client: redis.RedisClientType;

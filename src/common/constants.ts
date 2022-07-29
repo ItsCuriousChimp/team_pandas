@@ -9,3 +9,5 @@
  */
 export const passwordRegex =
   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,256}$/;
+
+export const PORT = 3000;
