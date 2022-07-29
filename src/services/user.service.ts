@@ -1,7 +1,7 @@
 import { userRepository } from "../repositories/user.repository";
 import { cityRepository } from "../repositories/city.repository";
 import { User } from "../models/user.model";
-import { updateUserDto } from "../common/customTypes/user.type";
+import { updateUserDto } from "../data/dtos/user.dto";
 import logger from "../common/logger/logger";
 
 export class UserService {

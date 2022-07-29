@@ -1,6 +1,6 @@
 import { User } from "../models/user.model";
 import { PrismaClient } from "@prisma/client";
-import { updateUserDto } from "../common/customTypes/user.type";
+import { updateUserDto } from "../data/dtos/user.dto";
 import logger from "../common/logger/logger";
 
 class UserRepository {
