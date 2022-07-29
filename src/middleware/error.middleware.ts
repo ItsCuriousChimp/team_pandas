@@ -2,7 +2,7 @@
 import { NextFunction, Response, Request } from "express";
 import { ValidationError } from "express-validation";
 import logger from "../common/logger/logger";
-import APIRequestError from "../common/utils/customErrors/apiRequestError";
+import APIRequestError from "../common/utils/customErrors/apiError";
 import AuthenticationError from "../common/utils/customErrors/autheticationError";
 import ClientError from "../common/utils/customErrors/clientError";
 import DatabaseError from "../common/utils/customErrors/databaseError";

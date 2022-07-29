@@ -1,6 +1,6 @@
 import * as jwt from "jsonwebtoken";
 import logger from "../logger/logger";
-import APIRequestError from "../utils/customErrors/apiRequestError";
+import APIRequestError from "../utils/customErrors/apiError";
 
 class Token {
   createToken = (query: {
