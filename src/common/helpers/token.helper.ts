@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import { AccessTokenPayload } from "../../models/access.token.model";
+import { AccessTokenPayload } from "../../data/payloads/access-token.payload";
 import logger from "../logger/logger";
 
 class TokenHelper {
