@@ -3,8 +3,7 @@ import { AccountRepository } from "../repositories/account.repository";
 import { signupDto } from "../data/dtos/signup.dto";
 import { Account } from "../models/account.model";
 import { hashHelper } from "../common/helpers/hash.helper";
-import { tokenHelper } from "../common/helpers/token.helper";
-import { AccessTokenPayload } from "../data/payloads/access-token.payload";
+import { authHelper } from "../common/helpers/auth.helper";
 import { redisHelper } from "../common/helpers/redis.helper";
 import { cityRepository } from "../repositories/city.repository";
 import logger from "../common/logger/logger";
@@ -37,7 +36,7 @@ export class AuthService {
         functionName: "storeToken",
       });
       await redisHelper.setToken(userId, token); // set the JWT as the key and its value as valid
-      const payload = tokenHelper.verifyAccessToken(token); // verifies and decode the jwt to get the expiration date
+      const payload = authHelper.verifyAccessToken(token); // verifies and decode the jwt to get the expiration date
       await redisHelper.setExpireAt(userId, +payload.exp); // sets the token expiration date to be removed from the cache
       logger.info("token storing successful", {
         userId,
@@ -79,9 +78,7 @@ export class AuthService {
         userId
       );
       // Need to wrap
-
-      const accessTokenPayload = new AccessTokenPayload(userId);
-      const token = tokenHelper.getAccessToken(accessTokenPayload);
+      const token = authHelper.getAccessToken(userId);
 
       await this.storeToken(token, userId);
       logger.info("register user successful", {

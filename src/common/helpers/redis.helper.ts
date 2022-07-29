@@ -1,15 +1,11 @@
 import * as redis from "redis";
 class RedisHelper {
-  connected: boolean;
   client: redis.RedisClientType;
   constructor() {
-    this.connected = false;
     this.client = redis.createClient();
   }
 
   getConnection() {
-    if (this.connected) return this.client;
-
     this.client.on("connect", (err) => {
       console.log("Client connected to Redis...");
     });
