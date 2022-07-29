@@ -1,11 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
+import DatabaseError from "../common/utils/customErrors/databaseError";
+import prismaClient from "./prisma";
 
 class UserRepository {
   prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = prismaClient;
   }
 
   updateLastLogin = async (userId: string): Promise<void> => {
@@ -20,6 +22,7 @@ class UserRepository {
       });
       logger.info({
         message: "Successfully updated Last loggedin",
+        data: userId,
       });
     } catch (err) {
       logger.error({
@@ -27,7 +30,7 @@ class UserRepository {
         __filename,
         message: `Error at updating user's last login`,
       });
-      throw err;
+      throw new DatabaseError("Cannot update last login", err, userId);
     }
   };
 }

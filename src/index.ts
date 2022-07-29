@@ -3,9 +3,15 @@ import { heartbeatController } from "./controllers/heartbeat.controller";
 import { loginRouter } from "./routes/login.route";
 import bodyParser from "body-parser";
 import * as error from "./middleware/error.middleware";
+import { redisHelper } from "./common/helpers/redis.helper";
 
 const PORT = 3000;
 const app: Express = express();
+
+(async () => {
+  await redisHelper.getConnection().connect();
+  return redisHelper.getConnection();
+})();
 
 app.use(bodyParser.json());
 
@@ -27,6 +33,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use(error.handler);
+
+// Handle 404 error
+app.use(error.notFoundErrorHandler);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console

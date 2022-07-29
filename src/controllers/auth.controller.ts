@@ -12,12 +12,6 @@ class AuthController {
       res.status(201).json({ accessToken: token });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      logger.error({
-        message: "Cannot send token",
-        status: err.statusCode,
-        error: err.message,
-        __filename,
-      });
       next(err);
     }
   };

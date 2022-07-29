@@ -1,5 +1,6 @@
 import * as jwt from "jsonwebtoken";
 import logger from "../logger/logger";
+import APIRequestError from "../utils/customErrors/apiRequestError";
 
 class Token {
   createToken = (query: {
@@ -12,7 +13,7 @@ class Token {
       const token: string = jwt.sign(query, secretKey, { expiresIn: "30d" });
       logger.info({
         message: "access token created",
-        __filename,
+        data: query,
       });
       return token;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,7 +23,7 @@ class Token {
         error: err.message,
         __filename,
       });
-      throw err;
+      throw new APIRequestError("Cannot generate token", query, err);
     }
   };
 }
