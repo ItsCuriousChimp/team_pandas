@@ -8,8 +8,7 @@ const PORT = 3000;
 const app: Express = express();
 //start redis connection
 (async () => {
-  await redisHelper.getConnection().connect();
-  return redisHelper.getConnection();
+  return await redisHelper.getConnection().connect();
 })();
 
 app.get("/", (req: Request, res: Response) => {
