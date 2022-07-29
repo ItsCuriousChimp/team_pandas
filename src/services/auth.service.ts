@@ -6,9 +6,29 @@ import { hashHelper } from "../common/helpers/hash.helper";
 import { tokenHelper } from "../common/helpers/token.helper";
 import { AccessTokenPayload } from "../data/payloads/access-token.payload";
 import { redisHelper } from "../common/helpers/redis.helper";
+import { cityRepository } from "../repositories/city.repository";
 import logger from "../common/logger/logger";
 
 export class AuthService {
+  isCityIdValid = async (id: string): Promise<boolean> => {
+    try {
+      logger.info("is CityId Valid", {
+        cityId: id,
+        __filename,
+        functionName: "isCityIdValid",
+      });
+      const getCityId: string | null = await cityRepository.getCityId(id);
+      if ((await getCityId) == null) {
+        throw new Error("City id incorrect");
+      } else {
+        return true;
+      }
+    } catch (err) {
+      console.log("unable to get city id");
+      throw err;
+    }
+  };
+
   storeToken = async (token: string, userId: string): Promise<void> => {
     try {
       logger.info("store token in redis", {
@@ -40,6 +60,10 @@ export class AuthService {
       const isAccountinDB = accountRepository.getAccount();
       if ((await isAccountinDB) != null) {
         throw new Error("Account Already exists");
+      }
+      //If city entered in sign up form then check if that city is in DB
+      if (query.cityId) {
+        await this.isCityIdValid(query.cityId);
       }
 
       // Need to wrap
