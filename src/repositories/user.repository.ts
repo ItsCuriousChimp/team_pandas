@@ -1,6 +1,6 @@
 import { User } from "../models/user.model";
 import { PrismaClient } from "@prisma/client";
-import { signupDto } from "../common/customTypes/signup.type";
+import { signupDto } from "../data/dtos/signup.dto";
 import logger from "../common/logger/logger";
 
 class UserRepository {
@@ -20,7 +20,8 @@ class UserRepository {
         data: {
           name: query.name,
           email: query.email,
-          phoneNumber: query.phonenumber,
+          phoneNumber: query.phoneNumber,
+          cityId: query.cityId,
           loggedInAtUTC: new Date(),
         },
       });

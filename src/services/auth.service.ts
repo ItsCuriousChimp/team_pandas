@@ -1,10 +1,10 @@
 import { userRepository } from "../repositories/user.repository";
 import { AccountRepository } from "../repositories/account.repository";
-import { signupDto } from "../common/customTypes/signup.type";
+import { signupDto } from "../data/dtos/signup.dto";
 import { Account } from "../models/account.model";
 import { hashHelper } from "../common/helpers/hash.helper";
 import { tokenHelper } from "../common/helpers/token.helper";
-import { AccessTokenPayload } from "../models/access-token.model";
+import { AccessTokenPayload } from "../data/payloads/access-token.payload";
 import { redisHelper } from "../common/helpers/redis.helper";
 import logger from "../common/logger/logger";
 

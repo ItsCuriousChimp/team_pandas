@@ -10,6 +10,7 @@ export const signupValidation = {
     name: Joi.string()
       .pattern(/^[a-zA-Z]+$/, { name: "alphabets" })
       .required(),
-    phonenumber: Joi.string().min(5).max(32),
+    phoneNumber: Joi.string().min(5).max(32),
+    cityId: Joi.string().guid(),
   }),
 };
