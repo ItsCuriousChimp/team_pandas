@@ -7,7 +7,7 @@ class UserController {
   public async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
       logger.info("update user details", {
-        query: req.body.userId,
+        query: req.body,
         __filename,
         functionName: "updateUser",
       });

@@ -1,7 +1,7 @@
 export type updateUserDto = {
-  id: string;
+  userId: string;
   name?: string;
   email?: string;
   phoneNumber?: string;
-  // cityId?: string;
+  cityId?: string;
 };

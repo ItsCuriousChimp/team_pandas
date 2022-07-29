@@ -12,20 +12,23 @@ class UserRepository {
   updateUser = async (query: updateUserDto): Promise<User> => {
     try {
       logger.info("update user details", {
-        id: query.id,
+        query,
         __filename,
         functionName: "updateUser",
       });
       const updateUser: User = await this.prisma.user.update({
         where: {
-          id: query.id,
+          id: query.userId,
         },
         data: {
-          ...query,
+          name: query.name,
+          email: query.email,
+          phoneNumber: query.phoneNumber,
+          cityId: query.cityId,
         },
       });
       logger.info("updated user details successfully", {
-        id: query.id,
+        id: query.userId,
         __filename,
         functionName: "updateUser",
       });

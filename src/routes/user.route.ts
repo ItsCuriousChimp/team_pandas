@@ -8,7 +8,7 @@ const router = Router();
 // update details of user
 
 router
-  .route("/show")
+  .route("/update")
   .put([authorize, validate(userValidation), userController.updateUser]);
 
 export default router;

@@ -2,6 +2,7 @@ import express, { Express, Response, Request, Router } from "express";
 import { redisHelper } from "./common/helpers/redis.helper";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 import userRoutes from "./routes/user.route";
+import bodyParser from "body-parser";
 import * as error from "./middleware/error.middleware";
 
 const PORT = 3000;
@@ -11,6 +12,12 @@ const app: Express = express();
   await redisHelper.getConnection().connect();
   return redisHelper.getConnection();
 })();
+
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
   res.send("HELLO WORLD! get your heartbeat from /heartbeat");

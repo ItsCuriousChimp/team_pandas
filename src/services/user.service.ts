@@ -7,13 +7,13 @@ export class UserService {
   async updateUser(query: updateUserDto): Promise<User> {
     try {
       logger.info("update user details", {
-        id: query.id,
+        id: query.userId,
         __filename,
         functionName: "updateUser",
       });
       const user: User = await userRepository.updateUser(query);
       logger.info("updated user details successfully", {
-        id: query.id,
+        id: user.id,
         __filename,
         functionName: "updateUser",
       });
