@@ -1,33 +1,21 @@
 import * as redis from "redis";
 import logger from "../common/logger/logger";
 import RedisError from "../common/utils/customErrors/redisError";
-class RedisHelper {
+
+class RedisClient {
   connected: boolean;
   client: redis.RedisClientType;
+
   constructor() {
     this.connected = false;
     this.client = redis.createClient();
-  }
-
-  getConnection() {
-    if (this.connected) return this.client;
-
-    this.client.on("connect", () => {
-      logger.info({ message: "Client connected to Redis..." });
-    });
-    this.client.on("ready", () => {
-      logger.info({
-        message: "Redis ready to use",
-      });
-    });
-    this.client.on("error", (err) => {
-      logger.error("Redis Client", err);
-    });
-    this.client.on("end", () => {
-      logger.info("Redis disconnected successfully");
-    });
-
-    return this.client;
+    this.client
+      .connect()
+      .then(() => {
+        logger.info("Redis client connected");
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+      .catch((err: any) => logger.error("Redis client connection issue"));
   }
 
   setToken = async (userId: string, token: string): Promise<void> => {
@@ -76,4 +64,5 @@ class RedisHelper {
     }
   };
 }
-export const redisHelper = new RedisHelper();
+
+export const redisClient = new RedisClient();

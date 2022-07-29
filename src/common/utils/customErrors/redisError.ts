@@ -2,7 +2,6 @@
 import CustomError from "./customError";
 
 class RedisError extends CustomError {
-  errorType: string;
   constructor(message: string, err: any) {
     super({});
     this.message = err.message;

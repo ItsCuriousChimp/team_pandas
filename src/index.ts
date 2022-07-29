@@ -3,15 +3,9 @@ import { heartbeatController } from "./controllers/heartbeat.controller";
 import { loginRouter } from "./routes/login.route";
 import bodyParser from "body-parser";
 import * as error from "./middleware/error.middleware";
-import { redisHelper } from "./storage/redis.helper";
 import { PORT } from "./common/constants";
 
 const app: Express = express();
-
-(async () => {
-  await redisHelper.getConnection().connect();
-  return redisHelper.getConnection();
-})();
 
 app.use(bodyParser.json());
 

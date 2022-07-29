@@ -1,7 +1,6 @@
 import CustomError from "./customError";
 
 class ClientError extends CustomError {
-  errorType: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(message: string, err: any) {
     super({});

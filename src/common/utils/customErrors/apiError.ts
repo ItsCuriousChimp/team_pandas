@@ -2,7 +2,6 @@
 import CustomError from "./customError";
 
 class APIRequestError extends CustomError {
-  errorType: string;
   constructor(message: string, data: any, err: any) {
     super({});
     this.message = err.message;

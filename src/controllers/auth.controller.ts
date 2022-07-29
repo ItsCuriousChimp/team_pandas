@@ -3,7 +3,7 @@ import logger from "../common/logger/logger";
 import { authService } from "../services/auth.service";
 
 class AuthController {
-  public getToken = async (req: Request, res: Response, next: NextFunction) => {
+  public login = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const token: string = await authService.login(req.body);
       logger.info({

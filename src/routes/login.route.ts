@@ -5,6 +5,6 @@ import { authController } from "../controllers/auth.controller";
 
 const router: Router = Router();
 
-router.route("/").post([validate(loginValidation), authController.getToken]);
+router.route("/").post([validate(loginValidation), authController.login]);
 
 export { router as loginRouter };

@@ -6,7 +6,7 @@ import * as bcrypt from "bcryptjs";
 import { Account } from "../models/account.model";
 import { userRepository } from "../repositories/user.repository";
 import AuthenticationError from "../common/utils/customErrors/autheticationError";
-import { redisHelper } from "../storage/redis.helper";
+import { redisClient } from "../storage/redisClient";
 
 class AuthService {
   login = async (query: loginDto): Promise<string> => {
@@ -16,7 +16,7 @@ class AuthService {
         throw new AuthenticationError("Invalid Username", query);
       } else if (await bcrypt.compare(query.password, account.passwordHash)) {
         const accessToken: string = await this.getToken(account);
-        await redisHelper.setToken(account.userId, accessToken);
+        await redisClient.setToken(account.userId, accessToken);
         logger.info({
           message: "User logged in",
           data: { username: query.username },
