@@ -9,6 +9,36 @@ class UserRepository {
     this.prisma = new PrismaClient();
   }
 
+  getUserId = async (userId: string): Promise<string | null> => {
+    try {
+      logger.info("get UserId", {
+        userId,
+        __filename,
+        functionName: "getUserId",
+      });
+
+      const userIdJson = await this.prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          id: true,
+        },
+      });
+      const id: string = userIdJson?.id as string;
+      logger.info("fetching user successful", {
+        id,
+        __filename,
+        functionName: "getUserId",
+      });
+
+      return id;
+    } catch (err) {
+      console.log("unable to fetch user Id");
+      throw err;
+    }
+  };
+
   updateUser = async (query: updateUserDto): Promise<User> => {
     try {
       logger.info("update user details", {
