@@ -5,12 +5,18 @@ import bodyParser from "body-parser";
 import * as error from "./middleware/error.middleware";
 import path from "path";
 import * as dotenv from "dotenv";
+import { redisHelper } from "./common/helpers/redis.helper";
 dotenv.config({
   path: path.join(process.cwd(), ".env"),
 });
 
 const PORT = 3000;
 const app: Express = express();
+
+//start redis connection
+(async () => {
+  return await redisHelper.getConnection().connect();
+})();
 
 app.use(bodyParser.json());
 
