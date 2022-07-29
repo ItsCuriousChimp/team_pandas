@@ -1,4 +1,5 @@
 import { userRepository } from "../repositories/user.repository";
+import { cityRepository } from "../repositories/city.repository";
 import { User } from "../models/user.model";
 import { updateUserDto } from "../common/customTypes/user.type";
 import logger from "../common/logger/logger";
@@ -23,6 +24,25 @@ export class UserService {
     }
   };
 
+  isCityIdValid = async (id: string): Promise<boolean> => {
+    try {
+      logger.info("is CityId Valid", {
+        cityId: id,
+        __filename,
+        functionName: "isCityIdValid",
+      });
+      const getCityId: string | null = await cityRepository.getCityId(id);
+      if ((await getCityId) == null) {
+        throw new Error("City id incorrect");
+      } else {
+        return true;
+      }
+    } catch (err) {
+      console.log("unable to get city id");
+      throw err;
+    }
+  };
+
   async updateUser(query: updateUserDto): Promise<User> {
     try {
       logger.info("update user details", {
@@ -31,6 +51,10 @@ export class UserService {
         functionName: "updateUser",
       });
       await this.isUserIdValid(query.userId);
+      if (query.cityId) {
+        await this.isCityIdValid(query.cityId);
+      }
+
       const user: User = await userRepository.updateUser(query);
       logger.info("updated user details successfully", {
         id: user.id,
