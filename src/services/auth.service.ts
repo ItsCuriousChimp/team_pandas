@@ -1,12 +1,11 @@
+import * as bcrypt from "bcryptjs";
 import { loginDto } from "../data/dtos/login.dto";
 import { accountRepository } from "../repositories/account.repository";
 import logger from "../common/logger/logger";
-import { authHelper } from "../common/helpers/auth.helper";
-import * as bcrypt from "bcryptjs";
-import { Account } from "../models/account.model";
 import { userRepository } from "../repositories/user.repository";
 import AuthenticationError from "../common/utils/customErrors/autheticationError";
 import { redisClient } from "../storage/redisClient";
+import { authHelper } from "../common/helpers/auth.helper";
 
 class AuthService {
   login = async (query: loginDto): Promise<string> => {
@@ -14,38 +13,27 @@ class AuthService {
       const account = await accountRepository.getUserAccount(query);
       if (!account) {
         throw new AuthenticationError("Invalid Username", query);
-      } else if (await bcrypt.compare(query.password, account.passwordHash)) {
-        const accessToken: string = await this.getToken(account);
-        await redisClient.setToken(account.userId, accessToken);
-        logger.info({
-          message: "User logged in",
-          data: { username: query.username },
-        });
-        return accessToken;
-      } else {
+      }
+
+      if (!(await bcrypt.compare(query.password, account.passwordHash))) {
         throw new AuthenticationError("Invalid Password", query);
       }
+
+      const accessToken: string = await authHelper.getToken(account);
+      await redisClient.setToken(account.userId, accessToken);
+      await userRepository.updateLastLogin(account.userId);
+      logger.info({
+        message: "User logged in",
+        data: { username: query.username },
+      });
+
+      return accessToken;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       logger.error({
         error: err,
         message: "Server error. Cannot login user.",
         status: err.statusCode,
-        __filename,
-      });
-      throw err;
-    }
-  };
-
-  getToken = async (account: Account): Promise<string> => {
-    try {
-      await userRepository.updateLastLogin(account.userId);
-      return authHelper.createAccessToken(account.userId);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      logger.error({
-        status: err.status,
-        message: `Cannot generate Token`,
         __filename,
       });
       throw err;

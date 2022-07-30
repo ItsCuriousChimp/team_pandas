@@ -12,10 +12,12 @@ class RedisClient {
     this.client
       .connect()
       .then(() => {
-        logger.info("Redis client connected");
+        logger.info({ message: "Redis client connected" });
       })
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-      .catch((err: any) => logger.error("Redis client connection issue"));
+      .catch((err: any) =>
+        logger.error({ message: "Redis client connection issue", error: err })
+      );
   }
 
   setToken = async (userId: string, token: string): Promise<void> => {
@@ -36,28 +38,33 @@ class RedisClient {
     } catch (err) {
       logger.error({
         message: "Cannot set expiry date",
+        error: err,
         __filename,
       });
       throw new RedisError("Cannot set expiry date", err);
     }
   };
-  isTokeninCache = async (id: string): Promise<number> => {
+
+  isTokenInCache = async (id: string): Promise<number> => {
     try {
       return await this.client.EXISTS(id);
     } catch (err) {
       logger.error({
         message: "Cannot find token",
+        error: err,
         __filename,
       });
       throw new RedisError("Cannot find token", err);
     }
   };
-  deleteTokeninCache = async (id: string): Promise<number> => {
+
+  deleteTokenInCache = async (id: string): Promise<number> => {
     try {
       return await this.client.DEL(id);
     } catch (err) {
       logger.error({
         message: "Cannot delete token from redis",
+        error: err,
         __filename,
       });
       throw new RedisError("Cannot delete token from redis", err);

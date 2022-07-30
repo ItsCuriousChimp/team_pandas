@@ -30,7 +30,7 @@ class AccountRepository {
       throw new CustomError({
         data: params,
         ...err,
-        message: "Cannot get user",
+        message: "Unable to fetch user account details",
         statusCode: 500,
       });
     }

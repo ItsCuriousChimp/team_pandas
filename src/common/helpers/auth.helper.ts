@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as jwt from "jsonwebtoken";
+import { Account } from "../../models/account.model";
 import logger from "../logger/logger";
 
 class AuthHelper {
@@ -42,8 +43,22 @@ class AuthHelper {
       );
       return payload;
     } catch (error) {
-      logger.info("incorrect access token");
+      logger.info("Incorrect access token");
       throw error;
+    }
+  };
+  public getToken = async (account: Account): Promise<string> => {
+    try {
+      return this.createAccessToken(account.userId);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      logger.error({
+        status: err.status,
+        message: `Unable to generate token`,
+        __filename,
+      });
+
+      throw err;
     }
   };
 }

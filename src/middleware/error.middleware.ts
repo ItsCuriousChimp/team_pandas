@@ -21,7 +21,7 @@ export const handler = (
     .send(err.message);
 };
 
-export const notFoundErrorHandler = (
+export const resourceNotFoundHandler = (
   req: Request,
   res: Response,
   next: NextFunction

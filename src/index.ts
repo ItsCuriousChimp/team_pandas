@@ -29,7 +29,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.use(error.handler);
 
 // Handle 404 error
-app.use(error.notFoundErrorHandler);
+app.use(error.resourceNotFoundHandler);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   // eslint-disable-next-line no-console
