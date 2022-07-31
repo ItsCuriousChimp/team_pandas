@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import logger from "../common/logger/logger";
 import { Movie } from "../models/movie.model";
 import { movieRepository } from "../repositories/movie.repository";
@@ -11,11 +12,11 @@ class MovieService {
     try {
       if (await this.isCityValid(cityId))
         return await movieRepository.getAllMoviesInCity(cityId);
-      throw new Error("Invalid City id");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+      return [];
     } catch (err: any) {
       logger.error({
-        message: "Cannot search for movies in city",
+        message: "Unable to fetch movies in the city",
         error: err,
         __filename,
       });

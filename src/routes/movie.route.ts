@@ -1,7 +1,8 @@
 import { Router } from "express";
+import { validate } from "express-validation";
 import { movieController } from "../controllers/movie.controller";
 import { cityValidator } from "../common/validators/city.validator";
-import { validate } from "express-validation";
+
 const router = Router();
 
 router
