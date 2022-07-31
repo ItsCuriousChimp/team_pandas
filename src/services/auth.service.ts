@@ -1,41 +1,47 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as bcrypt from "bcryptjs";
 import { loginDto } from "../data/dtos/login.dto";
-import { accountRepository } from "../repositories/account.repository";
-import logger from "../common/logger/logger";
 import { userRepository } from "../repositories/user.repository";
+import { accountRepository } from "../repositories/account.repository";
 import AuthenticationError from "../common/utils/customErrors/autheticationError";
 import { redisClient } from "../storage/redisClient";
 import { authHelper } from "../common/helpers/auth.helper";
+import logger from "../common/logger/logger";
 
 class AuthService {
-  login = async (query: loginDto): Promise<string> => {
+  login = async (params: loginDto): Promise<string> => {
     try {
-      const account = await accountRepository.getUserAccount(query);
+      const account = await accountRepository.getUserAccount(params);
+
       if (!account) {
-        throw new AuthenticationError("Invalid Username", query);
+        throw new AuthenticationError("Invalid Username", params);
       }
 
-      if (!(await bcrypt.compare(query.password, account.passwordHash))) {
-        throw new AuthenticationError("Invalid Password", query);
+      if (!(await bcrypt.compare(params.password, account.passwordHash))) {
+        throw new AuthenticationError("Invalid Password", params);
       }
 
-      const accessToken: string = await authHelper.getToken(account);
+      const accessToken: string = await authHelper.createAccessToken(
+        account.userId
+      );
+
       await redisClient.setToken(account.userId, accessToken);
       await userRepository.updateLastLogin(account.userId);
+
       logger.info({
         message: "User logged in",
-        data: { username: query.username },
+        data: { username: params.username },
       });
 
       return accessToken;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       logger.error({
         error: err,
-        message: "Server error. Cannot login user.",
+        message: "Cannot login user.",
         status: err.statusCode,
         __filename,
       });
+
       throw err;
     }
   };

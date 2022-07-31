@@ -1,17 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PrismaClient } from "@prisma/client";
+import { dbClient } from "./dbClient";
 import logger from "../common/logger/logger";
 import DatabaseError from "../common/utils/customErrors/databaseError";
-import prismaClient from "./dbClient";
 
 class UserRepository {
   prisma: PrismaClient;
 
   constructor() {
-    this.prisma = prismaClient;
+    this.prisma = dbClient.prisma;
   }
 
   updateLastLogin = async (userId: string): Promise<void> => {
     try {
+      dbClient.dbConnect();
       await this.prisma.user.update({
         where: {
           id: userId,
@@ -21,16 +23,20 @@ class UserRepository {
         },
       });
       logger.info({
-        message: "Successfully updated Last loggedin",
+        message: "Successfully updated user's last login",
         data: userId,
       });
-    } catch (err) {
+    } catch (err: any) {
       logger.error({
         error: err,
         __filename,
-        message: `Error at updating user's last login`,
+        message: `Unable to update user's last login`,
       });
-      throw new DatabaseError("Cannot update last login", err, userId);
+      throw new DatabaseError(
+        "Unable to update user's last login",
+        err,
+        userId
+      );
     }
   };
 }

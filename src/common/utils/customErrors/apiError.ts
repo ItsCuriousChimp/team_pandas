@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CustomError from "./customError";
 
-class APIRequestError extends CustomError {
+class APITokenError extends CustomError {
   constructor(message: string, data: any, err: any) {
     super({});
     this.message = err.message;
@@ -12,4 +12,4 @@ class APIRequestError extends CustomError {
   }
 }
 
-export default APIRequestError;
+export default APITokenError;

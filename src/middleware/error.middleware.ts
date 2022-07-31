@@ -7,12 +7,10 @@ export const handler = (
   err: Error,
   req: Request,
   res: Response,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
   logger.error({
-    message: `${err.name}`,
-    error: err.message,
+    ...err,
     __filename,
   });
 

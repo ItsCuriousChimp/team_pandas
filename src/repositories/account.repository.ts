@@ -1,25 +1,26 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PrismaClient } from "@prisma/client";
-import { loginDto } from "../data/dtos/login.dto";
+import { dbClient } from "./dbClient";
 import logger from "../common/logger/logger";
+import { loginDto } from "../data/dtos/login.dto";
 import { Account } from "../models/account.model";
-import prismaClient from "./dbClient";
 import CustomError from "../common/utils/customErrors/customError";
 
 class AccountRepository {
   prisma: PrismaClient;
 
   constructor() {
-    this.prisma = prismaClient;
+    this.prisma = dbClient.prisma;
   }
 
   getUserAccount = async (params: loginDto): Promise<Account | null> => {
     try {
+      dbClient.dbConnect();
       return await this.prisma.account.findUnique({
         where: {
           username: params.username,
         },
       });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       logger.error({
         data: params,

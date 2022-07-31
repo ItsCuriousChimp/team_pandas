@@ -1,9 +1,9 @@
 import express, { Express, Response, Request, NextFunction } from "express";
-import { heartbeatController } from "./controllers/heartbeat.controller";
-import { loginRouter } from "./routes/login.route";
 import bodyParser from "body-parser";
-import * as error from "./middleware/error.middleware";
 import { PORT } from "./common/constants";
+import * as error from "./middleware/error.middleware";
+import { loginRouter } from "./routes/login.route";
+import { heartbeatController } from "./controllers/heartbeat.controller";
 
 const app: Express = express();
 
@@ -31,7 +31,7 @@ app.use(error.handler);
 // Handle 404 error
 app.use(error.resourceNotFoundHandler);
 
-app.listen(process.env.NODE_ENV || PORT, () => {
+app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Server running at PORT ${PORT}`);
 });

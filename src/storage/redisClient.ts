@@ -25,10 +25,10 @@ class RedisClient {
       await this.client.SET(userId, token);
     } catch (err) {
       logger.error({
-        message: "Cannot store token",
+        message: "Unable to store token",
         __filename,
       });
-      throw new RedisError("Cannot store token", err);
+      throw new RedisError("Unable to store token", err);
     }
   };
 
@@ -37,24 +37,28 @@ class RedisClient {
       await this.client.EXPIREAT(userId, exp);
     } catch (err) {
       logger.error({
-        message: "Cannot set expiry date",
+        message: "Unable to set expiry date",
         error: err,
         __filename,
       });
-      throw new RedisError("Cannot set expiry date", err);
+      throw new RedisError("Unable to set expiry date", err);
     }
   };
 
-  isTokenInCache = async (id: string): Promise<number> => {
+  isTokenInCache = async (userId: string): Promise<number> => {
     try {
-      return await this.client.EXISTS(id);
+      const isTokenAvailable: number = await this.client.EXISTS(userId);
+      logger.info(isTokenAvailable);
+
+      return isTokenAvailable;
     } catch (err) {
       logger.error({
-        message: "Cannot find token",
+        message: "Unable to find token",
         error: err,
         __filename,
       });
-      throw new RedisError("Cannot find token", err);
+
+      throw new RedisError("Unable to find token", err);
     }
   };
 
@@ -63,11 +67,11 @@ class RedisClient {
       return await this.client.DEL(id);
     } catch (err) {
       logger.error({
-        message: "Cannot delete token from redis",
+        message: "Unable to delete token from redis",
         error: err,
         __filename,
       });
-      throw new RedisError("Cannot delete token from redis", err);
+      throw new RedisError("Unable to delete token from redis", err);
     }
   };
 }
