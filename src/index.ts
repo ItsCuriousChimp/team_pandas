@@ -1,10 +1,13 @@
 import express, { Express, Response, Request, NextFunction } from "express";
 import bodyParser from "body-parser";
+import * as dotenv from "dotenv";
 import * as error from "./middleware/error.middleware";
 import { loginRouter } from "./routes/login.route";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 
 const app: Express = express();
+
+dotenv.config();
 
 app.use(bodyParser.json());
 
