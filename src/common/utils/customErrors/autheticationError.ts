@@ -4,11 +4,10 @@ import CustomError from "./customError";
 class AuthenticationError extends CustomError {
   errorType: string;
   constructor(errorType: string, data: loginDto) {
-    super({
-      message: "Invalid credentials",
-      statusCode: 401,
-      data: data,
-    });
+    super({});
+    this.message = "Invalid Credentails";
+    this.statusCode = 401;
+    this.data = data;
     this.errorType = errorType;
   }
 }
