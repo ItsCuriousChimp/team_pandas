@@ -7,7 +7,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("HELLO WORLD!");
 });
 
-app.use("/getMovieDetails",movieDetailsRouter);
+app.use("/movie", movieDetailsRouter);
 
 app.listen(process.env.NODE_ENV || PORT, () => {
   console.log(`Server running at PORT ${PORT}`);

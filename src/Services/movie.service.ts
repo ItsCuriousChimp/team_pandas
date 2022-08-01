@@ -1,15 +1,15 @@
+/* eslint-disable no-useless-catch */
 import { Movie } from "../models/movie.model";
 import { movieRepository } from "../repositories/movieDetails.repository";
 
-class MovieDetailsService {
+class MovieService {
   getMovieDetails = async (movieId: string): Promise<Movie[]> => {
     try {
       const movieDetails = await movieRepository.getMovieDetails(movieId);
       return movieDetails;
     } catch (error) {
-      console.log("unable to fetch user details");
       throw error;
     }
   };
 }
-export const movieDetailsservice = new MovieDetailsService();
+export const movieservice = new MovieService();
