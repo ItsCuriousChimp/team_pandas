@@ -2,38 +2,37 @@
 import { PrismaClient } from "@prisma/client";
 import { dbClient } from "./dbClient";
 import logger from "../common/logger/logger";
-import { Show } from "../models/show.model";
+import { User } from "../models/user.model";
 import CustomError from "../common/utils/customErrors/customError";
 
-class ShowRepository {
+class UserRepository {
   prisma: PrismaClient;
-
   constructor() {
     this.prisma = dbClient.prisma;
   }
 
-  getShow = async (showId: string): Promise<Show | null> => {
+  getUser = async (userId: string): Promise<User | null> => {
     try {
-      const show: Show | null = await this.prisma.show.findUnique({
+      const user: User | null = await this.prisma.user.findUnique({
         where: {
-          id: showId,
+          id: userId,
         },
       });
-      return show;
+      return user;
     } catch (err: any) {
       logger.error({
-        message: "Unable to fetch show",
+        message: "Unable to fetch user",
         error: err,
         __filename,
       });
       throw new CustomError({
         ...err,
-        data: showId,
+        data: userId,
         statusCode: 500,
-        message: "Unable to fetch show",
+        message: "Unable to fetch user",
       });
     }
   };
 }
 
-export const showRepository = new ShowRepository();
+export const userRepository = new UserRepository();

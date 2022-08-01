@@ -1,27 +1,28 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Response, Request } from "express";
-import { ValidationError } from "express-validation";
 import logger from "../common/logger/logger";
-export const errorHandler = (
+import CustomError from "../common/utils/customErrors/customError";
+
+export const handler = (
   err: Error,
   req: Request,
   res: Response,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
-  if (err instanceof ValidationError) {
-    logger.error({
-      message: `${err.name}`,
-      error: err.details,
-      statusCode: err.statusCode,
-      __filename,
-    });
-    res.status(500).json(err);
-  } else {
-    logger.error({
-      message: `${err.name}`,
-      error: err.message,
-      __filename,
-    });
-    res.status(500).send(err.message);
-  }
+  logger.error({
+    ...err,
+    __filename,
+  });
+
+  res
+    .status(err instanceof CustomError ? err.statusCode : 500)
+    .send(err.message);
+};
+
+export const resourceNotFoundHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.status(404).send("Method not found");
 };

@@ -1,10 +1,9 @@
 import express, { Express, Response, Request, NextFunction } from "express";
-import { heartbeatController } from "./controllers/heartbeat.controller";
 import bodyParser from "body-parser";
+import { PORT } from "./common/constants";
 import * as error from "./middleware/error.middleware";
 import { showRouter } from "./routes/bookSeat.route";
-
-const PORT = 3000;
+import { heartbeatController } from "./controllers/heartbeat.controller";
 
 const app: Express = express();
 
@@ -27,9 +26,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   next(err);
 });
 
-app.use(error.errorHandler);
+app.use(error.handler);
 
-app.listen(process.env.NODE_ENV || PORT, () => {
+app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Server running at PORT ${PORT}`);
 });
