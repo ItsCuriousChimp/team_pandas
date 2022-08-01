@@ -33,6 +33,12 @@ class CityRepository {
       return id;
     } catch (err) {
       console.log("unable to fetch city Id");
+      // throw new CustomError({
+      //   ...err,
+      //   data: cityId,
+      //   statusCode: 500,
+      //   message: "Unable to fetch city",
+      // });
       throw err;
     }
   };

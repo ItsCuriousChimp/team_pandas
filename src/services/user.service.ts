@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { userRepository } from "../repositories/user.repository";
 import { cityRepository } from "../repositories/city.repository";
 import { User } from "../models/user.model";
@@ -19,7 +20,6 @@ export class UserService {
         return true;
       }
     } catch (err) {
-      console.log("unable to get user");
       throw err;
     }
   };
@@ -38,24 +38,23 @@ export class UserService {
         return true;
       }
     } catch (err) {
-      console.log("unable to get city id");
       throw err;
     }
   };
 
-  async updateUser(query: updateUserDto): Promise<User> {
+  async updateUser(params: updateUserDto): Promise<User> {
     try {
       logger.info("update user details", {
-        id: query.userId,
+        id: params.userId,
         __filename,
         functionName: "updateUser",
       });
-      await this.isUserIdValid(query.userId);
-      if (query.cityId) {
-        await this.isCityIdValid(query.cityId);
+      await this.isUserIdValid(params.userId);
+      if (params.cityId) {
+        await this.isCityIdValid(params.cityId);
       }
 
-      const user: User = await userRepository.updateUser(query);
+      const user: User = await userRepository.updateUser(params);
       logger.info("updated user details successfully", {
         id: user.id,
         __filename,
@@ -64,7 +63,6 @@ export class UserService {
 
       return user;
     } catch (err) {
-      console.log("could not update user details");
       throw err;
     }
   }

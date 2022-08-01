@@ -35,30 +35,36 @@ class UserRepository {
       return id;
     } catch (err) {
       console.log("unable to fetch user Id");
+      // throw new CustomError({
+      //   ...err,
+      //   data: userId,
+      //   statusCode: 500,
+      //   message: "Unable to fetch user",
+      // });
       throw err;
     }
   };
 
-  updateUser = async (query: updateUserDto): Promise<User> => {
+  updateUser = async (params: updateUserDto): Promise<User> => {
     try {
       logger.info("update user details", {
-        query,
+        query: params,
         __filename,
         functionName: "updateUser",
       });
       const updateUser: User = await this.prisma.user.update({
         where: {
-          id: query.userId,
+          id: params.userId,
         },
         data: {
-          name: query.name,
-          email: query.email,
-          phoneNumber: query.phoneNumber,
-          cityId: query.cityId,
+          name: params.name,
+          email: params.email,
+          phoneNumber: params.phoneNumber,
+          cityId: params.cityId,
         },
       });
       logger.info("updated user details successfully", {
-        id: query.userId,
+        id: params.userId,
         __filename,
         functionName: "updateUser",
       });
@@ -66,6 +72,12 @@ class UserRepository {
       return updateUser;
     } catch (err) {
       console.log("could not update user details in Db");
+      // throw new CustomError({
+      //   ...err,
+      //   data: userId,
+      //   statusCode: 500,
+      //   message: "Unable to update User details",
+      // });
       throw err;
     }
   };
