@@ -15,7 +15,6 @@ class AccountRepository {
 
   getUserAccount = async (params: loginDto): Promise<Account | null> => {
     try {
-      dbClient.dbConnect();
       return await this.prisma.account.findUnique({
         where: {
           username: params.username,

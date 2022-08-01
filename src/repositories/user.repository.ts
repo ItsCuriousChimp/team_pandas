@@ -13,7 +13,6 @@ class UserRepository {
 
   updateLastLogin = async (userId: string): Promise<void> => {
     try {
-      dbClient.dbConnect();
       await this.prisma.user.update({
         where: {
           id: userId,

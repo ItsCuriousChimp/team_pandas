@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as bcrypt from "bcryptjs";
 import { loginDto } from "../data/dtos/login.dto";
@@ -35,13 +36,6 @@ class AuthService {
 
       return accessToken;
     } catch (err: any) {
-      logger.error({
-        error: err,
-        message: "Cannot login user.",
-        status: err.statusCode,
-        __filename,
-      });
-
       throw err;
     }
   };
