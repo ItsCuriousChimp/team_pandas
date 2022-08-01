@@ -7,7 +7,7 @@ class MovieDetailsService {
       const movieDetails = await movieRepository.getMovieDetails(movieId);
       return movieDetails;
     } catch (error) {
-      console.log("unable to fetch movie details");
+      console.log("unable to fetch user details");
       throw error;
     }
   };
