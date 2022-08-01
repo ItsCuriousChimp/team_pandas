@@ -29,6 +29,12 @@ class TheatreRepository {
       return theatre;
     } catch (err) {
       console.log("unable to fetch theatre");
+      // throw new CustomError({
+      //   ...err,
+      //   data: theatreId,
+      //   statusCode: 500,
+      //   message: "Unable to fetch theatre",
+      // });
       throw err;
     }
   };

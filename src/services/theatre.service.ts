@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { showRepository } from "../repositories/show.repository";
 import { seatRepository } from "../repositories/seat.repository";
 import { movieRepository } from "../repositories/movie.repository";
@@ -23,7 +24,6 @@ class TheatreService {
         return true;
       }
     } catch (err) {
-      console.log("unable to get movie");
       throw err;
     }
   };
@@ -41,7 +41,6 @@ class TheatreService {
         return true;
       }
     } catch (err) {
-      console.log("unable to get theatre");
       throw err;
     }
   };
@@ -59,7 +58,6 @@ class TheatreService {
         return true;
       }
     } catch (err) {
-      console.log("unable to get show");
       throw err;
     }
   };
@@ -104,7 +102,6 @@ class TheatreService {
       });
       return showModels;
     } catch (err) {
-      console.log("unable to get shows");
       throw err;
     }
   };
@@ -128,7 +125,6 @@ class TheatreService {
       });
       return seatModels;
     } catch (err) {
-      console.log("unable to get available seats");
       throw err;
     }
   };

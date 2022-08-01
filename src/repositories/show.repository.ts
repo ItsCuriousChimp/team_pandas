@@ -31,6 +31,12 @@ class ShowRepository {
       return show;
     } catch (err) {
       console.log("unable to fetch show");
+      // throw new CustomError({
+      //   ...err,
+      //   data: showId,
+      //   statusCode: 500,
+      //   message: "Unable to fetch show",
+      // });
       throw err;
     }
   };
@@ -108,6 +114,12 @@ class ShowRepository {
       return showModels;
     } catch (err) {
       console.log("unable to fetch shows from DB");
+      // throw new CustomError({
+      //   ...err,
+      //   data: theatreId,movieId,
+      //   statusCode: 500,
+      //   message: "Unable to fetch shows of a theatre playing a movie",
+      // });
       throw err;
     }
   };

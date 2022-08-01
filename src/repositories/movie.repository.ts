@@ -29,6 +29,12 @@ class MovieRepository {
       return movie;
     } catch (err) {
       console.log("unable to fetch movie");
+      // throw new CustomError({
+      //   ...err,
+      //   data: movieId,
+      //   statusCode: 500,
+      //   message: "Unable to fetch movie",
+      // });
       throw err;
     }
   };

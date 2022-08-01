@@ -49,6 +49,12 @@ class SeatRepository {
       return availableSeats;
     } catch (err) {
       console.log("unable to fetch seats from DB");
+      // throw new CustomError({
+      //   ...err,
+      //   data: showId,
+      //   statusCode: 500,
+      //   message: "Unable to fetch available seats of a show",
+      // });
       throw err;
     }
   };
