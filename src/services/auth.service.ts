@@ -4,7 +4,7 @@ import * as bcrypt from "bcryptjs";
 import { loginDto } from "../data/dtos/login.dto";
 import { userRepository } from "../repositories/user.repository";
 import { accountRepository } from "../repositories/account.repository";
-import AuthenticationError from "../common/utils/customErrors/autheticationError";
+import AuthenticationError from "../common/utils/customErrors/authenticationError";
 import { redisClient } from "../storage/redisClient";
 import { authHelper } from "../common/helpers/auth.helper";
 import logger from "../common/logger/logger";
@@ -15,11 +15,11 @@ class AuthService {
       const account = await accountRepository.getUserAccount(params);
 
       if (!account) {
-        throw new AuthenticationError("Invalid Username", params);
+        throw new AuthenticationError(params);
       }
 
       if (!(await bcrypt.compare(params.password, account.passwordHash))) {
-        throw new AuthenticationError("Invalid Password", params);
+        throw new AuthenticationError(params);
       }
 
       const accessToken: string = await authHelper.createAccessToken(

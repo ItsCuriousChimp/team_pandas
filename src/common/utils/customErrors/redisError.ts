@@ -3,11 +3,13 @@ import CustomError from "./customError";
 
 class RedisError extends CustomError {
   constructor(message: string, err: any) {
-    super({});
-    this.message = err.message;
-    this.errorType = message;
-    this.stack = err.stack;
-    this.statusCode = err.status;
+    super({
+      message: err.message,
+      errorType: message,
+      stack: err.stack,
+      statusCode: err.status,
+    });
+    this.errorType = this.constructor.name;
   }
 }
 

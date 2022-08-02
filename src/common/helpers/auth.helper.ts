@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as jwt from "jsonwebtoken";
 import logger from "../logger/logger";
-import APITokenError from "../utils/customErrors/apiError";
+import APIError from "../utils/customErrors/apiError";
 
 class AuthHelper {
   public createAccessToken = (userId: string): string => {
@@ -26,7 +26,7 @@ class AuthHelper {
       return token;
     } catch (error) {
       logger.error("Unable to create token");
-      throw new APITokenError("Unable to create token", userId, error);
+      throw new APIError("Unable to create token", userId, error);
     }
   };
   public verifyAccessToken = (token: string): jwt.JwtPayload => {
@@ -51,7 +51,7 @@ class AuthHelper {
       return payload;
     } catch (error) {
       logger.info("Incorrect access token");
-      throw new APITokenError("Unable to verify token", token, error);
+      throw new APIError("Unable to verify token", token, error);
     }
   };
 }
