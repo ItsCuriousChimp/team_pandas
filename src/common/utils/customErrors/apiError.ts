@@ -2,6 +2,7 @@
 import CustomError from "./customError";
 
 class APIError extends CustomError {
+  errorType = this.constructor.name;
   constructor(message: string, data: any, err: any) {
     super({
       message: message,
@@ -9,7 +10,6 @@ class APIError extends CustomError {
       statusCode: 400,
       data: data,
     });
-    this.errorType = this.constructor.name;
   }
 }
 

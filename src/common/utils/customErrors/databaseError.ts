@@ -2,6 +2,7 @@
 import CustomError from "./customError";
 
 class DatabaseError extends CustomError {
+  errorType = this.constructor.name;
   constructor(message: string, err: any, data: any) {
     super({
       message: message,
@@ -9,8 +10,6 @@ class DatabaseError extends CustomError {
       statusCode: 502,
       data: data,
     });
-
-    this.errorType = this.constructor.name;
   }
 }
 export default DatabaseError;
