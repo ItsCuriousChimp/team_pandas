@@ -11,4 +11,4 @@ router
   .route("/update")
   .put([authorize, validate(userValidation), userController.updateUser]);
 
-export default router;
+export { router as userRouter };

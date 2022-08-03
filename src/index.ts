@@ -1,16 +1,20 @@
-import express, { Express, Response, Request, Router } from "express";
-import { redisHelper } from "./common/helpers/redis.helper";
-import { heartbeatController } from "./controllers/heartbeat.controller";
-import userRoutes from "./routes/user.route";
+import express, { Express, Response, Request, NextFunction } from "express";
 import bodyParser from "body-parser";
+import * as dotenv from "dotenv";
 import * as error from "./middleware/error.middleware";
+import { loginRouter } from "./routes/login.route";
+import { heartbeatController } from "./controllers/heartbeat.controller";
+import { userRouter } from "./routes/user.route";
 
-const PORT = 3000;
 const app: Express = express();
-//start redis connection
-(async () => {
-  return await redisHelper.getConnection().connect();
-})();
+
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.json());
+
+dotenv.config();
 
 app.use(bodyParser.json());
 
@@ -23,12 +27,22 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.get("/heartbeat", heartbeatController.getTimeStamp);
-//theatre routes
-app.use("/user", userRoutes);
 
-app.use(error.errorHandler);
+app.use("/login", loginRouter);
 
-app.listen(process.env.NODE_ENV || PORT, () => {
+app.use("/user", userRouter);
+
+// Error handler middleware
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  next(err);
+});
+
+app.use(error.handler);
+
+// Handle 404 error
+app.use(error.resourceNotFoundHandler);
+
+app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server running at PORT ${PORT}`);
+  console.log(`Server running at PORT ${process.env.PORT}`);
 });
