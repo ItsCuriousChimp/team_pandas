@@ -4,7 +4,6 @@ import * as dotenv from "dotenv";
 import * as error from "./middleware/error.middleware";
 import { loginRouter } from "./routes/login.route";
 import { heartbeatController } from "./controllers/heartbeat.controller";
-
 const app: Express = express();
 
 dotenv.config();

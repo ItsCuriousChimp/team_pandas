@@ -1,8 +1,11 @@
 export class Show {
   id: string;
-  showstartTimeInUtc: Date;
+  showStartTimeInUtc: Date;
   showEndTimeInUtc: Date;
-  availableUntilInUtc: Date;
+  availableUntilUtc: Date | null;
   screenId: string;
   movieId: string;
+  bookedSeatCount?: number;
+  totalSeatCount?: number;
+  availablityStatus?: string;
 }
