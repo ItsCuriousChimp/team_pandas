@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Theatre } from "../models/theatre.model";
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
+import { dbClient } from "./dbClient";
+import CustomError from "../common/utils/customErrors/customError";
 
 class TheatreRepository {
   prisma: PrismaClient;
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = dbClient.prisma;
   }
   getTheatre = async (theatreId: string): Promise<Theatre | null> => {
     try {
@@ -27,15 +30,14 @@ class TheatreRepository {
       });
 
       return theatre;
-    } catch (err) {
+    } catch (err: any) {
       console.log("unable to fetch theatre");
-      // throw new CustomError({
-      //   ...err,
-      //   data: theatreId,
-      //   statusCode: 500,
-      //   message: "Unable to fetch theatre",
-      // });
-      throw err;
+      throw new CustomError({
+        ...err,
+        data: theatreId,
+        statusCode: 500,
+        message: "Unable to fetch theatre",
+      });
     }
   };
 }

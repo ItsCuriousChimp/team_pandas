@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Seat } from "../models/seat.model";
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
+import { dbClient } from "./dbClient";
+import CustomError from "../common/utils/customErrors/customError";
 
 class SeatRepository {
   prisma: PrismaClient;
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = dbClient.prisma;
   }
   getAvailableSeatsOfShow = async (showId: string): Promise<Seat[]> => {
     try {
@@ -47,15 +50,14 @@ class SeatRepository {
       });
 
       return availableSeats;
-    } catch (err) {
+    } catch (err: any) {
       console.log("unable to fetch seats from DB");
-      // throw new CustomError({
-      //   ...err,
-      //   data: showId,
-      //   statusCode: 500,
-      //   message: "Unable to fetch available seats of a show",
-      // });
-      throw err;
+      throw new CustomError({
+        ...err,
+        data: showId,
+        statusCode: 500,
+        message: "Unable to fetch available seats of a show",
+      });
     }
   };
 }

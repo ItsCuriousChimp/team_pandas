@@ -1,7 +1,8 @@
 import { NextFunction, Response, Request } from "express";
 import logger from "../common/logger/logger";
+import { redisClient } from "../storage/redisClient";
 import { authHelper } from "../common/helpers/auth.helper";
-import { redisHelper } from "../common/helpers/redis.helper";
+import clientError from "../common/utils/customErrors/clientError";
 
 export const authorize = async (
   req: Request,
@@ -10,21 +11,20 @@ export const authorize = async (
 ) => {
   const token = req.headers.authorization;
   if (!token) {
-    throw new Error("No Token in header - access denied");
+    throw new clientError("No token in header", null, 400);
   }
   try {
     logger.info("authorize", {
       __filename,
       functionName: "authorize",
     });
-
     // Validate JWT
     // remove bearer
     const [, tokenBody] = token.split(" ");
     const payload = authHelper.verifyAccessToken(tokenBody);
-    const check = await redisHelper.isTokeninCache(payload.id); // check if token exists in cache already
+    const check = await redisClient.isTokenInCache(payload.id); // check if token exists in cache already
     if (check == 0) {
-      throw new Error("Token doesnot exist in cache");
+      throw new clientError("Token doesnot exist in cache", tokenBody, 400);
     }
 
     logger.info("authorization successful", {
@@ -34,7 +34,6 @@ export const authorize = async (
 
     next();
   } catch (err) {
-    console.log("unauthorized user");
     next(err);
   }
 };

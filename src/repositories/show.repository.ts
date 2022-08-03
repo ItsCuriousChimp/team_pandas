@@ -1,12 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Show } from "../models/show.model";
 import { DateTimeHelper } from "../common/helpers/dateTime.helper";
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
+import { dbClient } from "./dbClient";
+import CustomError from "../common/utils/customErrors/customError";
 
 class ShowRepository {
   prisma: PrismaClient;
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = dbClient.prisma;
   }
 
   getShow = async (showId: string): Promise<Show | null> => {
@@ -29,15 +32,13 @@ class ShowRepository {
       });
 
       return show;
-    } catch (err) {
-      console.log("unable to fetch show");
-      // throw new CustomError({
-      //   ...err,
-      //   data: showId,
-      //   statusCode: 500,
-      //   message: "Unable to fetch show",
-      // });
-      throw err;
+    } catch (err: any) {
+      throw new CustomError({
+        ...err,
+        data: showId,
+        statusCode: 500,
+        message: "Unable to fetch show",
+      });
     }
   };
 
@@ -112,15 +113,14 @@ class ShowRepository {
         functionName: "getShowsOfTheatreAndMovie",
       });
       return showModels;
-    } catch (err) {
-      console.log("unable to fetch shows from DB");
-      // throw new CustomError({
-      //   ...err,
-      //   data: theatreId,movieId,
-      //   statusCode: 500,
-      //   message: "Unable to fetch shows of a theatre playing a movie",
-      // });
-      throw err;
+    } catch (err: any) {
+      throw new CustomError({
+        ...err,
+        data: theatreId,
+        movieId,
+        statusCode: 500,
+        message: "Unable to fetch shows of a theatre playing a movie",
+      });
     }
   };
 }

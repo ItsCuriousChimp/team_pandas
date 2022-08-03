@@ -25,4 +25,4 @@ router
     theatreController.getAvailableSeatsOfShow,
   ]);
 
-export default router;
+export { router as theatreRouter };

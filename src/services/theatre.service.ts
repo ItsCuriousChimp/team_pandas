@@ -8,6 +8,7 @@ import { Seat } from "../models/seat.model";
 import { Movie } from "../models/movie.model";
 import { Theatre } from "../models/theatre.model";
 import logger from "../common/logger/logger";
+import clientError from "../common/utils/customErrors/clientError";
 
 class TheatreService {
   isMovieValid = async (id: string): Promise<boolean> => {
@@ -18,8 +19,8 @@ class TheatreService {
         functionName: "isMovieValid",
       });
       const getMovie: Movie | null = await movieRepository.getMovie(id);
-      if ((await getMovie) == null) {
-        throw new Error("Movie id incorrect");
+      if (!getMovie) {
+        throw new clientError("Movie id doesnot exist", id, 422);
       } else {
         return true;
       }
@@ -35,8 +36,8 @@ class TheatreService {
         functionName: "isTheatreValid",
       });
       const getTheatre: Theatre | null = await theatreRepository.getTheatre(id);
-      if ((await getTheatre) == null) {
-        throw new Error("Theatre id incorrect");
+      if (getTheatre == null) {
+        throw new clientError("theatre id doesnot exist", id, 422);
       } else {
         return true;
       }
@@ -52,8 +53,8 @@ class TheatreService {
         functionName: "isShowValid",
       });
       const getShow: Show | null = await showRepository.getShow(id);
-      if ((await getShow) == null) {
-        throw new Error("Show id incorrect");
+      if (!getShow) {
+        throw new clientError("show id doesnot exist", id, 422);
       } else {
         return true;
       }
