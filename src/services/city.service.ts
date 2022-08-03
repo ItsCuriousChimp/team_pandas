@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-catch */
+
 import { cityRepository } from "../repositories/city.repository";
 
 import { City } from "../models/city.model";
@@ -16,7 +18,6 @@ export class CityService {
       });
       return cities;
     } catch (err) {
-      console.log("could not fetch cities");
       throw err;
     }
   };

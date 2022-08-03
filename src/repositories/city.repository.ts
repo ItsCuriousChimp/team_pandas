@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-useless-catch */
 import { City } from "../models/city.model";
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
+import CustomError from "../common/utils/customErrors/customError";
 
 export class CityRepository {
   prisma: PrismaClient;
@@ -19,9 +22,13 @@ export class CityRepository {
         functionName: "getAllCities",
       });
       return cities;
-    } catch (err) {
-      console.log("could not fetch cities from DB");
-      throw err;
+    } catch (err: any) {
+      throw new CustomError({
+        ...err,
+        data: null,
+        statusCode: 500,
+        message: "Unable to fetch cities",
+      });
     }
   };
 }
