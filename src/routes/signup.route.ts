@@ -6,7 +6,7 @@ import { authController } from "../controllers/auth.controller";
 const router: Router = Router();
 
 router
-  .route("/signup")
+  .route("/")
   .post([validate(signupValidation), authController.registerUser]);
 
-export default router;
+export { router as signupRouter };

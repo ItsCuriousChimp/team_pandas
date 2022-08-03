@@ -1,49 +1,57 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as jwt from "jsonwebtoken";
 import logger from "../logger/logger";
+import APIError from "../utils/customErrors/apiError";
 
 class AuthHelper {
-  public getAccessToken = (userId: string): string => {
+  public createAccessToken = (userId: string): string => {
     try {
       logger.info("get access token", {
         userId,
         __filename,
         functionName: "getAccessToken",
       });
+
       const secretKey: string = process.env.SECRET_KEY as string;
-      const token = jwt.sign({ id: userId }, secretKey, {
+      const token: string = jwt.sign({ id: userId }, secretKey, {
         expiresIn: "30d",
       });
+
       logger.info("access token created succesfully", {
         userId,
         __filename,
         functionName: "getAccessToken",
       });
+
       return token;
     } catch (error) {
-      console.log("token could not be created");
-      throw error;
+      logger.error("Unable to create token");
+      throw new APIError("Unable to create token", userId, error);
     }
   };
-  public verifyAccessToken = (token: string): any => {
+  public verifyAccessToken = (token: string): jwt.JwtPayload => {
     try {
-      logger.info("verify access token", {
+      logger.info("Verify access token", {
         __filename,
         functionName: "verifyAccessToken",
       });
       const secretKey: string = process.env.SECRET_KEY as string;
-      const payload = jwt.verify(token, secretKey) as jwt.JwtPayload;
+      const payload: jwt.JwtPayload = jwt.verify(
+        token,
+        secretKey
+      ) as jwt.JwtPayload;
 
       logger.info(
-        "access token verified successfully",
-        { userId: payload.id },
+        "Access token verified successfully",
+        { id: payload.id },
         __filename,
         "verifyAccessToken"
       );
+
       return payload;
     } catch (error) {
-      // throw new Error(error);
-      console.log("incorrect access token");
-      throw error;
+      logger.info("Incorrect access token");
+      throw new APIError("Unable to verify token", token, error);
     }
   };
 }

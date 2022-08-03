@@ -1,58 +1,56 @@
-/* eslint-disable no-useless-catch */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
 import { Account } from "../models/account.model";
+import { dbClient } from "./dbClient";
+import CustomError from "../common/utils/customErrors/customError";
 
 export class AccountRepository {
-  username: string;
   prisma: PrismaClient;
-  constructor(username: string) {
-    this.username = username;
-    this.prisma = new PrismaClient();
+  constructor() {
+    this.prisma = dbClient.prisma;
   }
-  getAccount = async (): Promise<string | null> => {
+  getAccount = async (username: string): Promise<Account | null> => {
     try {
       logger.info("get account", {
-        username: this.username,
+        username,
         __filename,
         functionName: "getAccount",
       });
-      const accountIdJson = await this.prisma.account.findFirst({
+      const account = await this.prisma.account.findUnique({
         where: {
-          username: this.username,
-        },
-        select: {
-          id: true,
+          username: username,
         },
       });
-      const accountId: string = accountIdJson?.id as string;
       logger.info("get account from DB successful", {
-        accountId,
+        username,
         __filename,
         functionName: "getAccount",
       });
-      return accountId;
-    } catch (err) {
+      return account;
+    } catch (err: any) {
       console.log("error in fetching account");
-      // throw new CustomError({
-      //   ...err,
-      //   data: this.username,
-      //   statusCode: 500,
-      //   message: "Unable to fetch account",
-      // });
-      throw err;
+      throw new CustomError({
+        data: username,
+        ...err,
+        statusCode: 500,
+        message: "Unable to fetch account",
+      });
     }
   };
-  createAccount = async (password: string): Promise<string> => {
+  createAccount = async (
+    username: string,
+    password: string
+  ): Promise<string> => {
     try {
       logger.info("create account", {
-        username: this.username,
+        username,
         __filename,
         functionName: "CreateAccount",
       });
       const account = await this.prisma.account.create({
         data: {
-          username: this.username,
+          username: username,
           passwordHash: password,
         },
       });
@@ -63,14 +61,13 @@ export class AccountRepository {
         functionName: "CreateAccount",
       });
       return accountId;
-    } catch (err) {
-      // throw new CustomError({
-      //   ...err,
-      //   data: this.username,
-      //   statusCode: 500,
-      //   message: "unable to create account",
-      // });
-      throw err;
+    } catch (err: any) {
+      throw new CustomError({
+        ...err,
+        data: username,
+        statusCode: 500,
+        message: "unable to create account",
+      });
     }
   };
 
@@ -99,15 +96,16 @@ export class AccountRepository {
         functionName: "updateAccountWithUserId",
       });
       return updateAccount;
-    } catch (err) {
+    } catch (err: any) {
       console.log("error in updating account with userId");
-      // throw new CustomError({
-      //   ...err,
-      //   data: userId,
-      //   statusCode: 500,
-      //   message: "Unable to update account with userId",
-      // });
-      throw err;
+      throw new CustomError({
+        ...err,
+        data: userId,
+        statusCode: 500,
+        message: "Unable to update account with userId",
+      });
     }
   };
 }
+
+export const accountRepository = new AccountRepository();
