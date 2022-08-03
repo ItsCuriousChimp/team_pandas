@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { heartbeatService } from "../services/heartbeat.service";
-import { HeartbeatResponsePayload } from "../data/payloads/heartbeat.payload";
+import { HeartbeatResponsePayload } from "../data/payloads/heartbeat-response.payload";
 
 class HeartbeatController {
   getTimeStamp = (req: Request, res: Response) => {
