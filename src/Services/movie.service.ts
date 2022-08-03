@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-catch */
 import { Movie } from "../models/movie.model";
-import { movieRepository } from "../repositories/movieDetails.repository";
+import { movieRepository } from "../repositories/movie.repository";
 
 class MovieService {
   getMovieDetails = async (movieId: string): Promise<Movie[]> => {

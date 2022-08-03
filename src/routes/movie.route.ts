@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { movieController } from "../controllers/movie.controller";
 import { validate } from "express-validation";
 import { movieDetailsValidation } from "../common/validators/movieDetails.validator";
+import { movieController } from "../controllers/movie.controller";
 
-const movieDetailsRouter = Router();
+const router: Router = Router();
 
-movieDetailsRouter
+router
   .route("/details")
   .get([validate(movieDetailsValidation), movieController.getMovieDetails]);
 
-export default movieDetailsRouter;
+export { router as movieRouter };
