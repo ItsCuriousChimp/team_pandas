@@ -1,11 +1,12 @@
 /* eslint-disable no-useless-catch */
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
+import { dbClient } from "./dbClient";
 
 class CityRepository {
   prisma: PrismaClient;
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = dbClient.prisma;
   }
 
   getCityId = async (cityId: string): Promise<string | null> => {
