@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
 
@@ -32,7 +33,13 @@ class CityRepository {
 
       return id;
     } catch (err) {
-      console.log("unable to fetch city Id");
+      // throw new CustomError({
+      //   ...err,
+      //   data: cityId,
+      //   statusCode: 500,
+      //   message: "Unable to fetch city",
+      // });
+
       throw err;
     }
   };

@@ -1,4 +1,4 @@
-import { User } from "../models/user.model";
+/* eslint-disable no-useless-catch */
 import { PrismaClient } from "@prisma/client";
 import { signupDto } from "../data/dtos/signup.dto";
 import logger from "../common/logger/logger";
@@ -9,19 +9,19 @@ class UserRepository {
     this.prisma = new PrismaClient();
   }
 
-  async createUser(query: signupDto): Promise<string> {
+  async createUser(params: signupDto): Promise<string> {
     try {
       logger.info("create user in user table", {
-        query,
+        query: params,
         __filename,
         functionName: "createUser",
       });
       const user = await this.prisma.user.create({
         data: {
-          name: query.name,
-          email: query.email,
-          phoneNumber: query.phoneNumber,
-          cityId: query.cityId,
+          name: params.name,
+          email: params.email,
+          phoneNumber: params.phoneNumber,
+          cityId: params.cityId,
           loggedInAtUTC: new Date(),
         },
       });
@@ -32,7 +32,12 @@ class UserRepository {
       });
       return user.id;
     } catch (err) {
-      console.log("error in creating user");
+      // throw new CustomError({
+      //   ...err,
+      //   data: params,
+      //   statusCode: 500,
+      //   message: "Unable to fetch user",
+      // });
       throw err;
     }
   }

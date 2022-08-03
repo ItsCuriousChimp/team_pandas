@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { userRepository } from "../repositories/user.repository";
 import { AccountRepository } from "../repositories/account.repository";
 import { signupDto } from "../data/dtos/signup.dto";
@@ -17,13 +18,12 @@ export class AuthService {
         functionName: "isCityIdValid",
       });
       const getCityId: string | null = await cityRepository.getCityId(id);
-      if ((await getCityId) == null) {
+      if (getCityId == null) {
         throw new Error("City id incorrect");
       } else {
         return true;
       }
     } catch (err) {
-      console.log("unable to get city id");
       throw err;
     }
   };
@@ -48,31 +48,31 @@ export class AuthService {
     }
   };
 
-  registerUser = async (query: signupDto): Promise<string | null> => {
+  registerUser = async (params: signupDto): Promise<string | null> => {
     try {
       logger.info("register user", {
-        query,
+        query: params,
         __filename,
         functionName: "registerUser",
       });
-      const accountRepository = new AccountRepository(query.username);
+      const accountRepository = new AccountRepository(params.username);
       const isAccountinDB = accountRepository.getAccount();
       if ((await isAccountinDB) != null) {
         throw new Error("Account Already exists");
       }
       //If city entered in sign up form then check if that city is in DB
-      if (query.cityId) {
-        await this.isCityIdValid(query.cityId);
+      if (params.cityId) {
+        await this.isCityIdValid(params.cityId);
       }
 
       // Need to wrap
       const passwordHash: string = await hashHelper.generateHash(
-        query.password
+        params.password
       );
       const accountId: string = await accountRepository.createAccount(
         passwordHash
       );
-      const userId: string = await userRepository.createUser(query);
+      const userId: string = await userRepository.createUser(params);
       const account: Account = await accountRepository.updateAccountWithUserId(
         accountId,
         userId
@@ -88,7 +88,6 @@ export class AuthService {
       });
       return token;
     } catch (err) {
-      console.log("error in registering user");
       throw err;
     }
   };

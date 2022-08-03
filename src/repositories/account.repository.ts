@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
 import { Account } from "../models/account.model";
@@ -33,6 +34,12 @@ export class AccountRepository {
       return accountId;
     } catch (err) {
       console.log("error in fetching account");
+      // throw new CustomError({
+      //   ...err,
+      //   data: this.username,
+      //   statusCode: 500,
+      //   message: "Unable to fetch account",
+      // });
       throw err;
     }
   };
@@ -57,7 +64,12 @@ export class AccountRepository {
       });
       return accountId;
     } catch (err) {
-      console.log("error in creating account");
+      // throw new CustomError({
+      //   ...err,
+      //   data: this.username,
+      //   statusCode: 500,
+      //   message: "unable to create account",
+      // });
       throw err;
     }
   };
@@ -89,6 +101,12 @@ export class AccountRepository {
       return updateAccount;
     } catch (err) {
       console.log("error in updating account with userId");
+      // throw new CustomError({
+      //   ...err,
+      //   data: userId,
+      //   statusCode: 500,
+      //   message: "Unable to update account with userId",
+      // });
       throw err;
     }
   };
