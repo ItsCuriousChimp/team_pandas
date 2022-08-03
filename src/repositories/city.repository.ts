@@ -4,11 +4,12 @@ import { City } from "../models/city.model";
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
 import CustomError from "../common/utils/customErrors/customError";
+import { dbClient } from "./dbClient";
 
 export class CityRepository {
   prisma: PrismaClient;
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = dbClient.prisma;
   }
   getAllCities = async (): Promise<City[]> => {
     try {
