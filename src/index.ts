@@ -4,8 +4,15 @@ import * as dotenv from "dotenv";
 import * as error from "./middleware/error.middleware";
 import { loginRouter } from "./routes/login.route";
 import { heartbeatController } from "./controllers/heartbeat.controller";
+import { userRouter } from "./routes/user.route";
 
 const app: Express = express();
+
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.json());
 
 dotenv.config();
 
@@ -22,6 +29,8 @@ app.get("/", (req: Request, res: Response) => {
 app.get("/heartbeat", heartbeatController.getTimeStamp);
 
 app.use("/login", loginRouter);
+
+app.use("/user", userRouter);
 
 // Error handler middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
