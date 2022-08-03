@@ -51,7 +51,6 @@ class SeatRepository {
 
       return availableSeats;
     } catch (err: any) {
-      console.log("unable to fetch seats from DB");
       throw new CustomError({
         ...err,
         data: showId,
