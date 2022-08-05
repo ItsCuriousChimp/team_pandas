@@ -15,8 +15,6 @@ class MovieRepository {
 
   getCity = async (cityId: string): Promise<City | null> => {
     try {
-      dbClient.dbConnect();
-
       const city: City | null = await this.prisma.city.findUnique({
         where: { id: cityId },
       });
@@ -39,8 +37,6 @@ class MovieRepository {
 
   getAllMoviesInCity = async (cityId: string): Promise<Movie[]> => {
     try {
-      dbClient.dbConnect();
-
       const movies: Movie[] = await this.prisma.$queryRawUnsafe(
         `select distinct mv.* from "Theatre" as th
 				inner join "Screen" as sc 
@@ -50,16 +46,19 @@ class MovieRepository {
 				inner join "Movie" as mv on
 				mv.id = sh."movieId" where th."cityId" = '${cityId}'`
       );
+
       logger.info({
         message: "Successfully searched for theatre and show time",
       });
+
       return movies;
     } catch (err: any) {
       logger.error({
-        message: `Unable to fetch moviesin the city`,
+        message: `Unable to fetch movies in the city`,
         error: err,
         __filename,
       });
+
       throw new CustomError({
         data: cityId,
         ...err,
