@@ -10,13 +10,14 @@ export const authorize = async (
   next: NextFunction
 ) => {
   const token = req.headers.authorization;
+  const callerMethodName = "authorize";
   try {
     if (!token) {
       throw new clientError("No token in header", null, 400);
     }
     logger.info("authorize", {
       __filename,
-      functionName: "authorize",
+      functionName: callerMethodName,
     });
 
     const [, tokenBody] = token.split(" ");
@@ -30,7 +31,7 @@ export const authorize = async (
 
     logger.info("Authorization successful", {
       __filename,
-      functionName: "authorize",
+      functionName: callerMethodName,
     });
 
     next();
