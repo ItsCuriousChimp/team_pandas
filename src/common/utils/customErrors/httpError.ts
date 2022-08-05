@@ -5,7 +5,7 @@ class HTTPError extends CustomError {
   errorType = this.constructor.name;
   constructor(message: string, err: any) {
     super({
-      message: err.message,
+      message: message,
       stack: err.stack,
       statusCode: err.status,
     });
