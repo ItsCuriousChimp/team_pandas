@@ -28,7 +28,7 @@ export const authorize = async (
       throw new clientError("Token doesnot exist in cache", tokenBody, 400);
     }
 
-    logger.info("authorization successful", {
+    logger.info("Authorization successful", {
       __filename,
       functionName: "authorize",
     });
