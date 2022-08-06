@@ -22,7 +22,7 @@ class TheatreRespository {
       logger.error({
         error: err,
         __filename,
-        message: "Cannot search for movie",
+        message: "Unable to find movie",
       });
       throw err;
     }
@@ -39,7 +39,7 @@ class TheatreRespository {
       logger.error({
         error: err,
         __filename,
-        message: "Cannot search for city",
+        message: "Unable to find city",
       });
       throw err;
     }
@@ -65,7 +65,7 @@ class TheatreRespository {
       logger.error({
         error: error,
         __filename,
-        message: `Error found in theatreRepository`,
+        message: `Unable to find theatre and showtime of the movie`,
       });
       throw error;
     }

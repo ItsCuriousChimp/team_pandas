@@ -5,7 +5,7 @@ class APIError extends CustomError {
   errorType = this.constructor.name;
   constructor(message: string, data: any, err: any) {
     super({
-      message: message,
+      message: message || err.message,
       stack: err.stack,
       statusCode: 400,
       data: data,
