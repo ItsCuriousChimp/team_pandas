@@ -2,35 +2,40 @@
 import { PrismaClient } from "@prisma/client";
 import { dbClient } from "./dbClient";
 import logger from "../common/logger/logger";
-import { User } from "../models/user.model";
-import CustomError from "../common/utils/customErrors/customError";
+import DatabaseError from "../common/utils/customErrors/databaseError";
 
 class UserRepository {
   prisma: PrismaClient;
+
   constructor() {
     this.prisma = dbClient.prisma;
   }
 
-  getUser = async (userId: string): Promise<User | null> => {
+  updateLastLogin = async (userId: string): Promise<void> => {
     try {
-      const user: User | null = await this.prisma.user.findUnique({
+      await this.prisma.user.update({
         where: {
           id: userId,
         },
+        data: {
+          loggedInAtUTC: new Date(),
+        },
       });
-      return user;
+      logger.info({
+        message: "Successfully updated user's last login",
+        data: userId,
+      });
     } catch (err: any) {
       logger.error({
-        message: "Unable to fetch user",
         error: err,
         __filename,
+        message: `Unable to update user's last login`,
       });
-      throw new CustomError({
-        ...err,
-        data: userId,
-        statusCode: 500,
-        message: "Unable to fetch user",
-      });
+      throw new DatabaseError(
+        "Unable to update user's last login",
+        err,
+        userId
+      );
     }
   };
 }

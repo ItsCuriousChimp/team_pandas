@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CustomError from "./customError";
 
-class DatabaseError extends CustomError {
+class APIError extends CustomError {
   errorType = this.constructor.name;
-  constructor(message: string, err: any, data: any) {
+  constructor(message: string, data: any, err: any) {
     super({
       message: message,
       stack: err.stack,
-      statusCode: 502,
+      statusCode: 400,
       data: data,
     });
   }
 }
-export default DatabaseError;
+
+export default APIError;
