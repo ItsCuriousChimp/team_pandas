@@ -1,11 +1,14 @@
 import express, { Express, Response, Request, NextFunction } from "express";
 import bodyParser from "body-parser";
-import { movieRouter } from "./routes/movie.router";
+import * as dotenv from "dotenv";
 import * as error from "./middleware/error.middleware";
+import { movieRouter } from "./routes/movie.router";
+import { authRouter } from "./routes/auth.route";
 import { heartbeatController } from "./controllers/heartbeat.controller";
-import { PORT } from "./common/constants";
 
 const app: Express = express();
+
+dotenv.config();
 
 app.use(bodyParser.json());
 
@@ -16,6 +19,8 @@ app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.send("HELLO WORLD!");
 });
+
+app.use("/auth", authRouter);
 
 app.get("/heartbeat", heartbeatController.getTimeStamp);
 
@@ -31,6 +36,7 @@ app.use(error.handler);
 // Handle 404 error
 app.use(error.resourceNotFoundHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running at PORT ${PORT}`);
+app.listen(process.env.PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Server running at PORT ${process.env.PORT}`);
 });

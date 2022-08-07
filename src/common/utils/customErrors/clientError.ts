@@ -1,14 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import CustomError from "./customError";
 
 class ClientError extends CustomError {
-  errorType: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  errorType = this.constructor.name;
   constructor(message: string, err: any) {
-    super({});
-    this.message = err.message;
-    this.errorType = message;
-    this.stack = err.stack;
-    this.statusCode = err.status;
+    super({
+      message: err.message,
+      stack: err.stack,
+      statusCode: err.status,
+    });
   }
 }
 
