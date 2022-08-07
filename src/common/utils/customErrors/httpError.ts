@@ -3,11 +3,12 @@ import CustomError from "./customError";
 
 class HTTPError extends CustomError {
   errorType = this.constructor.name;
-  constructor(message: string, err: any) {
+  constructor(message: string, err: any, data: any) {
     super({
-      message: err.message,
+      message: message || err.message,
       stack: err.stack,
-      statusCode: err.status,
+      statusCode: 502,
+      data: data,
     });
   }
 }

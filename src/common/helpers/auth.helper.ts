@@ -5,11 +5,12 @@ import APIError from "../utils/customErrors/apiError";
 
 class AuthHelper {
   public createAccessToken = (userId: string): string => {
+    const callerMethodName = "createAccessToken";
     try {
       logger.info("get access token", {
         userId,
         __filename,
-        functionName: "getAccessToken",
+        functionName: callerMethodName,
       });
 
       const secretKey: string = process.env.SECRET_KEY as string;
@@ -20,7 +21,7 @@ class AuthHelper {
       logger.info("access token created succesfully", {
         userId,
         __filename,
-        functionName: "getAccessToken",
+        functionName: callerMethodName,
       });
 
       return token;
@@ -30,10 +31,11 @@ class AuthHelper {
     }
   };
   public verifyAccessToken = (token: string): jwt.JwtPayload => {
+    const callerMethodName = "verifyAccessToken";
     try {
       logger.info("Verify access token", {
         __filename,
-        functionName: "verifyAccessToken",
+        functionName: callerMethodName,
       });
       const secretKey: string = process.env.SECRET_KEY as string;
       const payload: jwt.JwtPayload = jwt.verify(
@@ -41,16 +43,15 @@ class AuthHelper {
         secretKey
       ) as jwt.JwtPayload;
 
-      logger.info(
-        "Access token verified successfully",
-        { id: payload.id },
+      logger.info("Access token verified successfully", {
+        id: payload.id,
         __filename,
-        "verifyAccessToken"
-      );
+        functionName: callerMethodName,
+      });
 
       return payload;
     } catch (error) {
-      logger.info("Incorrect access token");
+      logger.error("Incorrect access token");
       throw new APIError("Unable to verify token", token, error);
     }
   };

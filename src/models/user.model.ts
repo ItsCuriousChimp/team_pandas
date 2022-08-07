@@ -3,6 +3,6 @@ export class User {
   name: string;
   email: string;
   phoneNumber: string;
-  loggedInAtUtc: Date | null;
+  loggedInAtUTC: Date | null;
   cityId: string;
 }
