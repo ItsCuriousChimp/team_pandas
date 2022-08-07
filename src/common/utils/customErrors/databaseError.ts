@@ -5,9 +5,9 @@ class DatabaseError extends CustomError {
   errorType = this.constructor.name;
   constructor(message: string, err: any, data: any) {
     super({
-      message: message,
-      stack: err.stack,
+      message: message || err.message,
       statusCode: 502,
+      stack: err?.stack,
       data: data,
     });
   }

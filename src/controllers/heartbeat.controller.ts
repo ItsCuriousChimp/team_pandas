@@ -11,5 +11,4 @@ class HeartbeatController {
     return res.send(heartbeatResponsePayload);
   };
 }
-
 export const heartbeatController = new HeartbeatController();
