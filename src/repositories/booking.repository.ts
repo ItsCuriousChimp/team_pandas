@@ -1,13 +1,16 @@
-import { Booking } from "../models/booking.model";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PrismaClient } from "@prisma/client";
+import { dbClient } from "./dbClient";
 import logger from "../common/logger/logger";
+import { Booking } from "../models/booking.model";
 import { User } from "../models/user.model";
+import CustomError from "../common/utils/customErrors/customError";
 
 class BookingRepository {
   prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = dbClient.prisma;
   }
   getUser = async (userId: string): Promise<User | null> => {
     try {
@@ -16,14 +19,21 @@ class BookingRepository {
           id: userId,
         },
       });
+
       return user;
-    } catch (err) {
+    } catch (err: any) {
       logger.error({
-        message: "cannot find user",
+        message: "Unable to fetch user details",
         error: err,
         __filename,
       });
-      throw err;
+
+      throw new CustomError({
+        data: userId,
+        ...err,
+        message: "Unable to fetch user details",
+        statusCode: 500,
+      });
     }
   };
 
@@ -34,17 +44,25 @@ class BookingRepository {
           userId: userId,
         },
       });
+
       logger.info({
         message: "Successfully searched for all booking details",
       });
+
       return bookingDetails;
-    } catch (err) {
+    } catch (err: any) {
       logger.error({
-        message: `Error at booking repository  ${err}`,
+        message: `Unable to fetch booking details`,
         error: err,
         __filename,
       });
-      throw err;
+
+      throw new CustomError({
+        data: userId,
+        ...err,
+        message: "Unable to fetch booking details",
+        statusCode: 500,
+      });
     }
   };
 }
