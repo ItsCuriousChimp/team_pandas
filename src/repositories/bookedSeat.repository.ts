@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Prisma, PrismaClient } from "@prisma/client";
+import { dbClient } from "./dbClient";
 import logger from "../common/logger/logger";
 import CustomError from "../common/utils/customErrors/customError";
-import { dbClient } from "./dbClient";
 
 class BookedSeatRepository {
   prisma: PrismaClient;
@@ -27,7 +27,7 @@ class BookedSeatRepository {
       logger.error({
         error: err,
         __filename,
-        message: `Unable to update booked seat!!!`,
+        message: `Unable to update booked seat`,
       });
       throw new CustomError({
         ...err,

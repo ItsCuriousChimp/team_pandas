@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from "express";
 import { bookSeatService } from "../services/bookSeat.service";
 import logger from "../common/logger/logger";
@@ -18,13 +19,10 @@ class BookSeatController {
         seatIds
       );
 
-      res.status(201).send(bookSeatServiceResponse);
-    } catch (err) {
-      logger.error({
-        level: "error",
-        message: `Unable to book seat`,
-      });
+      logger.info("Booked seat(s) successfully");
 
+      res.status(201).send(bookSeatServiceResponse);
+    } catch (err: any) {
       next(err);
     }
   };

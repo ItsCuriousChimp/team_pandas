@@ -23,13 +23,13 @@ class BookingRepository {
       logger.error({
         error: err,
         __filename,
-        message: "Cannot find user's bookings",
+        message: "Unable to find user's bookings",
       });
       throw new CustomError({
         ...err,
         data: bookingId,
         statusCode: 500,
-        message: "Unable to find bookings",
+        message: "Unable to find user's bookings",
       });
     }
   };
