@@ -2,6 +2,7 @@ import express, { Express, Response, Request, NextFunction } from "express";
 import bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 import * as error from "./middleware/error.middleware";
+import { movieRouter } from "./routes/movie.router";
 import { authRouter } from "./routes/auth.route";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 
@@ -16,12 +17,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("HELLO WORLD! get your heartbeat from /heartbeat");
+  res.send("HELLO WORLD!");
 });
 
 app.use("/auth", authRouter);
 
 app.get("/heartbeat", heartbeatController.getTimeStamp);
+
+app.use("/movie", movieRouter);
 
 // Error handler middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
