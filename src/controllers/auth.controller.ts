@@ -19,7 +19,7 @@ class AuthController {
   registerUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       logger.info("register user", {
-        ...req.body,
+        data: { ...req.body },
         __filename,
         functionName: "registerUser",
       });

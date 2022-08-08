@@ -11,9 +11,9 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(128) NOT NULL,
     "email" VARCHAR(64) NOT NULL,
-    "phoneNumber" VARCHAR(32),
-    "loggedInAtUTC" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
-    "cityId" TEXT,
+    "phoneNumber" VARCHAR(32) NOT NULL,
+    "loggedInAtUTC" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "cityId" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -103,7 +103,7 @@ CREATE TABLE "BookedSeat" (
 CREATE UNIQUE INDEX "Account_username_key" ON "Account"("username");
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "City"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "City"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

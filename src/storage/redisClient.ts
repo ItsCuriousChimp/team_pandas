@@ -20,28 +20,20 @@ class RedisClient {
       );
   }
 
-  setToken = async (userId: string, token: string): Promise<void> => {
+  setToken = async (
+    userId: string,
+    token: string,
+    exp: number
+  ): Promise<void> => {
     try {
       await this.client.SET(userId, token);
+      await this.client.EXPIREAT(userId, exp);
     } catch (err) {
       logger.error({
         message: "Unable to store token",
         __filename,
       });
       throw new RedisError("Unable to store token", err);
-    }
-  };
-
-  setExpireAt = async (userId: string, exp: number): Promise<void> => {
-    try {
-      await this.client.EXPIREAT(userId, exp);
-    } catch (err) {
-      logger.error({
-        message: "Unable to set expiry date",
-        error: err,
-        __filename,
-      });
-      throw new RedisError("Unable to set expiry date", err);
     }
   };
 

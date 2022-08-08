@@ -4,6 +4,7 @@ import { dbClient } from "./dbClient";
 import logger from "../common/logger/logger";
 import { signupDto } from "../data/dtos/signup.dto";
 import CustomError from "../common/utils/customErrors/customError";
+import { User } from "../models/user.model";
 
 class UserRepository {
   prisma: PrismaClient;
@@ -36,20 +37,19 @@ class UserRepository {
     }
   };
 
-  async createUser(params: signupDto): Promise<string> {
+  async createUser(params: signupDto): Promise<User> {
     try {
       logger.info("create user in user table", {
         query: params,
         __filename,
         functionName: "createUser",
       });
-      const user = await this.prisma.user.create({
+      const user: User = await this.prisma.user.create({
         data: {
           name: params.name,
           email: params.email,
           phoneNumber: params.phoneNumber,
           cityId: params.cityId,
-          loggedInAtUTC: new Date(),
         },
       });
       logger.info("creation of user in user table successful", {
@@ -57,7 +57,7 @@ class UserRepository {
         __filename,
         functionName: "createUser",
       });
-      return user.id;
+      return user;
     } catch (err: any) {
       throw new CustomError({
         ...err,

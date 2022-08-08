@@ -3,6 +3,6 @@ export type signupDto = {
   email: string;
   username: string;
   password: string;
-  phoneNumber?: string;
-  cityId?: string;
+  phoneNumber: string;
+  cityId: string;
 };

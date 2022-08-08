@@ -18,10 +18,10 @@ model User {
   id            String    @id @default(uuid())
   name          String    @db.VarChar(128)
   email         String    @db.VarChar(64)
-  phoneNumber   String?   @db.VarChar(32)
-  loggedInAtUTC DateTime? @default(now())
-  cityId        String?
-  city          City?     @relation(fields: [cityId], references: [id])
+  phoneNumber   String    @db.VarChar(32)
+  loggedInAtUTC DateTime  @default(now())
+  cityId        String
+  city          City      @relation(fields: [cityId], references: [id])
   account       Account[]
   booking       Booking[]
 }

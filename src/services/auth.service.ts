@@ -13,12 +13,13 @@ import { Account } from "../models/account.model";
 import { hashHelper } from "../common/helpers/hash.helper";
 import { cityRepository } from "../repositories/city.repository";
 import clientError from "../common/utils/customErrors/clientError";
+import { User } from "../models/user.model";
 
-export class AuthService {
+class AuthService {
   isCityIdValid = async (id: string): Promise<boolean> => {
     try {
       logger.info("is CityId Valid", {
-        cityId: id,
+        data: { cityId: id },
         __filename,
         functionName: "isCityIdValid",
       });
@@ -36,16 +37,15 @@ export class AuthService {
   storeToken = async (token: string, userId: string): Promise<void> => {
     try {
       logger.info("store token in redis", {
-        userId,
+        data: { userId },
         __filename,
         functionName: "storeToken",
       });
-      await redisClient.setToken(userId, token); // set the JWT as the key and its value as valid
-      const payload = authHelper.verifyAccessToken(token); // verifies and decode the jwt to get the expiration date
-      const exp = payload.exp as number;
-      await redisClient.setExpireAt(userId, exp); // sets the token expiration date to be removed from the cache
+      const tokenPayload = authHelper.verifyAccessToken(token);
+      const exp = tokenPayload.exp as number;
+      await redisClient.setToken(userId, token, exp);
       logger.info("token storing successful", {
-        userId,
+        data: { userId },
         __filename,
         functionName: "storeToken",
       });
@@ -57,7 +57,7 @@ export class AuthService {
   registerUser = async (params: signupDto): Promise<string | null> => {
     try {
       logger.info("register user", {
-        query: params,
+        data: params,
         __filename,
         functionName: "registerUser",
       });
@@ -71,10 +71,8 @@ export class AuthService {
           409
         );
       }
-      //If city entered in sign up form then check if that city is in DB
-      if (params.cityId) {
-        await this.isCityIdValid(params.cityId);
-      }
+
+      await this.isCityIdValid(params.cityId);
 
       const passwordHash: string = await hashHelper.generateHash(
         params.password
@@ -83,13 +81,13 @@ export class AuthService {
         params.username,
         passwordHash
       );
-      const userId: string = await userRepository.createUser(params);
-      await accountRepository.updateAccountWithUserId(accountId, userId);
-      const token = authHelper.createAccessToken(userId);
+      const user: User = await userRepository.createUser(params);
+      await accountRepository.updateAccountWithUserId(accountId, user.id);
+      const token = authHelper.createAccessToken(user.id);
 
-      await this.storeToken(token, userId);
+      await this.storeToken(token, user.id);
       logger.info("register user successful", {
-        userId,
+        data: { UserId: user.id },
         __filename,
         functionName: "registerUser",
       });
