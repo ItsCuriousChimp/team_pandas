@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-useless-catch */
 import logger from "../common/logger/logger";
+import CustomError from "../common/utils/customErrors/customError";
 import { Movie } from "../models/movie.model";
 import { movieRepository } from "../repositories/movie.repository";
 
@@ -9,14 +12,31 @@ class MovieService {
 
   getMoviesByLanguage = async (
     language: string,
-    city: string
+    cityId: string
   ): Promise<Movie[]> => {
     try {
-      const movies = await movieRepository.getMoviesByLanguage(language, city);
+      if (!(await this.isCityValid(cityId)))
+        throw new CustomError({
+          message: "Unable to find city Id",
+          statusCode: 400,
+          data: cityId,
+        });
+
+      const movies = await movieRepository.getMoviesByLanguage(
+        language,
+        cityId
+      );
+
       return movies;
-    } catch (error) {
-      logger.error("Unable to fetch movies");
-      throw error;
+    } catch (err: any) {
+      logger.error({
+        data: cityId,
+        message: "Unable to filter movies",
+        error: err,
+        __filename,
+      });
+
+      throw err;
     }
   };
 }

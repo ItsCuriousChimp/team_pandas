@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Movie } from "../models/movie.model";
 import { PrismaClient } from "@prisma/client";
 import logger from "../common/logger/logger";
@@ -16,13 +17,19 @@ class MovieRepository {
         where: { id: cityId },
       });
       return city;
-    } catch (err) {
+    } catch (err: any) {
       logger.error({
+        data: cityId,
         message: "Unable to find city",
         error: err,
         __filename,
       });
-      throw err;
+      throw new CustomError({
+        data: cityId,
+        ...err,
+        message: "Unable to fetch city",
+        statusCode: 500,
+      });
     }
   };
 
@@ -44,14 +51,20 @@ class MovieRepository {
       logger.info("Successfully filtered movies");
 
       return movies;
-    } catch (err) {
+    } catch (err: any) {
       logger.error({
+        data: { language, cityId },
         message: "Unable to filter movies",
         error: err,
         __filename,
       });
 
-      throw new CustomError("Unable to filter movies");
+      throw new CustomError({
+        data: { language, cityId },
+        ...err,
+        message: "Unable to filter movies",
+        statusCode: 500,
+      });
     }
   };
 }

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,97 +7,97 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Theatre {
-  id              String   @id @default(uuid())
-  name            String   @db.VarChar(64)
-  city            City     @relation(fields: [cityId], references: [id])
-  cityId          String
-  numberOfScreens Int
-  Screen          Screen[]
-}
-
 model City {
   id      String    @id @default(uuid())
   name    String    @db.VarChar(64)
-  Theatre Theatre[]
-  User    User[]
-}
-
-model Screen {
-  id           String  @id @default(uuid())
-  theatre      Theatre @relation(fields: [theatreId], references: [id])
-  theatreId    String
-  screenNumber Int
-  Show         Show[]
-  Seat         Seat[]
-}
-
-model Show {
-  id                 String       @id @default(uuid())
-  screen             Screen       @relation(fields: [screenId], references: [id])
-  screenId           String
-  movie              Movie        @relation(fields: [movieId], references: [id])
-  movieId            String
-  showStartTimeInUtc DateTime
-  showEndTimeInUtc   DateTime
-  availableUntilUtc  DateTime
-  BookedSeat         BookedSeat[]
-  Booking            Booking[]
-}
-
-model Movie {
-  id       String   @id @default(uuid())
-  name     String   @db.VarChar(128)
-  durationInMin Int 
-  language String   @db.VarChar(32)
-  Show     Show[]
-}
-
-model Seat {
-  id           String       @id @default(uuid())
-  screen       Screen       @relation(fields: [screenId], references: [id])
-  screenId     String
-  screenNumber Int
-  BookedSeat   BookedSeat[]
-}
-
-model BookedSeat {
-  id        String  @id @default(uuid())
-  seat      Seat    @relation(fields: [seatId], references: [id])
-  show      Show    @relation(fields: [showId], references: [id])
-  booking   Booking @relation(fields: [bookingId], references: [id])
-  seatId    String
-  showId    String
-  bookingId String
-}
-
-model Booking {
-  id                  String       @id @default(uuid())
-  user                User         @relation(fields: [userId], references: [id])
-  userId              String
-  show                Show         @relation(fields: [showId], references: [id])
-  showId              String
-  numberOfSeatsBooked Int
-  showDate            DateTime     @db.Date
-  BookedSeat          BookedSeat[]
+  theatre Theatre[]
+  user    User[]
 }
 
 model User {
   id            String    @id @default(uuid())
   name          String    @db.VarChar(128)
   email         String    @db.VarChar(64)
-  city          City      @relation(fields: [cityId], references: [id])
+  phoneNumber   String    @db.VarChar(32)
+  loggedInAtUTC DateTime? @default(now())
   cityId        String
-  phoneNumber   String    @db.VarChar(16)
-  loggedInAtUtc DateTime
-  Booking       Booking[]
-  Account       Account[]
+  city          City      @relation(fields: [cityId], references: [id])
+  account       Account[]
+  booking       Booking[]
 }
 
 model Account {
-  id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  username String @db.VarChar(128)
-  password String @db.VarChar(32)
+  id           String @id @default(uuid())
+  username     String @unique @db.VarChar(128)
+  passwordHash String @db.VarChar(256)
+  userId       String
+  user         User   @relation(fields: [userId], references: [id])
+}
+
+model Theatre {
+  id              String   @id @default(uuid())
+  name            String   @db.VarChar(64)
+  numberOfScreens Int
+  cityId          String
+  city            City     @relation(fields: [cityId], references: [id])
+  screen          Screen[]
+}
+
+model Screen {
+  id           String  @id @default(uuid())
+  screenNumber Int
+  theatreId    String
+  theatre      Theatre @relation(fields: [theatreId], references: [id])
+  seat         Seat[]
+  show         Show[]
+}
+
+model Seat {
+  id         String       @id @default(uuid())
+  seatNumber Int
+  screenId   String
+  screen     Screen       @relation(fields: [screenId], references: [id])
+  bookedSeat BookedSeat[]
+}
+
+model Movie {
+  id            String @id @default(uuid())
+  name          String @db.VarChar(128)
+  durationInMin Int
+  language      String @db.VarChar(32)
+  show          Show[]
+}
+
+model Show {
+  id                 String       @id @default(uuid())
+  screenId           String
+  movieId            String
+  availableUntilUtc  DateTime?
+  showEndTimeInUtc   DateTime
+  showStartTimeInUtc DateTime
+  movie              Movie        @relation(fields: [movieId], references: [id])
+  screen             Screen       @relation(fields: [screenId], references: [id])
+  bookedSeat         BookedSeat[]
+  booking            Booking[]
+}
+
+model Booking {
+  id                  String       @id @default(uuid())
+  userId              String
+  showId              String
+  numberOfSeatsBooked Int
+  showDate            DateTime
+  show                Show         @relation(fields: [showId], references: [id])
+  user                User         @relation(fields: [userId], references: [id])
+  bookedSeat          BookedSeat[]
+}
+
+model BookedSeat {
+  id        String  @id @default(uuid())
+  seatId    String
+  showId    String
+  bookingId String
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  seat      Seat    @relation(fields: [seatId], references: [id])
+  show      Show    @relation(fields: [showId], references: [id])
 }
