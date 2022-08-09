@@ -5,6 +5,8 @@ import { authController } from "../controllers/auth.controller";
 
 const router: Router = Router();
 
-router.route("/").post([validate(loginValidation), authController.login]);
+router.route("/login").post([validate(loginValidation), authController.login]);
 
-export { router as loginRouter };
+// TO-DO: Forgot Password API
+
+export { router as authRouter };

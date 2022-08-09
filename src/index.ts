@@ -2,7 +2,7 @@ import express, { Express, Response, Request, NextFunction } from "express";
 import bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 import * as error from "./middleware/error.middleware";
-import { loginRouter } from "./routes/login.route";
+import { authRouter } from "./routes/auth.route";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 const app: Express = express();
 
@@ -18,9 +18,9 @@ app.get("/", (req: Request, res: Response) => {
   res.send("HELLO WORLD! get your heartbeat from /heartbeat");
 });
 
-app.get("/heartbeat", heartbeatController.getTimeStamp);
+app.use("/auth", authRouter);
 
-app.use("/login", loginRouter);
+app.get("/heartbeat", heartbeatController.getTimeStamp);
 
 // Error handler middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
