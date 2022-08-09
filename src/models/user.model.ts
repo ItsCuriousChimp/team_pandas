@@ -1,6 +1,8 @@
 export class User {
-    email: string;
-    phoneNumber: string;
-    loggedInAtUtc: Date | null;
-    cityId: string;
-  }
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  loggedInAtUTC: Date;
+  cityId: string;
+}
