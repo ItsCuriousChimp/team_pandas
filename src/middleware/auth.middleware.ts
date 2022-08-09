@@ -10,26 +10,28 @@ export const authorize = async (
   next: NextFunction
 ) => {
   const token = req.headers.authorization;
-  if (!token) {
-    throw new clientError("No token in header", null, 400);
-  }
+  const callerMethodName = "authorize";
   try {
+    if (!token) {
+      throw new clientError("No token in header", null, 400);
+    }
     logger.info("authorize", {
       __filename,
-      functionName: "authorize",
+      functionName: callerMethodName,
     });
-    // Validate JWT
-    // remove bearer
+
     const [, tokenBody] = token.split(" ");
+
     const payload = authHelper.verifyAccessToken(tokenBody);
-    const check = await redisClient.isTokenInCache(payload.id); // check if token exists in cache already
+    const check = await redisClient.isTokenInCache(payload.id);
+
     if (check == 0) {
       throw new clientError("Token doesnot exist in cache", tokenBody, 400);
     }
 
-    logger.info("authorization successful", {
+    logger.info("Authorization successful", {
       __filename,
-      functionName: "authorize",
+      functionName: callerMethodName,
     });
 
     next();
