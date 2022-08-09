@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 import * as error from "./middleware/error.middleware";
 import { authRouter } from "./routes/auth.route";
+import { cityRouter } from "./routes/city.route";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 const app: Express = express();
 
@@ -19,6 +20,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/auth", authRouter);
+
+app.use("/cities", cityRouter);
 
 app.get("/heartbeat", heartbeatController.getTimeStamp);
 
