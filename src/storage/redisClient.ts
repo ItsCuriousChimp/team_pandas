@@ -8,7 +8,13 @@ class RedisClient {
 
   constructor() {
     this.connected = false;
-    this.client = redis.createClient();
+    this.client = redis.createClient({
+      legacyMode: true,
+      socket: {
+        host: process.env.REDIS_HOST,
+        port: parseInt(process.env.REDIS_PORT as string),
+      },
+    });
     this.client
       .connect()
       .then(() => {
