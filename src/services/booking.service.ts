@@ -1,4 +1,3 @@
-import logger from "../common/logger/logger";
 import { bookingRepository } from "../repositories/booking.repository";
 
 class BookingService {
@@ -12,21 +11,12 @@ class BookingService {
     numberOfSeatsBooked: number,
     showDate: Date
   ): Promise<string> => {
-    try {
-      return await bookingRepository.addBooking(
-        userId,
-        showId,
-        numberOfSeatsBooked,
-        showDate
-      );
-    } catch (err) {
-      logger.error({
-        error: err,
-        __filename,
-        message: `Booking failed`,
-      });
-      throw err;
-    }
+    return await bookingRepository.addBooking(
+      userId,
+      showId,
+      numberOfSeatsBooked,
+      showDate
+    );
   };
 }
 
