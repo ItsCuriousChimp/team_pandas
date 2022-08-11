@@ -1,9 +1,9 @@
 import express, { Express, Response, Request, NextFunction } from "express";
 import bodyParser from "body-parser";
-import { movieRouter } from "./routes/movie.route";
+import * as dotenv from "dotenv";
 import cors from "cors";
 import * as error from "./middleware/error.middleware";
-import * as dotenv from "dotenv";
+import { movieRouter } from "./routes/movie.route";
 import { authRouter } from "./routes/auth.route";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 

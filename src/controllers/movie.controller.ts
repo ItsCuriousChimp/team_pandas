@@ -13,7 +13,7 @@ class MovieController {
         req.query.cityId as string
       );
 
-      res.status(202).json(movieResponse);
+      res.status(200).json(movieResponse);
     } catch (err: any) {
       logger.error({
         error: err,
