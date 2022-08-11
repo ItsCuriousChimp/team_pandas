@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({ origin: process.env.WHITELIST_URLS }));
 
 app.get("/", (req: Request, res: Response) => {
   res.send("HELLO WORLD! get your heartbeat from /heartbeat");
