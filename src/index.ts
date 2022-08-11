@@ -1,6 +1,7 @@
 import express, { Express, Response, Request, NextFunction } from "express";
 import bodyParser from "body-parser";
 import { movieRouter } from "./routes/movie.route";
+import cors from "cors";
 import * as error from "./middleware/error.middleware";
 import * as dotenv from "dotenv";
 import { authRouter } from "./routes/auth.route";
@@ -15,6 +16,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
+
+app.use(cors({ origin: process.env.WHITELIST_URLS }));
 
 app.get("/", (req: Request, res: Response) => {
   res.send("HELLO WORLD! get your heartbeat from /heartbeat");
