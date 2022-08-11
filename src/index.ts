@@ -1,7 +1,8 @@
 import express, { Express, Response, Request, NextFunction } from "express";
 import bodyParser from "body-parser";
-import * as dotenv from "dotenv";
+import { movieRouter } from "./routes/movie.route";
 import * as error from "./middleware/error.middleware";
+import * as dotenv from "dotenv";
 import { authRouter } from "./routes/auth.route";
 import { heartbeatController } from "./controllers/heartbeat.controller";
 
@@ -21,6 +22,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/auth", authRouter);
 
+app.use("/movie", movieRouter);
 app.get("/heartbeat", heartbeatController.getTimeStamp);
 
 // Error handler middleware
