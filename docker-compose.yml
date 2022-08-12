@@ -5,13 +5,14 @@ services:
     container_name: db
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=pichu07
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=test
     ports:
       - '54320:5432'
     volumes: 
-      - db:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
+      - ./src/assets/db/init_2.sql:/docker-entrypoint-initdb.d/init_2.sql
   redis:
     image: redis:alpine
     container_name: "redis"
@@ -35,5 +36,5 @@ services:
       - './:/team_pandas'
       - '/team_pandas/node_modules'
 volumes:
-  db:
+  postgres:
     driver: local
