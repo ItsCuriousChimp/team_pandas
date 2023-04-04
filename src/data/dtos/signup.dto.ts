@@ -1,8 +1,8 @@
-export class User {
-  id: string;
+export type signupDto = {
   name: string;
   email: string;
+  username: string;
+  password: string;
   phoneNumber: string;
-  loggedInAtUTC: Date;
   cityId: string;
-}
+};

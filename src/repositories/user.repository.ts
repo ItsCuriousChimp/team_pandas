@@ -2,7 +2,9 @@
 import { PrismaClient } from "@prisma/client";
 import { dbClient } from "./dbClient";
 import logger from "../common/logger/logger";
-import DatabaseError from "../common/utils/customErrors/databaseError";
+import { signupDto } from "../data/dtos/signup.dto";
+import CustomError from "../common/utils/customErrors/customError";
+import { User } from "../models/user.model";
 
 class UserRepository {
   prisma: PrismaClient;
@@ -26,18 +28,45 @@ class UserRepository {
         data: userId,
       });
     } catch (err: any) {
-      logger.error({
-        error: err,
-        __filename,
-        message: `Unable to update user's last login`,
+      throw new CustomError({
+        ...err,
+        data: userId,
+        statusCode: 500,
+        message: "Unable to update user's last login",
       });
-      throw new DatabaseError(
-        "Unable to update user's last login",
-        err,
-        userId
-      );
     }
   };
+
+  async createUser(params: signupDto): Promise<User> {
+    try {
+      logger.info("create user in user table", {
+        query: params,
+        __filename,
+        functionName: "createUser",
+      });
+      const user: User = await this.prisma.user.create({
+        data: {
+          name: params.name,
+          email: params.email,
+          phoneNumber: params.phoneNumber,
+          cityId: params.cityId,
+        },
+      });
+      logger.info("creation of user in user table successful", {
+        id: user.id,
+        __filename,
+        functionName: "createUser",
+      });
+      return user;
+    } catch (err: any) {
+      throw new CustomError({
+        ...err,
+        data: params,
+        statusCode: 500,
+        message: "Unable to fetch user",
+      });
+    }
+  }
 }
 
 export const userRepository = new UserRepository();

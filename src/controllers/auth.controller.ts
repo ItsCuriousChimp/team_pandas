@@ -15,6 +15,27 @@ class AuthController {
       next(err);
     }
   };
+
+  registerUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      logger.info("register user", {
+        data: { ...req.body },
+        __filename,
+        functionName: "registerUser",
+      });
+      const token: string | null = await authService.registerUser({
+        ...req.body,
+      });
+      logger.info("user sucessfully registered", {
+        status: 200,
+        __filename,
+        functionName: "registerUser",
+      });
+      res.send({ token: token });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export const authController = new AuthController();
