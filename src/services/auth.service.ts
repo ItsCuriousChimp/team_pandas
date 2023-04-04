@@ -11,33 +11,27 @@ import logger from "../common/logger/logger";
 
 class AuthService {
   login = async (params: loginDto): Promise<string> => {
-    try {
-      const account = await accountRepository.getUserAccount(params);
+    const account = await accountRepository.getUserAccount(params);
 
-      if (!account) {
-        throw new AuthenticationError(params);
-      }
-
-      if (!(await bcrypt.compare(params.password, account.passwordHash))) {
-        throw new AuthenticationError(params);
-      }
-
-      const accessToken: string = await authHelper.createAccessToken(
-        account.userId
-      );
-
-      await redisClient.setToken(account.userId, accessToken);
-      await userRepository.updateLastLogin(account.userId);
-
-      logger.info({
-        message: "User logged in",
-        data: { username: params.username },
-      });
-
-      return accessToken;
-    } catch (err: any) {
-      throw err;
+    if (!account) {
+      throw new AuthenticationError(params);
     }
+
+    if (!(await bcrypt.compare(params.password, account.passwordHash))) {
+      throw new AuthenticationError(params);
+    }
+    const userId: string = account.userId as string;
+    const accessToken: string = await authHelper.createAccessToken(userId);
+
+    await redisClient.setToken(userId, accessToken);
+    await userRepository.updateLastLogin(userId);
+
+    logger.info({
+      message: "User logged in",
+      data: { username: params.username },
+    });
+
+    return accessToken;
   };
 }
 
